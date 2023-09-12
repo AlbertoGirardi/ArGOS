@@ -3,4 +3,3 @@ make
 echo "Excecuting "
 echo ""
 echo ""
-./hello
