@@ -1,5 +1,6 @@
 #! /bin/bash
 make
-echo "Excecuting "
+echo "TRYING TO BOOT "
 echo ""
 echo ""
+kvm boot.bin
