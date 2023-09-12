@@ -5,3 +5,4 @@ ArGOS OPERATING SYSTEM
 GOAL: building an OS totally from scratch. Have fun along the way.
 
 To be used on qemu. Totally insecure. 
+in dev
