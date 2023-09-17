@@ -3,4 +3,4 @@ make
 echo "TRYING TO BOOT "
 echo ""
 echo ""
-kvm boot.bin
+qemu-system-x86_64 boot.bin
