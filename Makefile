@@ -1,4 +1,9 @@
-build:
+
+
+
+building:
+	
+	
 	@echo "assemblying..."
-	nasm -f bin boot.asm -o boot.bin
+	nasm src/boot.asm -f bin  -o build/boot.bin
 	@echo "assembled"

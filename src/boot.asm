@@ -20,7 +20,7 @@ main:
 
 
     mov ah, 0x0e
-    mov al, 'S'
+    mov al, 'z'
     int 0x10
 
 
