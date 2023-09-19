@@ -1,7 +1,21 @@
+[org 0x7C00]
+BITS 16
+
 jmp main
 
 
 main:
+
+    mov bh, 0
+    mov bl, 10
+    mov ch, 48
+
+    jmp write
+   
+
+
+write:
+
     mov ah, 0x0e
     mov al, 'A'
     int 0x10
@@ -22,6 +36,37 @@ main:
     mov ah, 0x0e
     mov al, 'S'
     int 0x10
+
+    mov ah, 0x0e
+    mov al, 32
+    int 0x10
+
+
+    inc bh
+
+    mov ah, 0x0e
+    mov al, ch
+    int 0x10
+
+    inc ch
+
+    mov ah, 0x0e
+    mov al, 10
+    int 0x10
+
+    mov ah, 0x0e
+    mov al, 13
+    int 0x10
+
+    cmp bh, bl
+
+    je end
+
+    jmp write
+
+
+
+end:
 
 
 
