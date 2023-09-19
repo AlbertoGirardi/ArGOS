@@ -3,18 +3,18 @@ BITS 16
 
 jmp main
 
+nl:
+
+    mov ah, 0x0e
+    mov al, 10
+    int 0x10
+
+    mov ah, 0x0e
+    mov al, 13
+    int 0x10
 
 main:
 
-    mov bh, 0
-    mov bl, 10
-    mov ch, 48
-
-    jmp write
-   
-
-
-write:
 
     mov ah, 0x0e
     mov al, 'A'
@@ -32,10 +32,25 @@ write:
     mov al, 'O'
     int 0x10
 
-
+    
     mov ah, 0x0e
     mov al, 'S'
     int 0x10
+
+    mov bh, 0
+    mov bl, 100
+    mov ch, 48
+
+
+    ;call nl
+
+    ;jmp write
+   
+
+
+write:
+
+    
 
     mov ah, 0x0e
     mov al, 32
@@ -50,13 +65,7 @@ write:
 
     inc ch
 
-    mov ah, 0x0e
-    mov al, 10
-    int 0x10
-
-    mov ah, 0x0e
-    mov al, 13
-    int 0x10
+   
 
     cmp bh, bl
 
