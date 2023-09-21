@@ -4,7 +4,7 @@ BITS 16
 jmp main
 
 nl:
-
+    
     mov ah, 0x0e
     mov al, 10
     int 0x10
@@ -12,6 +12,8 @@ nl:
     mov ah, 0x0e
     mov al, 13
     int 0x10
+    
+    ret
 
 main:
 
@@ -37,9 +39,11 @@ main:
     mov al, 'S'
     int 0x10
 
+    call nl
+
     mov bh, 0
-    mov bl, 100
-    mov ch, 48
+    mov bl, 10                                  ;number of char printed
+    mov ch, 48                                  ;start of printing
 
 
     ;call nl
@@ -68,6 +72,7 @@ write:
    
 
     cmp bh, bl
+    call nl
 
     je end
 
@@ -76,6 +81,15 @@ write:
 
 
 end:
+
+;mov si, variable
+;mov ah, 0x0e
+;mov al, si
+;int 0x10
+
+
+
+variable: db 'X'
 
 
 
