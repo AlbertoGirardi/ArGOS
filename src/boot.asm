@@ -59,9 +59,6 @@ main:
     call print
 
    
-    mov ah, 0x0e
-    mov al, [msg]
-    int 0x10
 
 
 
