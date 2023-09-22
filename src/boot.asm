@@ -18,7 +18,7 @@ nl:
 
 print:                 ;prints what is in ch
     mov ah, 0x0e
-    mov al, ch
+    mov al, cl
     int 0x10
     
     ret
@@ -48,19 +48,24 @@ main:
     mov al, 'S'
     int 0x10
 
-    mov bl, 48
+ 
 
     call nl
     call nl
     call nl
+ 
+    mov bx, 48
+    mov dx,2
+    mov ax, 3
+
+    mul dx
+
+    add bx, ax
+    
 
 
-    mov bh, 4
-    add bh, bl
-
-    mov ch, bh
-
-    call print
+    mov cx, bx
+    call print  ;print result
 
 
 
