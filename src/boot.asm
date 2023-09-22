@@ -1,76 +1,76 @@
 [org 0x7C00]
 BITS 16
 
+%define ENDL  0X0d, 0x0a
+
+
 jmp main
+
 
 nl:
     
-    mov ah, 0x0e
-    mov al, 10
-    int 0x10
-
-    mov ah, 0x0e
-    mov al, 13
-    int 0x10
+    mov si, newline
+    call print
     
     ret
 
 
-print:                 ;prints what is in ch
+print:                 ;prints what is in si
+    push si
+    push ax
+
+.print_loop:
+
+    lodsb
+
+    or al, al
+    jz .print_done
+
     mov ah, 0x0e
-    mov al, cl
     int 0x10
-    
+    jmp .print_loop
+
+
+.print_done:
+    pop ax
+    pop si
     ret
 
 
 main:
 
+    mov ax, 0
+    mov ds, ax
+    mov es, ax
 
-    mov ah, 0x0e
-    mov al, 'A'
-    int 0x10
-
-    mov ah, 0x0e
-    mov al, 'r'
-    int 0x10
-
-    mov ah, 0x0e
-    mov al, 'G'
-    int 0x10
-
-    mov ah, 0x0e
-    mov al, 'O'
-    int 0x10
-
-    
-    mov ah, 0x0e
-    mov al, 'S'
-    int 0x10
-
- 
 
     call nl
     call nl
     call nl
- 
-    mov bx, 48
-    mov dx,2
-    mov ax, 3
 
-    mul dx
+    mov si, msg_ARGOS   ; welcome message
+    call print
 
-    add bx, ax
-    
+    call nl
+    call nl
 
 
-    mov cx, bx
-    call print  ;print result
+    mov si, msg
+    call print
 
 
 
 
 
+
+msg_ARGOS: db "         ArGOS", 0
+msg: db "BOOTLOADER. OS booting start", ENDL,"benvenuti", 0
+
+newline: db 10, 13, 0
+
+
+.halt:
+    jmp .halt
 
 times 510 -  ($ - $$) db 0
 
