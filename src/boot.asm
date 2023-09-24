@@ -133,11 +133,45 @@ main:
 
     times 2 call  nl
 
+    mov si, [var]
+    call print_digit
+    call nl
+
+    mov ah, 3
+
+    mov [var], ah
 
 
 
+    mov si, [var]
+    call print_digit
+    call nl
+    
+    mov ah, 5
+
+    mov [var], ah
+
+
+
+    mov si, [var]
+    call print_digit
+    call nl
+
+
+
+
+
+
+   
+
+
+end:
+var: db 1
 msg_ARGOS: db "                 ArGOS", 0
 msg: db "BOOTLOADER. OS booting start", ENDL,"Benvenuti! Alcuni test in assembly",ENDL,0
+
+array: db 1,1,0,2,0,5,0,0
+
 
 newline: db 10, 13, 0
 
