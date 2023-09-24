@@ -107,6 +107,39 @@ read_array:          ;function to print the values of array at si
     pop si
     ret
 
+;;;;;;;;;;;;
+
+write_array:      ;writes incrementing numbers to array in bx 
+
+    push si
+    push bx
+    push ax
+
+    mov ah, 0
+
+    jmp .wa_loop
+
+
+
+.wa_loop:
+
+    mov [bx], ah
+   
+    
+    cmp ah, 7
+    je .wa_end
+
+    inc bx
+    inc ah
+    jmp .wa_loop
+
+.wa_end:
+
+    pop ax
+    pop bx
+    pop si
+    ret
+
 
 
 
@@ -171,6 +204,24 @@ main:
     call read_array
     call nl
 
+    call write_array
+
+    call read_array
+
+    call nl
+
+    push 1
+    push 2
+    push 3
+
+    pop si
+    call print_digit
+    pop si
+    call print_digit
+    pop si
+    call print_digit
+    
+
     
 
     
@@ -189,7 +240,7 @@ msg_ARGOS: db "                 ArGOS", 0
 msg: db "BOOTLOADER. OS booting start", ENDL,"Benvenuti! Alcuni test in assembly",ENDL,0
 
 array: db 1,1,0,2,0,5,0,0
-
+array2:  db 0,0,0,0,0,0,0,0
 
 newline: db 10, 13, 0
 
