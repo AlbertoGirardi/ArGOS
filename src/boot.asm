@@ -77,29 +77,29 @@ print_digit:
 ;;;;;;;
 
 
-print_number:           ;print decimal number given in si, autoconverts from binary
+print_number:           ;print decimal number given in si, autoconverts from binary, MAX = 65535
 
     pusha
 
     mov dx, 0
     mov ax, si                      ;prep registers for divisions
-    mov bx, 10
+    mov bx, 10                      ;10 dividend
     mov cx, 0                       ;prep counter
 
   
 
 
 .pn_divloop:
-    mov dx, 0
-    div bx
-    push dx
+    mov dx, 0                           ;clear dx
+    div bx                              ;divide ax/bx
+    push dx                             ;push digit to stack
     
     mov si,dx
     call print_digit
    
-    inc cx
+    inc cx                              ;count digits
 
-    cmp ax, bx
+    cmp ax, bx                          ;if dividend less than 10 end
     jl .pn_postdiv
     
     jmp .pn_divloop
@@ -110,25 +110,26 @@ print_number:           ;print decimal number given in si, autoconverts from bin
     div bx
     push dx
     
-    mov si,dx
+    mov si,dx                           ;store last digit
     call print_digit
     inc cx
 
-    mov si, cx
+    mov si, cx                          ;how many digits 
     call nl
     call print_digit
+    call nl
    
-    
 
-    ;mov si, cx
-    ;call print_digit
-    
 
 
 .pn_readloop:
-    ;movzx si, cl
-    ;call print_digit
-    ;jmp .pn_end
+    pop si
+    call print_digit
+    dec cx
+    cmp cx, 0
+    je .pn_end
+
+    jmp .pn_readloop
 
 .pn_end:
     call nl
@@ -165,8 +166,7 @@ main:
     times 2 call  nl
 
 
-    mov si, 3510
-
+    mov si, 104
     call print_number
 
     
