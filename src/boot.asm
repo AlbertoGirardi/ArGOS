@@ -74,6 +74,38 @@ print_digit:
     ret
     
 
+;;;;;;;
+
+read_array:          ;function to print the values of array at si
+
+    push si
+    push bx
+    push ax
+
+    mov ah, 1
+
+    jmp .ra_loop
+
+
+
+.ra_loop:
+
+    mov si, [bx]
+    call print_digit
+    
+    cmp ah, 8
+    je .ra_end
+
+    inc bx
+    inc ah
+    jmp .ra_loop
+
+.ra_end:
+
+    pop ax
+    pop bx
+    pop si
+    ret
 
 
 
@@ -133,29 +165,15 @@ main:
 
     times 2 call  nl
 
-    mov si, [var]
-    call print_digit
+   
+    mov bx, array
+
+    call read_array
     call nl
 
-    mov ah, 3
-
-    mov [var], ah
-
-
-
-    mov si, [var]
-    call print_digit
-    call nl
     
-    mov ah, 5
 
-    mov [var], ah
-
-
-
-    mov si, [var]
-    call print_digit
-    call nl
+    
 
 
 
