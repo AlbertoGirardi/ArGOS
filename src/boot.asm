@@ -76,69 +76,67 @@ print_digit:
 
 ;;;;;;;
 
-read_array:          ;function to print the values of array at si
 
-    push si
-    push bx
-    push ax
+print_number:           ;print decimal number given in si, autoconverts from binary
 
-    mov ah, 1
+    pusha
 
-    jmp .ra_loop
+    mov dx, 0
+    mov ax, si                      ;prep registers for divisions
+    mov bx, 10
+    mov cx, 0                       ;prep counter
+
+  
 
 
-
-.ra_loop:
-
-    mov si, [bx]
-    call print_digit
+.pn_divloop:
+    mov dx, 0
+    div bx
+    push dx
     
-    cmp ah, 8
-    je .ra_end
+    mov si,dx
+    call print_digit
+   
+    inc cx
 
-    inc bx
-    inc ah
-    jmp .ra_loop
-
-.ra_end:
-
-    pop ax
-    pop bx
-    pop si
-    ret
-
-;;;;;;;;;;;;
-
-write_array:      ;writes incrementing numbers to array in bx 
-
-    push si
-    push bx
-    push ax
-
-    mov ah, 0
-
-    jmp .wa_loop
+    cmp ax, bx
+    jl .pn_postdiv
+    
+    jmp .pn_divloop
 
 
+.pn_postdiv:
+    mov dx, 0
+    div bx
+    push dx
+    
+    mov si,dx
+    call print_digit
+    inc cx
 
-.wa_loop:
-
-    mov [bx], ah
+    mov si, cx
+    call nl
+    call print_digit
    
     
-    cmp ah, 7
-    je .wa_end
 
-    inc bx
-    inc ah
-    jmp .wa_loop
+    ;mov si, cx
+    ;call print_digit
+    
 
-.wa_end:
 
-    pop ax
-    pop bx
-    pop si
+.pn_readloop:
+    ;movzx si, cl
+    ;call print_digit
+    ;jmp .pn_end
+
+.pn_end:
+    call nl
+    call nl
+    popa
     ret
+
+
 
 
 
@@ -163,64 +161,13 @@ main:
     times 2 call nl
 
 
-    mov ax, 8                                  ;clear registers for division and prepare operands
-    mov bx, 4
-    mov dx, 0
-
-    
-    push ax                                     ;save ax to stack
-
-    div bx                                      ;divide
-
-    mov si, ax  
-    call print_digit                            ;print quotient
-    call nl
-    mov si, dx                                  ;print remainder
-    call print_digit
-
-    times 2 call nl
-                                                ;8 bit division
-    
-                                                  ;clear registers for division and prepare operands
-    pop ax                                          ;recover ax value
-
-    ;mov bl, 4
-    mov dx, 0
-
-
-    div bl
-
-    movzx si, al
-    call print_digit                            ;print quotient
-    call nl
-    movzx si, ah                                  ;print remainder
-    call print_digit
 
     times 2 call  nl
 
-   
-    mov bx, array
 
-    call read_array
-    call nl
+    mov si, 3510
 
-    call write_array
-
-    call read_array
-
-    call nl
-
-    push 1
-    push 2
-    push 3
-
-    pop si
-    call print_digit
-    pop si
-    call print_digit
-    pop si
-    call print_digit
-    
+    call print_number
 
     
 
