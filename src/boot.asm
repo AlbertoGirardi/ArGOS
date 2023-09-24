@@ -17,6 +17,9 @@ nl:
     ret
 
 
+
+;;;;;;;;;;;;
+
 print:                 ;prints what is in si
     push si
     push ax
@@ -41,18 +44,24 @@ print:                 ;prints what is in si
     ret
 
 
+;;;;;;;;;
+
 print_digit: 
 
 
-             ;print a single number value given in bh,
+             ;print a single number value given in si,
     push si
     push ax
     push bx
 
-    mov bx, 48
-    add si, bx
     
+
     mov ax, si
+    mov bx, 48
+
+    add ax, bx
+    
+ 
 
     mov ah, 0x0e
     int 0x10
@@ -64,6 +73,9 @@ print_digit:
 
     ret
     
+
+
+
 
 
 main:
@@ -85,24 +97,41 @@ main:
 
     times 2 call nl
 
-    mov bx, 3
 
-
-    mov si, 5
-   
-    call print_digit
-    call nl
-    mov si, bx 
-    call print_digit
+    mov ax, 8                                  ;clear registers for division and prepare operands
+    mov bx, 4
+    mov dx, 0
 
     
+    push ax                                     ;save ax to stack
+
+    div bx                                      ;divide
+
+    mov si, ax  
+    call print_digit                            ;print quotient
+    call nl
+    mov si, dx                                  ;print remainder
+    call print_digit
+
+    times 2 call nl
+                                                ;8 bit division
+    
+                                                  ;clear registers for division and prepare operands
+    pop ax                                          ;recover ax value
+
+    ;mov bl, 4
+    mov dx, 0
 
 
-  
+    div bl
 
-   
+    movzx si, al
+    call print_digit                            ;print quotient
+    call nl
+    movzx si, ah                                  ;print remainder
+    call print_digit
 
-
+    times 2 call  nl
 
 
 
