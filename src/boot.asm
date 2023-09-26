@@ -4,7 +4,26 @@ BITS 16
 %define ENDL  0X0d, 0x0a
 
 
+
 jmp main
+
+
+ 
+
+
+end:
+var: db 1
+msg_ARGOS: db "                         ArGOS", ENDL, "di Alberto Girardi", ENDL, 0
+msg: db "BOOTLOADER. OS booting start", ENDL,"Benvenuti! Alcuni test in assembly",ENDL,0
+msg_end : db "Used bytes: ",ENDL,0
+
+array: db 1,1,0,2,0,5,0,0
+array2:  db 0,0,0,0,0,0,0,0
+
+newline: db 10, 13, 0
+
+
+
 
 
 nl:
@@ -56,14 +75,14 @@ print_digit:
 
     
 
-    mov ax, si
+    mov ax, si                              ;sum the number to 48 to get character ascii code
     mov bx, 48
 
     add ax, bx
     
  
 
-    mov ah, 0x0e
+    mov ah, 0x0e                            ;print
     int 0x10
 
 
@@ -72,6 +91,8 @@ print_digit:
     pop si
 
     ret
+
+
     
 
 ;;;;;;;
@@ -95,7 +116,7 @@ print_number:           ;print decimal number given in si, autoconverts from bin
     push dx                             ;push digit to stack
     
     mov si,dx
-    call print_digit
+    ;call print_digit
    
     inc cx                              ;count digits
 
@@ -106,32 +127,32 @@ print_number:           ;print decimal number given in si, autoconverts from bin
 
 
 .pn_postdiv:
-    mov dx, 0
-    div bx
-    push dx
+    mov dx, 0                              ;clear dx
+    div bx                                  ;divide the number to get remeainder, the digit
+    push dx                             ;save digit to stack
     
     mov si,dx                           ;store last digit
-    call print_digit
+    ;call print_digit                   ;debug
     inc cx
 
     mov si, cx                          ;how many digits 
     call nl
-    call print_digit
+    ;call print_digit                    ;debug
     call nl
    
 
 
 
 .pn_readloop:
-    pop si
-    call print_digit
+    pop si                              ;read digit from stack
+    call print_digit                    ;print it
     dec cx
     cmp cx, 0
-    je .pn_end
+    je .pn_end                          ;end printing 
 
     jmp .pn_readloop
 
-.pn_end:
+.pn_end:                                ;return from function
     call nl
     call nl
     popa
@@ -144,7 +165,7 @@ print_number:           ;print decimal number given in si, autoconverts from bin
 
 main:
 
-    mov ax, 0
+    mov ax, 0                           ;set up data segment
     mov ds, ax
     mov es, ax
 
@@ -166,7 +187,21 @@ main:
     times 2 call  nl
 
 
-    mov si, 104
+    mov si, 9874
+    call print_number
+
+
+
+
+    
+
+    times 3 call nl
+
+
+    mov si, msg_end
+    call print
+
+    mov si, ($-$$)
     call print_number
 
     
@@ -178,26 +213,14 @@ main:
 
 
 
-   
+  
 
 
-end:
-var: db 1
-msg_ARGOS: db "                 ArGOS", 0
-msg: db "BOOTLOADER. OS booting start", ENDL,"Benvenuti! Alcuni test in assembly",ENDL,0
-
-array: db 1,1,0,2,0,5,0,0
-array2:  db 0,0,0,0,0,0,0,0
-
-newline: db 10, 13, 0
-
-
-
-.halt:
+.halt:                              ;halt
   
    
     jmp .halt
 
 times 510 -  ($-$$)  db 0
 
-db 0x55, 0xaa
+db 0x55, 0xaa           
