@@ -24,5 +24,4 @@ in the following weeks
 first function: 21/9/2023
 print function, loops, arithmetic functions tests, playing around, end of asm tests 2 22/09/2023
 function that prints a decimal number 24/09/2023
-
 Understanding of asm memory model, stack
