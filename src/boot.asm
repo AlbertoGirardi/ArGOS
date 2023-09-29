@@ -202,9 +202,10 @@ main:
 
     
 
-    push 1234
+    push 12345
 
     call print_number
+    
     
     
 
