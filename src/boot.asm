@@ -15,7 +15,7 @@ end:
 var: db 1
 msg_ARGOS: db "                         ArGOS", ENDL, "di Alberto Girardi", ENDL, 0
 msg: db "BOOTLOADER. OS booting start", ENDL,"Benvenuti! Alcuni test in assembly",ENDL,0
-msg_end : db "Used bytes: ",ENDL,0
+msg_end : db "Used bytes: ",0
 
 array: db 1,1,0,2,0,5,0,0
 array2:  db 0,0,0,0,0,0,0,0
@@ -136,9 +136,9 @@ print_number:           ;print decimal number given in si, autoconverts from bin
     inc cx
 
     mov si, cx                          ;how many digits 
-    call nl
+    ;call nl
     ;call print_digit                    ;debug
-    call nl
+    ;call nl
    
 
 
@@ -153,8 +153,8 @@ print_number:           ;print decimal number given in si, autoconverts from bin
     jmp .pn_readloop
 
 .pn_end:                                ;return from function
-    call nl
-    call nl
+    ;call nl
+    ;call nl
     popa
     ret
 
