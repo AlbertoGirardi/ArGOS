@@ -169,6 +169,8 @@ main:
     mov ds, ax
     mov es, ax
 
+    mov ss, ax
+    mov sp, 0x7c00                      ;set up stack
 
     times 3 call nl
 
@@ -184,36 +186,37 @@ main:
 
 
 
-    times 2 call  nl
+    
+
+    push 1
+    push 2
+    push 3
+    
+
+    mov si, sp
+    
+    call print_number
+
+    pop ax
 
 
-    mov si, 9874
+
+    mov si, sp
+    
+    call print_number
+
+    mov si, 1234
     call print_number
 
 
 
-
-    
-
-    times 3 call nl
-
-
-    mov si, msg_end
+    call nl
+  mov si, msg_end
     call print
 
     mov si, ($-$$)
     call print_number
 
-    
-
-    
-
-
-
-
-
-
-  
 
 
 .halt:                              ;halt
