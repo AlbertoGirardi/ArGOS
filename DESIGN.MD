@@ -14,15 +14,15 @@ temp: si parameter register
 
 ### CALLEE CLEANUP
 
-parameters pushed on the stack before calling 
+0. parameters pushed on the stack before calling 
 
-- bp saved in the stack
+1. bp saved in the stack
 
-- parameters accessed using [bp-offset]
+2. parameters accessed using [bp-offset]
 
-- old bp popped
+3. old bp popped
 
-- return, dropping the parameters added (ret [num of bytes of parmeteres])
+4. return, dropping the parameters added (ret [num of bytes of parmeteres])
 
 #### STACK EXAMPLE
 
@@ -57,6 +57,4 @@ parameters pushed on the stack before calling
         pop bp          ;restore bp to last saved value
 
         ret 2*arg_num   ;return popping also all args
-
-
 
