@@ -199,11 +199,7 @@ main:
     times 2 call nl
 
 
-    push 13
-    call function
-
-    call nl
-
+    
 
 
   
