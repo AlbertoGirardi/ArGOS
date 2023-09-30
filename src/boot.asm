@@ -215,6 +215,17 @@ main:
 
     push dx
     call print_number
+
+    push dx
+    
+    mul bx
+
+    pop dx
+    add ax, dx
+
+    push ax
+    call nl
+    call print_number
     
     
     
