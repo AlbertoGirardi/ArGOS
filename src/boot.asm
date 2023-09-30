@@ -39,7 +39,7 @@ nl:
 
 ;;;;;;;;;;;;
 
-print:                 ;prints what is in si
+print:                 ;prints string what is referenced to by si, must terminate with 0
     push si
     push ax
 
@@ -68,14 +68,18 @@ print:                 ;prints what is in si
 print_digit: 
 
 
-             ;print a single number value given in si,
+             ;print a single number value pushed on the stack
+    push bp
+    mov bp, sp      ;calling convention: saving old bp and setting new one to start of function
+
     push si
     push ax
     push bx
 
-    
 
-    mov ax, si                              ;sum the number to 48 to get character ascii code
+    
+                                                ;get the number from the stack
+    mov ax, [bp+4]                              ;sum the number to 48 to get character ascii code
     mov bx, 48
 
     add ax, bx
@@ -90,7 +94,10 @@ print_digit:
     pop ax
     pop si
 
-    ret
+
+    pop bp
+
+    ret 2
 
 
     
@@ -98,12 +105,16 @@ print_digit:
 ;;;;;;;
 
 
-print_number:           ;print decimal number given in si, autoconverts from binary, MAX = 65535
+print_number:           ;print decimal number in the stack, autoconverts from binary, MAX = 65535
 
+
+    push bp
+    mov bp, sp      ;calling convention: saving old bp and setting new one to start of function
+    push dx
     pusha
 
     mov dx, 0
-    mov ax, si                      ;prep registers for divisions
+    mov ax, [bp+4]                      ;prep registers for divisions, get number to print from stack
     mov bx, 10                      ;10 dividend
     mov cx, 0                       ;prep counter
 
@@ -115,7 +126,7 @@ print_number:           ;print decimal number given in si, autoconverts from bin
     div bx                              ;divide ax/bx
     push dx                             ;push digit to stack
     
-    mov si,dx
+    
     ;call print_digit
    
     inc cx                              ;count digits
@@ -131,21 +142,22 @@ print_number:           ;print decimal number given in si, autoconverts from bin
     div bx                                  ;divide the number to get remeainder, the digit
     push dx                             ;save digit to stack
     
-    mov si,dx                           ;store last digit
+    ;mov si,dx                           
     ;call print_digit                   ;debug
     inc cx
 
-    mov si, cx                          ;how many digits 
-    call nl
+    ;push cx                    ;how many digits 
+    ;call nl
     ;call print_digit                    ;debug
-    call nl
+    ;call nl
    
 
 
 
 .pn_readloop:
-    pop si                              ;read digit from stack
-    call print_digit                    ;print it
+                                 
+    call print_digit                    ;print it, getting it from the stack
+
     dec cx
     cmp cx, 0
     je .pn_end                          ;end printing 
@@ -153,13 +165,60 @@ print_number:           ;print decimal number given in si, autoconverts from bin
     jmp .pn_readloop
 
 .pn_end:                                ;return from function
-    call nl
-    call nl
+
     popa
-    ret
+    pop dx
+    pop bp                          
+  
+    ret 2
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;test function
+
+function:
+
+    push bp
+    mov bp, sp      ;calling convention: saving old bp and setting new one to start of function
+    pusha
+
+    mov si, [bp+4]
+    push si
+
+
+    call print_number
+    call nl
+
+    mov ax, 20
+    mov [bp+4], ax
+    mov si, [bp+4]
+    push si
+
+
+    call print_number
+    call nl
+
+    mov ax, 25
+    mov [bp+4], ax
+    mov si, [bp+4]
+    push si
+
+
+    call print_number
+    call nl
 
 
 
+
+
+    jmp function_end
+    
+
+
+function_end:
+    popa
+    pop bp
+
+    ret 2
 
 
 
@@ -185,36 +244,21 @@ main:
     times 2 call nl
 
 
-
-    
-
-    push 1
-    push 2
-    push 3
-    
-
-    mov si, sp
-    
-    call print_number
-
-    pop ax
-
-
-
-    mov si, sp
-    
-    call print_number
-
-    mov si, 1234
-    call print_number
-
-
+    push 13
+    call function
 
     call nl
-  mov si, msg_end
+
+
+
+  
+;;;;;;;;;;;;;;;;;;;;;;; END
+
+    call nl
+    mov si, msg_end
     call print
 
-    mov si, ($-$$)
+    push($-$$)
     call print_number
 
 
