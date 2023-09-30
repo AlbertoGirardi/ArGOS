@@ -172,8 +172,53 @@ print_number:           ;print decimal number in the stack, autoconverts from bi
   
     ret 2
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;test function
+
+function:
+
+    push bp
+    mov bp, sp      ;calling convention: saving old bp and setting new one to start of function
+    pusha
+
+    mov si, [bp+4]
+    push si
 
 
+    call print_number
+    call nl
+
+    mov ax, 20
+    mov [bp+4], ax
+    mov si, [bp+4]
+    push si
+
+
+    call print_number
+    call nl
+
+    mov ax, 25
+    mov [bp+4], ax
+    mov si, [bp+4]
+    push si
+
+
+    call print_number
+    call nl
+
+
+
+
+
+    jmp function_end
+    
+
+
+function_end:
+    popa
+    pop bp
+
+    ret 2
 
 
 
@@ -198,40 +243,12 @@ main:
 
     times 2 call nl
 
-   
+
+    push 13
+    call function
 
     call nl
 
- 
-    mov dx, 0
-    mov ax, 3581
-    mov bx, 123
-
-    div bx
-
-    push ax
-    call print_number
-    call nl
-
-    push dx
-    call print_number
-
-    push dx
-    
-    mul bx
-
-    pop dx
-    add ax, dx
-
-    push ax
-    call nl
-    call print_number
-    
-    
-    
-
-
-    call nl
 
 
   
