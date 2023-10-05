@@ -5,7 +5,7 @@ BITS 16
 
 
 
-jmp main
+jmp MAIN  ;JUMP TO PROGRAM START
 
 
  
@@ -13,9 +13,10 @@ jmp main
 
 end:
 var: db 1
-msg_ARGOS: db "                         ArGOS", ENDL, "di Alberto Girardi", ENDL, 0
+msg_ARGOS: db "ArGOS", ENDL, "di Alberto Girardi", ENDL, 0
 msg: db "BOOTLOADER. OS booting start", ENDL,"Benvenuti! Alcuni test in assembly",ENDL,0
 msg_end: db "Used bytes: ",ENDL,0
+msg_to_restart: db "Press `r` to restart  ", 0
 msg_restart: db ENDL, ENDL, "RESTARTING",0
 
 char: db " ",0
@@ -180,7 +181,7 @@ print_number:           ;print decimal number in the stack, autoconverts from bi
 
 
 
-main:
+MAIN:
 
     mov ax, 0                           ;set up data segment
     mov ds, ax
@@ -210,20 +211,23 @@ main:
 
   
 ;;;;;;;;;;;;;;;;;;;;;;; END
-
+CLOSURE:
+    
     call nl
     mov si, msg_end
     call print
 
     jmp INSTREND
 
-CLOSURE:
+CLOSURE2:
     
     call print_number
 
     times 2 call nl
 
-
+    mov si, msg_to_restart
+    call print
+  
     mov ah, 0           ;wait for key press
     int 0x16
 
@@ -254,7 +258,7 @@ END_ALT:                        ; halt at the end
 INSTREND:                        ;count the lenght of the program, and jump back to printing it
 
     push($-$$)
-    jmp CLOSURE
+    jmp CLOSURE2
   
    
 
