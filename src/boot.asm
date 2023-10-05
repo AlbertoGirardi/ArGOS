@@ -17,6 +17,8 @@ msg_ARGOS: db "                         ArGOS", ENDL, "di Alberto Girardi", ENDL
 msg: db "BOOTLOADER. OS booting start", ENDL,"Benvenuti! Alcuni test in assembly",ENDL,0
 msg_end : db "Used bytes: ",ENDL,0
 
+char: db " ",0
+
 array: db 1,1,0,2,0,5,0,0
 array2:  db 0,0,0,0,0,0,0,0
 
@@ -214,6 +216,18 @@ main:
 
     push($-$$)
     call print_number
+
+    times 2 call nl
+
+
+    mov ah, 0           ;wait for key press
+    int 0x16
+
+    mov [char], al
+
+    mov si, char
+    call print
+
 
 
 
