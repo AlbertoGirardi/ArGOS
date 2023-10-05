@@ -14,7 +14,7 @@ To be used on qemu, (booting as a flat binary for now) Totally insecure. Complet
 in developement
 
 
-## HOW TO COMPILE AND RUN
+## HOW TO COMPILE AND RUN and USE
 
 #### REQUIREMENTS:
 * nasm
@@ -32,6 +32,8 @@ boot:
 
     make run
 
+reboot from inside: press "r"
+
 ## HISTORY LOG
 
 
@@ -42,11 +44,13 @@ boot:
 * function that prints a decimal number 24/09/2023
 * Understanding of asm memory model, stack
 * passing function argument to the stack 29/09/2023
+* getting user input via keyboard 05/09/2023
+* rebooting
 
 
 ### CURRENT PLAN
 
-* keyboard input
-* reboot 
+* keyboard input /
+* reboot /
 * reading disk and 2 stage bootloader
 * cross compiler and c running

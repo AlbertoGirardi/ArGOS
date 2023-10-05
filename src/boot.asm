@@ -15,7 +15,8 @@ end:
 var: db 1
 msg_ARGOS: db "                         ArGOS", ENDL, "di Alberto Girardi", ENDL, 0
 msg: db "BOOTLOADER. OS booting start", ENDL,"Benvenuti! Alcuni test in assembly",ENDL,0
-msg_end : db "Used bytes: ",ENDL,0
+msg_end: db "Used bytes: ",ENDL,0
+msg_restart: db ENDL, ENDL, "RESTARTING",0
 
 char: db " ",0
 
@@ -227,8 +228,23 @@ main:
 
     mov si, char
     call print
+    call nl
+    mov bh, 114
 
+    mov ah, 0
+    push ax
+    call print_number
+    call nl
 
+    cmp ah, bh
+    je .reboot
+
+.reboot:                            ;reboot by jumping to bios start
+    mov si, msg_restart
+    call print
+    db 0x0ea 
+    dw 0x0000 
+    dw 0xffff 
 
 
 .halt:                              ;halt
