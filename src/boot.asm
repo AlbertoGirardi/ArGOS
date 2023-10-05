@@ -215,7 +215,10 @@ main:
     mov si, msg_end
     call print
 
-    push($-$$)
+    jmp INSTREND
+
+CLOSURE:
+    
     call print_number
 
     times 2 call nl
@@ -225,19 +228,17 @@ main:
     int 0x16
 
     mov [char], al
-
-    mov si, char
-    call print
     call nl
     mov bh, 114
 
-    mov ah, 0
-    push ax
-    call print_number
-    call nl
 
-    cmp ah, bh
+    cmp al, bh              ; if key pressed is r (ASCII 114) then jump to reboot
     je .reboot
+
+    jmp END_ALT
+
+
+
 
 .reboot:                            ;reboot by jumping to bios start
     mov si, msg_restart
@@ -247,10 +248,16 @@ main:
     dw 0xffff 
 
 
-.halt:                              ;halt
+END_ALT:                        ; halt at the end
+    jmp END_ALT
+
+INSTREND:                        ;count the lenght of the program, and jump back to printing it
+
+    push($-$$)
+    jmp CLOSURE
   
    
-    jmp .halt
+
 
 times 510 -  ($-$$)  db 0
 
