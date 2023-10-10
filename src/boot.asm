@@ -19,7 +19,7 @@ msg_end: db "Used bytes: ",ENDL,0
 msg_to_restart: db "Press `r` to restart  ", 0
 msg_restart: db ENDL, ENDL, "RESTARTING",0
 
-char: db " ",0
+;char: db " ",0
 
 array: db 1,1,0,2,0,5,0,0
 array2:  db 0,0,0,0,0,0,0,0
@@ -177,6 +177,15 @@ print_number:           ;print decimal number in the stack, autoconverts from bi
     ret 2
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;FUNCTION TO READ FROM THE DISK using interrupts and loads 
+;args: 
+
+read_disk:                  
+
+
+
+
 
 
 
@@ -209,6 +218,8 @@ MAIN:
     
 
 
+
+
   
 ;;;;;;;;;;;;;;;;;;;;;;; END
 CLOSURE:
@@ -231,8 +242,6 @@ CLOSURE2:
     mov ah, 0           ;wait for key press
     int 0x16
 
-    mov [char], al
-    call nl
     mov bh, 114
 
 
@@ -252,8 +261,10 @@ CLOSURE2:
     dw 0xffff 
 
 
+
 END_ALT:                        ; halt at the end
     jmp END_ALT
+
 
 INSTREND:                        ;count the lenght of the program, and jump back to printing it
 
