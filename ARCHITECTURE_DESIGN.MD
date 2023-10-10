@@ -1,3 +1,16 @@
+# GENERAL ARCHITECTURE
+
+### boot.asm
+1st sector
+boots the system from the bios, then loads the rest and gives control to bootlaoder 2
+### bootloader 2 stage
+switches to protected mode
+loads the kernel and calls it
+
+### kernel
+os kernels
+
+
 # REAL MODE 16 BITS
 
 ## MEMORY MODEL
@@ -77,6 +90,8 @@ callee:
 
 
 
+
+# PROTECTED MODE 32 BITS
 
 to graph log
 
