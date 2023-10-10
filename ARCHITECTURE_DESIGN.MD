@@ -1,3 +1,5 @@
+# REAL MODE 16 BITS
+
 ## MEMORY MODEL
 
 tiny memory model:
@@ -14,7 +16,7 @@ temp: si parameter register
 
 ### CALLEE CLEANUP
 
-0. parameters pushed on the stack before calling 
+0. parameters pushed on the stack before calling(from LEFT to right) 
 
 1. bp saved in the stack
 
@@ -27,17 +29,31 @@ temp: si parameter register
 #### STACK EXAMPLE
 
     bottom
-    ...                        bp+4+2*n_param
-    parameter                  bp+4
-    return address             bp+2
-    old bp                     bp=0
-    locals                     bp-2
+    ...                            bp+4+2*n_param
+
+    parameter 1                    bp+8
+    parameter 2                    bp+6
+    parameter 3                    bp+4
+    return address                 bp+2
+    old bp                         bp=0
+    locals                         bp-2
     ...
     top
 
 
 #### function snippet
 
+function(arg1, arg2, arg3)
+
+caller:
+
+    push arg1
+    push arg2
+    push arg3
+    call function
+
+
+callee:
 
     function:
 
@@ -56,7 +72,7 @@ temp: si parameter register
         popa            ;reload all saved regs from stack
         pop bp          ;restore bp to last saved value
 
-        ret 2*arg_num   ;return popping also all args
+        ret 3*arg_num   ;return popping also all args
 
 
 
@@ -64,5 +80,11 @@ temp: si parameter register
 
 to graph log
 
+```
 git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' --all
 lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)
+```
+
+
+
+
