@@ -193,14 +193,14 @@ load_disk:
     mov ax, 0
     mov es, ax
     mov ah, 2                           ;set to read from disk
-    mov al, 1
+    mov al, [bp+6]
     mov ch, 0
     mov cl, 2
     mov dh, 0
     mov dl, [boot_disk]
 
     
-    mov bx, 0x7e00
+    mov bx, [bp+4]
 
 
     int 0x13
@@ -253,12 +253,11 @@ MAIN:
     call print_number
     call nl
 
-    
-    push 1
-    push 1
+    push 5                          ;read five sectors
+    push 0x7e00                     ;load the stage two after the boot sector in ram
 
     call load_disk
-    mov bx, 0x7e01
+    
 
     call B32
 
