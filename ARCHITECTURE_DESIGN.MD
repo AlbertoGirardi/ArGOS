@@ -15,6 +15,13 @@ os kernels
 
 # REAL MODE 16 BITS
 
+
+## COMPILING
+
+Stiches together stage 1 and 2 bootloader, then assembles them and coverts to .iso
+
+
+
 ## MEMORY MODEL
 
 tiny memory model:

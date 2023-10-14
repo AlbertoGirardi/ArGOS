@@ -28,6 +28,10 @@ compile:
 
     make
 
+makefile targets:
+
+    make totclear  ;deletes build directory
+
 boot:
 
     make run
