@@ -31,6 +31,12 @@ tiny memory model:
 stack starts at 0x7c00 (and grows downwards as usal)
 
 
+### GLOBAL ALLOCATION
+Be CAREFUL to allocate the exact amount of bytes, if used 16 bit register alloccate a word, not a byte
+
+dw 123    ; 16 bit integer
+
+
 ## CALLING CONVENTION: 
 
 temp: si parameter register

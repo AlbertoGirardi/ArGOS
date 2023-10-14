@@ -1,3 +1,23 @@
-;;;SECOND STAGE OF THE BOOTLOADER,
 
-db 1,2,3,4,5,6,7,8,9,10
+
+
+
+;;;SECOND STAGE OF THE BOOTLOADER,  
+
+
+
+
+B32:
+
+    push 351
+
+    call print_number
+    call nl
+
+    mov si, [var]
+    push si
+
+    call print_number
+
+
+jmp CLOSURE

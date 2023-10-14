@@ -11,8 +11,8 @@ jmp MAIN  ;JUMP TO PROGRAM START
  
 
 
-boot_disk: db 100
-var: db 1
+boot_disk: dw 100
+var: dw 1234
 msg_ARGOS: db "ArGOS", ENDL, "di Alberto Girardi", ENDL, 0
 msg: db "BOOTLOADER. OS booting start", ENDL,"Benvenuti! Alcuni test in assembly",ENDL,0
 msg_end: db "Used bytes: ",ENDL,0
@@ -241,17 +241,29 @@ MAIN:
 
     times 2 call nl
 
+
+
+
+
+    mov si, [var]
+
+
+    push si
+
+    call print_number
+    call nl
+
     
     push 1
     push 1
 
     call load_disk
+    mov bx, 0x7e01
 
-    mov si, [0x7e02]
-    push si
-    call print_digit
+    call B32
 
     jmp CLOSURE
+
 
 
     
@@ -265,7 +277,7 @@ CLOSURE:
     
     call nl
     call nl
-    mov si, msg_end
+    mov si, msg_end                 ;print end message
     call print
 
     jmp INSTREND
