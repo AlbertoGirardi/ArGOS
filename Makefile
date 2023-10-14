@@ -4,13 +4,16 @@ bootloader2stage := boot32.asm
 
 total_bootloader:= bootloader.asm
 
+
+
+
 all:  build/$(OS_image)
 
 build: 
 	mkdir build
 
 
-build/$(OS_image): src/$(bootloader)  build
+build/$(OS_image): src/$(bootloader) src/$(bootloader2stage) build
 	
 	@echo stiching together asm files
 	cat src/$(bootloader) src/$(bootloader2stage) > build/$(total_bootloader)

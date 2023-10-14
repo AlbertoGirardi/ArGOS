@@ -179,9 +179,36 @@ print_number:           ;print decimal number in the stack, autoconverts from bi
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;FUNCTION TO READ FROM THE DISK using interrupts and loads 
-;args: 
+;args: n_sectors : number of sectors to read,  address where to load them
 
-read_disk:                  
+load_disk: 
+
+
+
+    push bp
+    mov bp, sp      ;calling convention: saving old bp and setting new one to start of function
+    pusha           ;save all regs to stack
+
+
+    mov ax, 0
+    mov es, ax
+    mov ah, 2                           ;set to read from disk
+    mov al, 1
+    mov ch, 0
+    mov cl, 2
+    mov dh, 0
+    mov dl, [boot_disk]
+
+    
+    mov bx, 0x7e00
+
+
+    int 0x13
+
+    popa            ;reload all saved regs from stack
+    pop bp          ;restore bp to last saved value
+
+    ret 4
 
 
 
@@ -220,7 +247,16 @@ MAIN:
     push si
 
     call print_number
+    call nl
 
+    push 1
+    push 1
+
+    call load_disk
+
+    mov si, [0x7e02]
+    push si
+    call print_digit
 
     jmp CLOSURE
 

@@ -94,7 +94,7 @@ callee:
         popa            ;reload all saved regs from stack
         pop bp          ;restore bp to last saved value
 
-        ret 3*arg_num   ;return popping also all args
+        ret 2*arg_num   ;return popping also all args
 
 
 
