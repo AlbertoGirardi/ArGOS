@@ -15,6 +15,13 @@ os kernels
 
 # REAL MODE 16 BITS
 
+
+## COMPILING
+
+Stiches together stage 1 and 2 bootloader, then assembles them and coverts to .iso
+
+
+
 ## MEMORY MODEL
 
 tiny memory model:
@@ -22,6 +29,12 @@ tiny memory model:
      SS = DS = ES = 0
 
 stack starts at 0x7c00 (and grows downwards as usal)
+
+
+### GLOBAL ALLOCATION
+Be CAREFUL to allocate the exact amount of bytes, if used 16 bit register alloccate a word, not a byte
+
+dw 123    ; 16 bit integer
 
 
 ## CALLING CONVENTION: 
@@ -87,7 +100,7 @@ callee:
         popa            ;reload all saved regs from stack
         pop bp          ;restore bp to last saved value
 
-        ret 3*arg_num   ;return popping also all args
+        ret 2*arg_num   ;return popping also all args
 
 
 

@@ -28,6 +28,11 @@ compile:
 
     make
 
+makefile targets:
+
+    make totclear  ;deletes build directory
+    make clear     ;deletes other tmp build files
+
 boot:
 
     make run
@@ -46,6 +51,7 @@ reboot from inside: press "r"
 * passing function argument to the stack 29/09/2023
 * getting user input via keyboard 05/09/2023
 * rebooting
+* reading from the disk (crude test 14/10/2023)
 
 
 ### CURRENT PLAN

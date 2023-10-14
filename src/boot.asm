@@ -11,8 +11,8 @@ jmp MAIN  ;JUMP TO PROGRAM START
  
 
 
-boot_disk: db 100
-var: db 1
+boot_disk: dw 100
+var: dw 1234
 msg_ARGOS: db "ArGOS", ENDL, "di Alberto Girardi", ENDL, 0
 msg: db "BOOTLOADER. OS booting start", ENDL,"Benvenuti! Alcuni test in assembly",ENDL,0
 msg_end: db "Used bytes: ",ENDL,0
@@ -179,9 +179,36 @@ print_number:           ;print decimal number in the stack, autoconverts from bi
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;FUNCTION TO READ FROM THE DISK using interrupts and loads 
-;args: 
+;args: n_sectors : number of sectors to read,  address where to load them
 
-read_disk:                  
+load_disk: 
+
+
+
+    push bp
+    mov bp, sp      ;calling convention: saving old bp and setting new one to start of function
+    pusha           ;save all regs to stack
+
+
+    mov ax, 0
+    mov es, ax
+    mov ah, 2                           ;set to read from disk
+    mov al, [bp+6]
+    mov ch, 0
+    mov cl, 2
+    mov dh, 0
+    mov dl, [boot_disk]
+
+    
+    mov bx, [bp+4]
+
+
+    int 0x13
+
+    popa            ;reload all saved regs from stack
+    pop bp          ;restore bp to last saved value
+
+    ret 4
 
 
 
@@ -214,15 +241,21 @@ MAIN:
 
     times 2 call nl
 
+
+    push 5                          ;read five sectors
+    push 0x7e00                     ;load the stage two after the boot sector in ram
+
+    call load_disk                  ;loads from disks
     
 
-    mov si, [boot_disk]
+    mov si, [var3]
     push si
-
     call print_number
 
+    call B32
 
     jmp CLOSURE
+
 
 
     
@@ -236,7 +269,7 @@ CLOSURE:
     
     call nl
     call nl
-    mov si, msg_end
+    mov si, msg_end                 ;print end message
     call print
 
     jmp INSTREND
