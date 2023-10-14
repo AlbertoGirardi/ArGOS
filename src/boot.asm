@@ -242,22 +242,15 @@ MAIN:
     times 2 call nl
 
 
-
-
-
-    mov si, [var]
-
-
-    push si
-
-    call print_number
-    call nl
-
     push 5                          ;read five sectors
     push 0x7e00                     ;load the stage two after the boot sector in ram
 
-    call load_disk
+    call load_disk                  ;loads from disks
     
+
+    mov si, [var3]
+    push si
+    call print_number
 
     call B32
 
