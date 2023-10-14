@@ -11,7 +11,7 @@ jmp MAIN  ;JUMP TO PROGRAM START
  
 
 
-end:
+boot_disk: db 100
 var: db 1
 msg_ARGOS: db "ArGOS", ENDL, "di Alberto Girardi", ENDL, 0
 msg: db "BOOTLOADER. OS booting start", ENDL,"Benvenuti! Alcuni test in assembly",ENDL,0
@@ -192,6 +192,9 @@ read_disk:
 
 MAIN:
 
+    mov dh, 0
+    mov [boot_disk], dx                ;saves boot disk number to a variable
+
     mov ax, 0                           ;set up data segment
     mov ds, ax
     mov es, ax
@@ -211,8 +214,15 @@ MAIN:
 
     times 2 call nl
 
-
     
+
+    mov si, [boot_disk]
+    push si
+
+    call print_number
+
+
+    jmp CLOSURE
 
 
     
@@ -224,6 +234,7 @@ MAIN:
 ;;;;;;;;;;;;;;;;;;;;;;; END
 CLOSURE:
     
+    call nl
     call nl
     mov si, msg_end
     call print
