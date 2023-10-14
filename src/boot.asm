@@ -5,17 +5,21 @@ BITS 16
 
 
 
-jmp main
+jmp MAIN  ;JUMP TO PROGRAM START
 
 
  
 
 
-end:
+boot_disk: db 100
 var: db 1
-msg_ARGOS: db "                         ArGOS", ENDL, "di Alberto Girardi", ENDL, 0
+msg_ARGOS: db "ArGOS", ENDL, "di Alberto Girardi", ENDL, 0
 msg: db "BOOTLOADER. OS booting start", ENDL,"Benvenuti! Alcuni test in assembly",ENDL,0
-msg_end : db "Used bytes: ",ENDL,0
+msg_end: db "Used bytes: ",ENDL,0
+msg_to_restart: db "Press `r` to restart  ", 0
+msg_restart: db ENDL, ENDL, "RESTARTING",0
+
+;char: db " ",0
 
 array: db 1,1,0,2,0,5,0,0
 array2:  db 0,0,0,0,0,0,0,0
@@ -173,11 +177,23 @@ print_number:           ;print decimal number in the stack, autoconverts from bi
     ret 2
 
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;FUNCTION TO READ FROM THE DISK using interrupts and loads 
+;args: 
+
+read_disk:                  
 
 
 
 
-main:
+
+
+
+
+MAIN:
+
+    mov dh, 0
+    mov [boot_disk], dx                ;saves boot disk number to a variable
 
     mov ax, 0                           ;set up data segment
     mov ds, ax
@@ -198,26 +214,76 @@ main:
 
     times 2 call nl
 
+    
+
+    mov si, [boot_disk]
+    push si
+
+    call print_number
+
+
+    jmp CLOSURE
+
 
     
 
 
+
+
   
 ;;;;;;;;;;;;;;;;;;;;;;; END
-
+CLOSURE:
+    
+    call nl
     call nl
     mov si, msg_end
     call print
 
-    push($-$$)
+    jmp INSTREND
+
+CLOSURE2:
+    
     call print_number
 
+    times 2 call nl
+
+    mov si, msg_to_restart
+    call print
+  
+    mov ah, 0           ;wait for key press
+    int 0x16
+
+    mov bh, 114
 
 
-.halt:                              ;halt
+    cmp al, bh              ; if key pressed is r (ASCII 114) then jump to reboot
+    je .reboot
+
+    jmp END_ALT
+
+
+
+
+.reboot:                            ;reboot by jumping to bios start
+    mov si, msg_restart
+    call print
+    db 0x0ea 
+    dw 0x0000 
+    dw 0xffff 
+
+
+
+END_ALT:                        ; halt at the end
+    jmp END_ALT
+
+
+INSTREND:                        ;count the lenght of the program, and jump back to printing it
+
+    push($-$$)
+    jmp CLOSURE2
   
    
-    jmp .halt
+
 
 times 510 -  ($-$$)  db 0
 
