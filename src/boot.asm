@@ -242,13 +242,6 @@ MAIN:
     times 2 call nl
 
     
-
-    mov si, [boot_disk]
-    push si
-
-    call print_number
-    call nl
-
     push 1
     push 1
 
