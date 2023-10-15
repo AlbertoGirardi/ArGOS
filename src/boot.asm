@@ -12,17 +12,16 @@ jmp MAIN  ;JUMP TO PROGRAM START
 
 
 boot_disk: dw 100
-var: dw 1234
-msg_ARGOS: db "ArGOS", ENDL, "di Alberto Girardi", ENDL, 0
-msg: db "BOOTLOADER. OS booting start", ENDL,"Benvenuti! Alcuni test in assembly",ENDL,0
+
+msg_ARGOS: db "       ArGOS", ENDL, "di Alberto Girardi", ENDL, 0
+msg: db "BOOTLOADER 16 bit",0
 msg_end: db "Used bytes: ",ENDL,0
-msg_to_restart: db "Press `r` to restart  ", 0
+msg_to_restart: db "Press `r` to reboot  ", 0
 msg_restart: db ENDL, ENDL, "RESTARTING",0
+msg_loadok: db "Loaded stage 2 OK", ENDL, 0
+msg_diskerror: db "Error in reading", ENDL, 0
 
-;char: db " ",0
 
-array: db 1,1,0,2,0,5,0,0
-array2:  db 0,0,0,0,0,0,0,0
 
 newline: db 10, 13, 0
 
@@ -193,7 +192,7 @@ load_disk:
     mov ax, 0
     mov es, ax
     mov ah, 2                           ;set to read from disk
-    mov al, [bp+6]
+    mov al, [bp+6]                      ;how many sectors to read
     mov ch, 0
     mov cl, 2
     mov dh, 0
@@ -203,7 +202,17 @@ load_disk:
     mov bx, [bp+4]
 
 
-    int 0x13
+    int 0x13                    ;read and load from the disk
+
+
+    jc .read_error
+
+    cmp al, [bp+6]
+    jne .read_error
+
+    
+    mov si, msg_loadok          ;print successful load message
+    call print
 
     popa            ;reload all saved regs from stack
     pop bp          ;restore bp to last saved value
@@ -211,6 +220,11 @@ load_disk:
     ret 4
 
 
+.read_error:
+
+    mov si, msg_diskerror
+    call print
+    jmp CLOSURE
 
 
 
@@ -248,17 +262,13 @@ MAIN:
     call load_disk                  ;loads from disks
     
 
-    mov si, [var3]
-    push si
-    call print_number
-
-    call B32
+    call B32                        ;gives execution to second stage
 
     jmp CLOSURE
 
 
 
-    
+
 
 
 
@@ -290,14 +300,14 @@ CLOSURE2:
 
 
     cmp al, bh              ; if key pressed is r (ASCII 114) then jump to reboot
-    je .reboot
+    je reboot
 
     jmp END_ALT
 
 
 
 
-.reboot:                            ;reboot by jumping to bios start
+reboot:                            ;reboot by jumping to bios start
     mov si, msg_restart
     call print
     db 0x0ea 
