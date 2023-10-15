@@ -205,9 +205,14 @@ load_disk:
     int 0x13                    ;read and load from the disk
 
 
-    jc .read_error
+    jc .read_error              ;if flags are set trigger error
 
-    cmp al, [bp+6]
+    cmp al, [bp+6]              ;if the number of sectors read isn't correct trigger error
+    jne .read_error
+
+
+    mov ax, [load_check]         ;if the last variable of the second stage isn't loaded trigger error
+    cmp ax, 3571
     jne .read_error
 
     
@@ -256,11 +261,11 @@ MAIN:
     times 2 call nl
 
 
-    push 5                          ;read five sectors
+    push 6                          ;read five sectors
     push 0x7e00                     ;load the stage two after the boot sector in ram
 
     call load_disk                  ;loads from disks
-    
+
 
     call BOOTLOADER32                        ;gives execution to second stage
 

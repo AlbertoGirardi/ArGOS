@@ -2,10 +2,40 @@
 
 ### boot.asm
 1st sector
-boots the system from the bios, then loads the rest and gives control to bootlaoder 2
+boots the system from the bios, then loads the rest and gives control to bootlaoder 2 (includes final routines for restarting)
+
+
+#### DISK READING AND LOADING
+Loads as many sectors as required at 0x7e00 (after the first sector)
+
+
+Memory:
+
+    (IVT and BIOS)
+    .... 
+    STACK
+    0x7C00: bootloader
+    ....
+    0x7E00: second stage
+    ....
+    0x9FC00:start of bios data area (NOT OVERWRITE)
+
+
+2 ways for memory loading to fail:
+
+* error in the disk (cf flag or number of sectors asked higher than anctua sectors)
+
+* sectors asked too low, not everything loaded, control varible not loaded and detected by stage 1 (load_check = 3571)
+
 
 only 1st sector
-### bootloader 2 stage
+
+
+
+
+### boot32.asm
+Second stage of the bootloader
+
 switches to protected mode
 loads the kernel and calls it
 
@@ -37,7 +67,7 @@ Be CAREFUL to allocate the exact amount of bytes, if used 16 bit register allocc
 dw 123    ; 16 bit integer
 
 
-## CALLING CONVENTION: 
+## ASM CALLING CONVENTION: 
 
 temp: si parameter register
 
@@ -107,6 +137,13 @@ callee:
 
 
 # PROTECTED MODE 32 BITS
+
+
+
+
+
+
+
 
 to graph log
 
