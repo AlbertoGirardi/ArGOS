@@ -19,7 +19,7 @@ msg_end: db "Used bytes: ",ENDL,0
 msg_to_restart: db "Press `r` to reboot  ", 0
 msg_restart: db ENDL, ENDL, "RESTARTING",0
 msg_loadok: db "Loaded stage 2 OK", ENDL, 0
-msg_diskerror: db "Error in reading", ENDL, 0
+msg_diskerror: db "Error in reading disk", ENDL, 0
 
 
 
@@ -262,7 +262,7 @@ MAIN:
     call load_disk                  ;loads from disks
     
 
-    call B32                        ;gives execution to second stage
+    call BOOTLOADER32                        ;gives execution to second stage
 
     jmp CLOSURE
 
