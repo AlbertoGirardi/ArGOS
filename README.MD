@@ -39,6 +39,11 @@ boot:
 
 reboot from inside: press "r"
 
+
+## DOCUMENTATION
+
+[doc file](doc/ARCHITECTURE_DESIGN.MD)
+
 ## HISTORY LOG
 
 
@@ -52,11 +57,12 @@ reboot from inside: press "r"
 * getting user input via keyboard 05/09/2023
 * rebooting
 * reading from the disk (crude test 14/10/2023)
+* read from disk and load to memory function and stage 2 bootloader: 15/10/2023
 
 
 ### CURRENT PLAN
 
 * keyboard input /
 * reboot /
-* reading disk and 2 stage bootloader
+* reading disk and 2 stage bootloader/
 * cross compiler and c running
