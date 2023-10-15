@@ -183,7 +183,6 @@ print_number:           ;print decimal number in the stack, autoconverts from bi
 load_disk: 
 
 
-
     push bp
     mov bp, sp      ;calling convention: saving old bp and setting new one to start of function
     pusha           ;save all regs to stack
