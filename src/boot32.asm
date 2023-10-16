@@ -26,8 +26,8 @@ ascii_loop:
 .end:
     jmp CLOSURE
 
-times 2048 db 0
+
 
 load_check: dw 3571                     ;MUST STAY AT THE END OF THE PROGRAM to check if everything is loaded
 
-times 1024 db 0
+times (2048-($-$$)) db 0

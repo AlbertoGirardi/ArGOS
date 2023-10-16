@@ -19,7 +19,9 @@ msg_end: db "Used bytes: ",ENDL,0
 msg_to_restart: db "Press `r` to reboot  ", 0
 msg_restart: db ENDL, ENDL, "RESTARTING",0
 msg_loadok: db "Loaded stage 2 OK", ENDL, 0
-msg_diskerror: db "Error in reading disk", ENDL, 0
+msg_diskerror: db "Error in reading disk: ",0
+msg_deA: db "A", ENDL, 0
+msg_deB: db "B", ENDL, 0
 
 
 
@@ -204,15 +206,15 @@ load_disk:
     int 0x13                    ;read and load from the disk
 
 
-    jc .read_error              ;if flags are set trigger error
+    jc .read_errorA              ;if flags are set trigger error
 
     cmp al, [bp+6]              ;if the number of sectors read isn't correct trigger error
-    jne .read_error
+    jne .read_errorA
 
 
     mov ax, [load_check]         ;if the last variable of the second stage isn't loaded trigger error
     cmp ax, 3571
-    jne .read_error
+    jne .read_errorB
 
     
     mov si, msg_loadok          ;print successful load message
@@ -224,13 +226,26 @@ load_disk:
     ret 4
 
 
-.read_error:
+.read_errorA:
 
     mov si, msg_diskerror
     call print
+
+    mov si, msg_deA
+    call print
+
     jmp CLOSURE
 
 
+.read_errorB:
+
+    mov si, msg_diskerror
+    call print
+
+    mov si, msg_deB
+    call print
+
+    jmp CLOSURE
 
 
 
@@ -260,7 +275,7 @@ MAIN:
     times 2 call nl
 
 
-    push 6                          ;read five sectors
+    push 3                          ;read five sectors
     push 0x7e00                     ;load the stage two after the boot sector in ram
 
     call load_disk                  ;loads from disks

@@ -21,11 +21,11 @@ Memory:
     0x9FC00:start of bios data area (NOT OVERWRITE)
 
 
-2 ways for memory loading to fail:
+2 ways for memory loading to fail(fail mode indicated in error message)
 
-* error in the disk (cf flag or number of sectors asked higher than anctua sectors)
+* error in the disk (cf flag or number of sectors asked higher than anctual sectors)    (A)
 
-* sectors asked too low, not everything loaded, control varible not loaded and detected by stage 1 (load_check = 3571)
+* sectors asked too low, not everything loaded, control varible not loaded and detected by stage 1 (load_check = 3571)  (B)
 
 
 only 1st sector
