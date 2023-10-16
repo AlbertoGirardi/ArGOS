@@ -23,8 +23,14 @@ ascii_loop:
 
     jmp ascii_loop
 
+
+
+
+;;;END OF BOOTLOADER
 .end:
     jmp CLOSURE
+
+
 
 
 
