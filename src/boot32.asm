@@ -11,33 +11,20 @@ BOOTLOADER32:                       ;second stage entry point
     call print
 
 
-    var:dd 12
-    var2: dd 12
-    var3:dd 12
-
-
-
-    mov ax, var
-    push ax
-    call print_number
-    call nl
-
-
+ascii_loop:
+    push bx
+    call print_digit
+    ;call nl
     
-    mov ax, var2
-    push ax
-    call print_number
-    call nl
+    cmp bx, 304 
+    je .end
 
+    inc bx
 
-    
-    mov ax, var3
-    push ax
-    call print_number
-    call nl
+    jmp ascii_loop
 
-
-jmp CLOSURE
+.end:
+    jmp CLOSURE
 
 times 2048 db 0
 
