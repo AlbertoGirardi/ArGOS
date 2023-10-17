@@ -40,7 +40,7 @@ switches to protected mode
 loads the kernel and calls it
 
 ### kernel
-os kernels
+os kernel
 
 
 # REAL MODE 16 BITS
