@@ -8,7 +8,7 @@ stage1 loads stage2, kernel loader and kernel into the first meg, after the firs
 
 ## 32 BITS Protected Mode
 
-stage2: 
+stage2:                                 [TO DO]
 * sets up GDT
 * jumps to kenrel loader
 
