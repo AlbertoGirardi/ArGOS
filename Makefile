@@ -4,6 +4,7 @@ bootloader2stage := boot32.asm
 
 total_bootloader:= bootloader.asm
 
+qemu := qemu-system-x86_64
 
 
 
@@ -27,7 +28,7 @@ build/$(total_bootloader): src/$(bootloader) src/$(bootloader2stage) build
 	@echo ok
 
 run:  build/$(OS_image)
-	qemu-system-x86_64 build/$(OS_image)
+	$(qemu) build/$(OS_image)
 
 clear:
 	rm build/$(total_bootloader)
