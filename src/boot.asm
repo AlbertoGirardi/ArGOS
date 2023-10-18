@@ -247,9 +247,13 @@ load_disk:
     call print
 
     jmp CLOSURE
+;
 
 
 
+;MAIN
+
+    
 
 MAIN:
 
@@ -355,3 +359,8 @@ INSTREND:                        ;count the lenght of the program, and jump back
 times 510 -  ($-$$)  db 0           ;fill first sector
 
 db 0x55, 0xaa                       ;boot signature
+
+
+
+
+

@@ -5,6 +5,8 @@
 
 
 
+
+
 ;;;SECOND STAGE OF THE BOOTLOADER,  
 
 msg_welcome2: db ENDL, "STAGE 2 OF THE BOOTLOADER", ENDL,"Benvenuti! Alcuni test in assembly",ENDL, ENDL ,0
