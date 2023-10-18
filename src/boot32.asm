@@ -11,18 +11,6 @@ BOOTLOADER32:                       ;second stage entry point
     call print
 
 
-ascii_loop:
-    push bx
-    call print_digit
-    ;call nl
-    
-    cmp bx, 304 
-    je .end
-
-    inc bx
-
-    jmp ascii_loop
-
 
 
 
