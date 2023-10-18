@@ -2,6 +2,7 @@
 BITS 16
 
 %define ENDL  0X0d, 0x0a
+%define STAGE_2_SECTORS 4
 
 
 
@@ -274,8 +275,11 @@ MAIN:
 
     times 2 call nl
 
+    push STAGE_2_SECTORS
+    call print_number  
+    call nl 
 
-    push 3                          ;read five sectors
+    push STAGE_2_SECTORS                       ;read  sectors
     push 0x7e00                     ;load the stage two after the boot sector in ram
 
     call load_disk                  ;loads from disks
@@ -312,6 +316,7 @@ CLOSURE2:
     mov si, msg_to_restart
     call print
   
+CLOSURE3:
     mov ah, 0           ;wait for key press
     int 0x16
 
@@ -321,7 +326,7 @@ CLOSURE2:
     cmp al, bh              ; if key pressed is r (ASCII 114) then jump to reboot
     je reboot
 
-    jmp END_ALT
+    jmp CLOSURE3
 
 
 
@@ -347,6 +352,6 @@ INSTREND:                        ;count the lenght of the program, and jump back
    
 
 
-times 510 -  ($-$$)  db 0
+times 510 -  ($-$$)  db 0           ;fill first sector
 
-db 0x55, 0xaa           
+db 0x55, 0xaa                       ;boot signature
