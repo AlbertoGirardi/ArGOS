@@ -43,6 +43,7 @@ reboot from inside: press "r"
 ## DOCUMENTATION
 
 [doc file](doc/ARCHITECTURE_DESIGN.MD)
+[execution controll](doc/Execution_flow.md)
 
 
 ## HISTORY LOG
@@ -59,6 +60,7 @@ reboot from inside: press "r"
 * rebooting
 * reading from the disk (crude test 14/10/2023)
 * read from disk and load to memory function and stage 2 bootloader: 15/10/2023
+* ENTER 32 BIT MODE (gdt, new segments)  19/10/2023
 
 
 ### CURRENT PLAN
