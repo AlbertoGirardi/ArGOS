@@ -173,6 +173,12 @@ returning:
 
 This nullfies the effects of the obsolete GDT, letting us access all the memory as if we were in 16 bit mode. Memory protection will be made with paging.
 
+
+# VIDEO MEMORY
+
+8 bits / 4 bit/ 4 bits
+char    background  col
+
 #### Segment selectors
 08h -> protected mode code segment to jump to       CODE_SEGMENT
 10h -> data segment, set  ds, es, ss to this        DATA_SEGMENT
@@ -180,7 +186,7 @@ This nullfies the effects of the obsolete GDT, letting us access all the memory 
 
 
 
-
+###  SOME COMMANDS
 
 
 
@@ -193,4 +199,6 @@ lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(
 
 
 
+to compile c
 
+i686-elf-gcc --freestanding -m32 -g -c test.c -o test.o

@@ -10,6 +10,9 @@
 ;;;SECOND STAGE OF THE BOOTLOADER,  
 
 
+%define Video_Buffer 0xb8000
+
+
 ;;;GDT
 
 
@@ -178,21 +181,40 @@ BOOTLOADER2:                       ;second stage entry point
 
 BOOTLOADER_32BITS:
     [BITS 32]
-    
-    mov al, "A"
-    mov ah, 0xf
+
+    ;SETTING UP SEGMENT REGISTERS FOR 32 BIT MODE
+    mov ax, DATA_SEGMENT
+    mov ds, ax
+    mov ss, ax
+
+    sti    ;enable interrupts
+
+    mov edi, Video_Buffer
+
+    mov al, "a"
+
+    mov [edi], al
+    inc edi
+    mov [edi], byte 0xf1
+    inc edi
 
 
-    mov [0xb8000], ax
-
-    jmp $
+    jmp .end
 
 
 
 
 ;;;END OF BOOTLOADER
 .end:
-    jmp CLOSURE
+
+    cli
+    jmp $
+    
+
+
+
+
+
 
 
 

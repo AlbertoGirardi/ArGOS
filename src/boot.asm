@@ -2,7 +2,9 @@
 BITS 16
 
 %define ENDL  0X0d, 0x0a
-%define STAGE_2_SECTORS 4                       
+
+%define STAGE_2_SECTORS 4                  
+%define STAGE_2_LOAD_ADDRS 0x7e00
 %define LOAD_INTEGRITY_CHECK 3571
 
 
@@ -17,7 +19,7 @@ boot_disk: dw 100
 
 msg_ARGOS: db "       ArGOS", ENDL, "di Alberto Girardi", ENDL, 0
 msg: db "BOOTLOADER 16 bit",0
-msg_end: db "Used bytes: ",ENDL,0
+;msg_end: db "Used bytes: ",ENDL,0                                      ;prints how many bytes used by first stage
 msg_to_restart: db "Press `r` to reboot  ", 0
 msg_restart: db ENDL, ENDL, "RESTARTING",0
 msg_loadok: db "Loaded stage 2 OK", ENDL, 0
@@ -285,7 +287,7 @@ MAIN:
     
 
     push STAGE_2_SECTORS                       ;read  sectors
-    push 0x7e00                     ;load the stage two after the boot sector in ram
+    push STAGE_2_LOAD_ADDRS                     ;load the stage two after the boot sector in ram
 
     call load_disk                  ;loads from disks
 
@@ -307,14 +309,14 @@ CLOSURE:
     
     call nl
     call nl
-    mov si, msg_end                 ;print end message
-    call print
+    ;mov si, msg_end                 ;print end message
+    ;call print
 
     jmp INSTREND
 
 CLOSURE2:
     
-    call print_number
+    ;call print_number
 
     times 2 call nl
 
