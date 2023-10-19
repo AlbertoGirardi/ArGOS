@@ -279,9 +279,7 @@ MAIN:
 
     times 2 call nl
 
-    push STAGE_2_SECTORS
-    call print_number  
-    call nl 
+    
 
     push STAGE_2_SECTORS                       ;read  sectors
     push 0x7e00                     ;load the stage two after the boot sector in ram
