@@ -2,7 +2,8 @@
 BITS 16
 
 %define ENDL  0X0d, 0x0a
-%define STAGE_2_SECTORS 4
+%define STAGE_2_SECTORS 4                       
+%define LOAD_INTEGRITY_CHECK 3571
 
 
 
@@ -216,7 +217,7 @@ load_disk:
 
 
     mov ax, [load_check]         ;if the last variable of the second stage isn't loaded trigger error
-    cmp ax, 3571
+    cmp ax, LOAD_INTEGRITY_CHECK
     jne .read_errorB
 
     
