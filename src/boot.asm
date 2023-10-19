@@ -156,12 +156,13 @@ print_number:           ;print decimal number in the stack, autoconverts from bi
     ;call nl
     ;call print_digit                    ;debug
     ;call nl
-   
+
 
 
 
 .pn_readloop:
-                                 
+
+
     call print_digit                    ;print it, getting it from the stack
 
     dec cx
@@ -177,6 +178,7 @@ print_number:           ;print decimal number in the stack, autoconverts from bi
     pop bp                          
   
     ret 2
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
