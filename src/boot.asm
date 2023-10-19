@@ -3,6 +3,10 @@ BITS 16
 
 %define ENDL  0X0d, 0x0a
 
+%define STAGE_2_SECTORS 4                  
+%define STAGE_2_LOAD_ADDRS 0x7e00
+%define LOAD_INTEGRITY_CHECK 3571
+
 
 
 jmp MAIN  ;JUMP TO PROGRAM START
@@ -15,11 +19,13 @@ boot_disk: dw 100
 
 msg_ARGOS: db "       ArGOS", ENDL, "di Alberto Girardi", ENDL, 0
 msg: db "BOOTLOADER 16 bit",0
-msg_end: db "Used bytes: ",ENDL,0
+;msg_end: db "Used bytes: ",ENDL,0                                      ;prints how many bytes used by first stage
 msg_to_restart: db "Press `r` to reboot  ", 0
 msg_restart: db ENDL, ENDL, "RESTARTING",0
 msg_loadok: db "Loaded stage 2 OK", ENDL, 0
-msg_diskerror: db "Error in reading disk", ENDL, 0
+msg_diskerror: db "Error in reading disk: ",0
+msg_deA: db "A", ENDL, 0
+msg_deB: db "B", ENDL, 0
 
 
 
@@ -153,12 +159,13 @@ print_number:           ;print decimal number in the stack, autoconverts from bi
     ;call nl
     ;call print_digit                    ;debug
     ;call nl
-   
+
 
 
 
 .pn_readloop:
-                                 
+
+
     call print_digit                    ;print it, getting it from the stack
 
     dec cx
@@ -176,12 +183,12 @@ print_number:           ;print decimal number in the stack, autoconverts from bi
     ret 2
 
 
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;FUNCTION TO READ FROM THE DISK using interrupts and loads 
 ;args: n_sectors : number of sectors to read,  address where to load them
 
 load_disk: 
-
 
 
     push bp
@@ -205,10 +212,15 @@ load_disk:
     int 0x13                    ;read and load from the disk
 
 
-    jc .read_error
+    jc .read_errorA              ;if flags are set trigger error
 
-    cmp al, [bp+6]
-    jne .read_error
+    cmp al, [bp+6]              ;if the number of sectors read isn't correct trigger error
+    jne .read_errorA
+
+
+    mov ax, [load_check]         ;if the last variable of the second stage isn't loaded trigger error
+    cmp ax, LOAD_INTEGRITY_CHECK
+    jne .read_errorB
 
     
     mov si, msg_loadok          ;print successful load message
@@ -220,16 +232,33 @@ load_disk:
     ret 4
 
 
-.read_error:
+.read_errorA:
 
     mov si, msg_diskerror
     call print
+
+    mov si, msg_deA
+    call print
+
     jmp CLOSURE
 
 
+.read_errorB:
+
+    mov si, msg_diskerror
+    call print
+
+    mov si, msg_deB
+    call print
+
+    jmp CLOSURE
+;
 
 
 
+;MAIN
+
+    
 
 MAIN:
 
@@ -255,14 +284,15 @@ MAIN:
 
     times 2 call nl
 
-
-    push 5                          ;read five sectors
-    push 0x7e00                     ;load the stage two after the boot sector in ram
-
-    call load_disk                  ;loads from disks
     
 
-    call BOOTLOADER32                        ;gives execution to second stage
+    push STAGE_2_SECTORS                       ;read  sectors
+    push STAGE_2_LOAD_ADDRS                     ;load the stage two after the boot sector in ram
+
+    call load_disk                  ;loads from disks
+
+
+    call BOOTLOADER2                        ;gives execution to second stage
 
     jmp CLOSURE
 
@@ -279,20 +309,21 @@ CLOSURE:
     
     call nl
     call nl
-    mov si, msg_end                 ;print end message
-    call print
+    ;mov si, msg_end                 ;print end message
+    ;call print
 
     jmp INSTREND
 
 CLOSURE2:
     
-    call print_number
+    ;call print_number
 
     times 2 call nl
 
     mov si, msg_to_restart
     call print
   
+CLOSURE3:
     mov ah, 0           ;wait for key press
     int 0x16
 
@@ -302,7 +333,7 @@ CLOSURE2:
     cmp al, bh              ; if key pressed is r (ASCII 114) then jump to reboot
     je reboot
 
-    jmp END_ALT
+    jmp CLOSURE3
 
 
 
@@ -328,6 +359,11 @@ INSTREND:                        ;count the lenght of the program, and jump back
    
 
 
-times 510 -  ($-$$)  db 0
+times 510 -  ($-$$)  db 0           ;fill first sector
 
-db 0x55, 0xaa           
+db 0x55, 0xaa                       ;boot signature
+
+
+
+
+
