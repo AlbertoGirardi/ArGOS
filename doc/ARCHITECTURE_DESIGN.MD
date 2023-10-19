@@ -138,6 +138,17 @@ callee:
 
 # PROTECTED MODE 32 BITS
 
+## GDT MEMORY SEGMENTS:
+
+* code segment:  all the memory
+* data segment:  all the memory
+
+This nullfies the effects of the obsolete GDT, letting us access all the memory as if we were in 16 bit mode. Memory protection will be made with paging.
+
+#### Segment selectors
+08h -> protected mode code segment to jump to
+10h -> data segment, set  ds, es, ss to this
+
 
 
 
