@@ -18,7 +18,7 @@ GDT_start:
     null_descriptor:
         dq 0    
 
-    code_descriptor:
+    code_descriptor:                            ;32 bit code segment offset: 08h
         dw 0FFFFh
         dw 0
         db 0
@@ -27,7 +27,7 @@ GDT_start:
         db 11001111b
         db 0
 
-    data_descriptor:
+    data_descriptor:                            ;32 bit data segment offese: 10h
         dw 0FFFFh
         dw 0
         db 0
@@ -35,8 +35,16 @@ GDT_start:
         db 10010010b
         db 11001111b
         db 0
+GDT_end:
+
+GDT_descriptor: 
+    dw GDT_end - GDT_start - 1 ;size 
+    dd GDT_start
 
 
+
+CODE_SEGMENT equ code_descriptor - GDT_start
+DATA_SEGMENT equ data_descriptor - GDT_start
 
 
 
@@ -52,7 +60,7 @@ GDT_start:
 ; Returns: 0 in ax if the a20 line is disabled (memory wraps around)
 ;          1 in ax if the a20 line is enabled (memory does not wrap around)
  
-get_a20_state:
+check_a20_line:
 	pushf
 	push si
 	push di
@@ -119,29 +127,65 @@ get_a20_state:
 	ret
  
 	.BufferBelowMB:	db 0
-	.BufferOverMB	db 0
+	.BufferOverMB:	db 0
+
+;;;;
 
 
 
 
 
+;GLOBALS
 
 msg_welcome2: db ENDL, "STAGE 2 OF THE BOOTLOADER", ENDL,"Benvenuti! Alcuni test in assembly",ENDL, ENDL ,0
-msg_a20_testOK: db "A20 line open: OK (tested from BIOS)", ENDL, 0
-msg_a20_testFAIL: db "A20 line closed", ENDL, 0
+msg_a20_testOK: db "A20 line eneable: OK (tested from BIOS)", ENDL, 0
+msg_a20_testFAIL: db "A20 line disabled", ENDL, 0
 
 
 
-BOOTLOADER32:                       ;second stage entry point
+;end of globals
+
+
+
+
+BOOTLOADER2:                       ;second stage entry point
 
     mov si, msg_welcome2
     call print
 
 
-    call get_a20_state              ;test that A20 line is open
+    call check_a20_line            ;test that A20 line is open
 
     
+
+    
+    ;SWITCHING FROM 32 BIT MODE
+
+
+    cli
+    lgdt [GDT_descriptor]               ;load GDT
+
+    mov eax, cr0
+    or eax, 1
+    mov cr0, eax                        ;change CPU mode to protected mode
+
+    jmp CODE_SEGMENT:BOOTLOADER_32BITS
+
+
+
+
   
+
+BOOTLOADER_32BITS:
+    [BITS 32]
+    
+    mov al, "A"
+    mov ah, 0xf
+
+
+    mov [0xb8000], ax
+
+    jmp $
 
 
 

@@ -37,6 +37,8 @@ only 1st sector
 Second stage of the bootloader
 
 switches to protected mode
+
+*   loads gdt
 loads the kernel and calls it
 
 ### kernel
@@ -138,6 +140,32 @@ callee:
 
 # PROTECTED MODE 32 BITS
 
+## GENERAL RULES:
+
+    All pushed to the stack is 32 bit
+    So are function related stuff (return address, params)
+
+
+
+    bottom
+    ...                            bp+4+4*n_param
+
+    parameter 1                    bp+16
+    parameter 2                    bp+12
+    parameter 3                    bp+8
+    return address                 bp+4
+    old bp                         bp=0
+    locals                         bp-4
+    ...
+    top
+
+
+
+returning:
+
+         ret 4*arg_num   ;return popping also all args
+
+
 ## GDT MEMORY SEGMENTS:
 
 * code segment:  all the memory
@@ -146,8 +174,8 @@ callee:
 This nullfies the effects of the obsolete GDT, letting us access all the memory as if we were in 16 bit mode. Memory protection will be made with paging.
 
 #### Segment selectors
-08h -> protected mode code segment to jump to
-10h -> data segment, set  ds, es, ss to this
+08h -> protected mode code segment to jump to       CODE_SEGMENT
+10h -> data segment, set  ds, es, ss to this        DATA_SEGMENT
 
 
 

@@ -290,7 +290,7 @@ MAIN:
     call load_disk                  ;loads from disks
 
 
-    call BOOTLOADER32                        ;gives execution to second stage
+    call BOOTLOADER2                        ;gives execution to second stage
 
     jmp CLOSURE
 
