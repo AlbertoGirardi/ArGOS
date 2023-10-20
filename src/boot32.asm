@@ -63,7 +63,7 @@ DATA_SEGMENT equ data_descriptor - GDT_start
 ; Returns: 0 in ax if the a20 line is disabled (memory wraps around)
 ;          1 in ax if the a20 line is enabled (memory does not wrap around)
  
-check_a20_line:
+check_a20_lineBIOS:
 	pushf
 	push si
 	push di
@@ -134,6 +134,12 @@ check_a20_line:
 
 ;;;;
 
+ 
+
+
+
+;COLOR TEST
+
 
 
 
@@ -157,7 +163,7 @@ BOOTLOADER2:                       ;second stage entry point
     call print
 
 
-    call check_a20_line            ;test that A20 line is open
+    call check_a20_lineBIOS            ;test that A20 line is open
 
     
 
@@ -175,6 +181,41 @@ BOOTLOADER2:                       ;second stage entry point
     jmp CODE_SEGMENT:BOOTLOADER_32BITS
 
 
+;;32 bits code from here
+
+
+
+; Check A20 line FROM PM
+; Returns to caller if A20 gate is cleared.
+; Continues to A20_on if A20 line is set.
+; Written by Elad Ashkcenazi 
+ 
+[bits 32]
+check_a20_linePM:   
+    
+    
+    pushad
+    mov edi,0x112345  ;odd megabyte address.
+    mov esi,0x012345  ;even megabyte address.
+    mov [esi],esi     ;making sure that both addresses contain diffrent values.
+    mov [edi],edi     ;(if A20 line is cleared the two pointers would point to the address 0x012345 that would contain 0x112345 (edi)) 
+    cmpsd             ;compare addresses to see if the're equivalent.
+    popad
+    jne A20_on        ;if not equivalent , A20 line is set.
+    ret               ;if equivalent , the A20 line is cleared.
+    
+A20_on:
+
+    mov edi, Video_Buffer+2
+
+    mov al, "O"
+
+    mov [edi], al
+    inc edi
+    mov [edi], byte 0x2F
+    inc edi
+    ret
+
 
 
   
@@ -189,6 +230,8 @@ BOOTLOADER_32BITS:
 
     sti    ;enable interrupts
 
+
+
     mov edi, Video_Buffer
 
     mov al, "a"
@@ -197,6 +240,11 @@ BOOTLOADER_32BITS:
     inc edi
     mov [edi], byte 0xf1
     inc edi
+
+    ;;call check_a20_linePM to test if it is opened
+
+    call check_a20_linePM
+
 
 
     jmp .end
