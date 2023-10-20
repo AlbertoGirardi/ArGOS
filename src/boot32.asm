@@ -73,10 +73,56 @@ color_test:
 
 
 
+print32:                        ;print string at addres pushed to stack
+
+
+    push ebp
+    mov ebp, esp      ;calling convention: saving old bp and setting new one to start of function
+    pushad           ;save all regs to stack
+
+
+    mov edi, Video_Buffer
+    add edi, 320
+    mov ebx, 0
+    mov esi, [ebp+8]
+
+
+
+.print_loop:
+
+
+    mov al, [esi+ebx]
+
+    inc ebx
+    or al, al
+    jz .print_done
+
+
+    mov [edi], al
+    inc edi
+    mov [edi], byte 0xf1
+    inc edi
+
+    jmp .print_loop
+
+
+
+.print_done:     
+
+       ; return
+
+    popad            ;reload all saved regs from stack
+    pop ebp          ;restore bp to last saved value
+
+    ret 4   ;return popping also all args
+
+
+
 ;GLOBALS
 
 
 var1: db 123
+msg_hello: db "Hello World from 32 BITS",0
 
 
 
@@ -109,6 +155,9 @@ BOOTLOADER_32BITS:
     call check_a20_linePM
     
     call color_test
+
+    push msg_hello
+    call print32
 
 
 
