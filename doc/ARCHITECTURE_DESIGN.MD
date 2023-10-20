@@ -32,13 +32,12 @@ only 1st sector
 
 
 ### boot2.asm
-Switches to protected mode, loads GDT,
+Switches to protected mode, loads GDT,  
 put there all 16 bit code
 
 ### boot32.asm
 
-Second stage of the bootloader
-
+Second stage of the bootloader  
 switches to protected mode
 
 *   loads gdt
@@ -179,8 +178,207 @@ This nullfies the effects of the obsolete GDT, letting us access all the memory 
 
 # VIDEO MEMORY
 
-8 bits / 4 bit/ 4 bits
-char    background  col
+2 bytes for each character
+
+HIGH<-------<---------<----------LOW                               
+
+| Header 1 | Header 2 | Header 3 |
+|:--------:|:--------:|:--------:|
+| 8 bits   | 4 bits   | 4 bits  |
+| ASCII code  | background col  | char color   |
+
+
+
+
+
+#### COLORS:
+<table class="wikitable">
+<tbody><tr>
+<th>Dec
+</th>
+<th>Hex
+</th>
+<th>Binary
+</th>
+<th colspan="2">Color
+</th></tr>
+<tr>
+<td>0
+</td>
+<td>0
+</td>
+<td><kbd>0000</kbd>
+</td>
+<td>Black
+</td>
+<td style="background-color: #000000">
+</td></tr>
+<tr>
+<td>1
+</td>
+<td>1
+</td>
+<td><kbd>0001</kbd>
+</td>
+<td>Blue
+</td>
+<td style="background-color: #0000AA">
+</td></tr>
+<tr>
+<td>2
+</td>
+<td>2
+</td>
+<td><kbd>0010</kbd>
+</td>
+<td>Green
+</td>
+<td style="background-color: #00AA00">
+</td></tr>
+<tr>
+<td>3
+</td>
+<td>3
+</td>
+<td><kbd>0011</kbd>
+</td>
+<td>Cyan
+</td>
+<td style="background-color: #00AAAA">
+</td></tr>
+<tr>
+<td>4
+</td>
+<td>4
+</td>
+<td><kbd>0100</kbd>
+</td>
+<td>Red
+</td>
+<td style="background-color: #AA0000">
+</td></tr>
+<tr>
+<td>5
+</td>
+<td>5
+</td>
+<td><kbd>0101</kbd>
+</td>
+<td>Magenta
+</td>
+<td style="background-color: #AA00AA">
+</td></tr>
+<tr>
+<td>6
+</td>
+<td>6
+</td>
+<td><kbd>0110</kbd>
+</td>
+<td>Brown
+</td>
+<td style="background-color: #AA5500">
+</td></tr>
+<tr>
+<td>7
+</td>
+<td>7
+</td>
+<td><kbd>0111</kbd>
+</td>
+<td>Light Gray
+</td>
+<td style="background-color: #AAAAAA">
+</td></tr>
+<tr>
+<td>8
+</td>
+<td>8
+</td>
+<td><kbd>1000</kbd>
+</td>
+<td>Dark Gray
+</td>
+<td style="background-color: #555555">
+</td></tr>
+<tr>
+<td>9
+</td>
+<td>9
+</td>
+<td><kbd>1001</kbd>
+</td>
+<td>Light Blue
+</td>
+<td style="background-color: #5555FF">
+</td></tr>
+<tr>
+<td>10
+</td>
+<td>A
+</td>
+<td><kbd>1010</kbd>
+</td>
+<td>Light Green
+</td>
+<td style="background-color: #55FF55">
+</td></tr>
+<tr>
+<td>11
+</td>
+<td>B
+</td>
+<td><kbd>1011</kbd>
+</td>
+<td>Light Cyan
+</td>
+<td style="background-color: #55FFFF">
+</td></tr>
+<tr>
+<td>12
+</td>
+<td>C
+</td>
+<td><kbd>1100</kbd>
+</td>
+<td>Light Red
+</td>
+<td style="background-color: #FF5555">
+</td></tr>
+<tr>
+<td>13
+</td>
+<td>D
+</td>
+<td><kbd>1101</kbd>
+</td>
+<td>Light Magenta
+</td>
+<td style="background-color: #FF55FF">
+</td></tr>
+<tr>
+<td>14
+</td>
+<td>E
+</td>
+<td><kbd>1110</kbd>
+</td>
+<td>Yellow
+</td>
+<td style="background-color: #FFFF55">
+</td></tr>
+<tr>
+<td>15
+</td>
+<td>F
+</td>
+<td><kbd>1111</kbd>
+</td>
+<td>White
+</td>
+<td style="background-color: #FFFFFF">
+</td></tr>
+
 
 #### Segment selectors
 08h -> protected mode code segment to jump to       CODE_SEGMENT

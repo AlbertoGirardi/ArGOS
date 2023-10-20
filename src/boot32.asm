@@ -73,7 +73,7 @@ color_test:
 
 
 
-print32:                        ;print string at addres pushed to stack
+print32:                        ;print string at addres pushed to stack   (char, char_col, bkg_col)
 
 
     push ebp
@@ -81,8 +81,8 @@ print32:                        ;print string at addres pushed to stack
     pushad           ;save all regs to stack
 
 
-    mov edi, Video_Buffer
-    add edi, 320
+    mov edi, [CURSOR_POS]
+
     mov ebx, 0
     mov esi, [ebp+8]
 
@@ -110,7 +110,7 @@ print32:                        ;print string at addres pushed to stack
 .print_done:     
 
        ; return
-
+    mov [CURSOR_POS], edi
     popad            ;reload all saved regs from stack
     pop ebp          ;restore bp to last saved value
 
@@ -122,7 +122,13 @@ print32:                        ;print string at addres pushed to stack
 
 
 var1: db 123
-msg_hello: db "Hello World from 32 BITS",0
+
+msg_hello: db "Hello World from 32 BITS        ",0
+msg_test: db "TEST TEST TEST        ",0
+
+
+CURSOR_POS: dd 0
+
 
 
 
@@ -138,6 +144,8 @@ BOOTLOADER_32BITS:
     mov ss, ax
 
     sti    ;enable interrupts
+
+    mov [CURSOR_POS], dword Video_Buffer
 
 
 
@@ -159,6 +167,8 @@ BOOTLOADER_32BITS:
     push msg_hello
     call print32
 
+    push msg_test
+    call print32
 
 
     jmp .end
