@@ -88,7 +88,7 @@ print32:                        ;print string at addres pushed to stack   (char,
 
 
 
-.print_loop:
+.print_loop:                    ;similar to print 16 bits
 
 
     mov al, [esi+ebx]
@@ -98,36 +98,51 @@ print32:                        ;print string at addres pushed to stack   (char,
     or al, al
     jz .print_done
 
-    cmp al, 10
+    cmp al, 10                  ; check for \n
     je .nl
 
-    cmp al, 13
+    cmp al, 13                  ;check for \r
     je .cr
 
 
-    mov [edi], al
+    mov [edi], al                   ;print char
     inc edi
-    mov [edi], byte 0xf1
+    mov [edi], byte 0xf1                ;chose color
     inc edi
 
     jmp .print_loop
 
 
-.nl:
+.nl:                        ;goes one line down
 
     add edi, 160
-
-
     jmp .print_loop
 
     
 
 
-.cr:
+.cr:                        ;calculates offset from line first char and goes to that
     pushad
+    mov [CURSOR_POS], edi
+    mov ebx, [CURSOR_POS]
+
+    sub ebx, Video_Buffer
+
+    mov edx, 0
+    mov eax, EBX
+
+    mov ecx, 160
+
+    div ecx
+
+    sub edi, edx
+    mov [CURSOR_POS], edi
+
     popad
 
+    mov edi, [CURSOR_POS]
     jmp .print_loop
+
 
 
 
@@ -147,7 +162,7 @@ print32:                        ;print string at addres pushed to stack   (char,
 
 var1: db 123
 
-msg_hello: db "Hello World from 32     AA", 10,"BITS        ",10,"AGFNAJGNAGJAW" ,0
+msg_hello: db "Hello World from 32     AA",13, 10,"BITS        ",10, 13,"AGFNAJGNAGJAW" ,ENDL,0
 msg_test: db "TEST TEST TEST        ",0
 msg_test2: db "22222       ",0
 
@@ -211,7 +226,9 @@ BOOTLOADER_32BITS:
     
 
 
-
+eeeeee:
+    cli
+    jmp $
 
 
 
