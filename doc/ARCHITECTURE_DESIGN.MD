@@ -177,6 +177,8 @@ This nullfies the effects of the obsolete GDT, letting us access all the memory 
 
 
 # VIDEO MEMORY
+80 char lenght
+
 
 2 bytes for each character
 

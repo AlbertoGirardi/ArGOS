@@ -94,14 +94,38 @@ print32:                        ;print string at addres pushed to stack   (char,
     mov al, [esi+ebx]
 
     inc ebx
+
     or al, al
     jz .print_done
+
+    cmp al, 10
+    je .nl
+
+    cmp al, 13
+    je .cr
 
 
     mov [edi], al
     inc edi
     mov [edi], byte 0xf1
     inc edi
+
+    jmp .print_loop
+
+
+.nl:
+
+    add edi, 160
+
+
+    jmp .print_loop
+
+    
+
+
+.cr:
+    pushad
+    popad
 
     jmp .print_loop
 
@@ -123,8 +147,9 @@ print32:                        ;print string at addres pushed to stack   (char,
 
 var1: db 123
 
-msg_hello: db "Hello World from 32 BITS        ",0
+msg_hello: db "Hello World from 32     AA", 10,"BITS        ",10,"AGFNAJGNAGJAW" ,0
 msg_test: db "TEST TEST TEST        ",0
+msg_test2: db "22222       ",0
 
 
 CURSOR_POS: dd 0
@@ -162,7 +187,7 @@ BOOTLOADER_32BITS:
 
     call check_a20_linePM
     
-    call color_test
+    ;call color_test
 
     push msg_hello
     call print32
