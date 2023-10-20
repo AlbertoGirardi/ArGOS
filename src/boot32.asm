@@ -68,7 +68,20 @@ color_test:
 .end:
     popad
     ret
-  
+
+;;
+
+
+
+;GLOBALS
+
+
+var1: db 123
+
+
+
+
+;
 
 BOOTLOADER_32BITS:
     [BITS 32]
