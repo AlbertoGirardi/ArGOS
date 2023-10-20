@@ -1,3 +1,6 @@
+b_fold := a
+
+
 OS_image := ArGOS.iso
 bootloader := boot.asm
 bootloader2stage := boot2.asm

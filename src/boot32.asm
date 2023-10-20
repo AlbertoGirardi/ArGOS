@@ -27,25 +27,19 @@ check_a20_linePM:
     
 .A20_on:
 
-    mov edi, Video_Buffer+2
-
-    mov al, "O"
-
-    mov [edi], al
-    inc edi
-    mov [edi], byte 0x2F
-    inc edi
+    push msg_a20_test32OK               ;print that line is opne
+    call print32
     ret
 ;;
 
 
 
-;COLOR TEST
+;COLOR TEST                 test all the colors of bios by printing full color rectangle char
 
 color_test:
 
     pushad
-    mov edi, Video_Buffer+160
+    mov edi, [CURSOR_POS]
     mov ebx, 0
     mov cx, 0
 
@@ -66,6 +60,10 @@ color_test:
     jmp .loop
 
 .end:
+
+    mov [CURSOR_POS], edi
+
+    call nl32
     popad
     ret
 
@@ -154,7 +152,17 @@ print32:                        ;print string at addres pushed to stack   (char,
     pop ebp          ;restore bp to last saved value
 
     ret 4   ;return popping also all args
+;
 
+
+
+;nl32  go to new line
+nl32:
+    push ENDLs
+    call print32
+    ret
+
+;
 
 
 ;GLOBALS
@@ -162,10 +170,11 @@ print32:                        ;print string at addres pushed to stack   (char,
 
 var1: db 123
 
-msg_hello: db "Hello World from 32     AA",13, 10,"BITS        ",10, 13,"AGFNAJGNAGJAW" ,ENDL,0
+msg_hello: db "Hello World from 32 BITS PROTECTED MODE!" ,ENDL,0
 msg_test: db "TEST TEST TEST        ",0
-msg_test2: db "22222       ",0
+msg_a20_test32OK: db "A20 line eneabled: OK (tested from PM)", ENDL, 0
 
+ENDLs: db 10,13,0                           ;end of line string to print
 
 CURSOR_POS: dd 0
 
@@ -189,20 +198,11 @@ BOOTLOADER_32BITS:
 
 
 
-    mov edi, Video_Buffer
-
-    mov al, "a"
-
-    mov [edi], al
-    inc edi
-    mov [edi], byte 0xf1
-    inc edi
-
     ;;call check_a20_linePM to test if it is opened
 
     call check_a20_linePM
     
-    ;call color_test
+    call color_test
 
     push msg_hello
     call print32

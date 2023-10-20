@@ -197,7 +197,7 @@ ascii_test:
 ;GLOBALS
 
 msg_welcome2: db ENDL, "STAGE 2 OF THE BOOTLOADER", ENDL,"Benvenuti! Alcuni test in assembly",ENDL, ENDL ,0
-msg_a20_testOK: db "A20 line eneable: OK (tested from BIOS)", ENDL, 0
+msg_a20_testOK: db "A20 line eneabled: OK (tested from BIOS)", ENDL, 0
 msg_a20_testFAIL: db "A20 line disabled", ENDL, 0
 
 
