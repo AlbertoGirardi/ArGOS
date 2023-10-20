@@ -45,7 +45,7 @@ check_a20_linePM:
 color_test:
 
     pushad
-    mov edi, Video_Buffer+80
+    mov edi, Video_Buffer+160
     mov ebx, 0
     mov cx, 0
 
