@@ -1,10 +1,10 @@
-b_fold := a
+b_fold := boot
 
 
 OS_image := ArGOS.iso
-bootloader := boot.asm
-bootloader2stage := boot2.asm
-bootloader32bits := boot32.asm 
+bootloader := $(b_fold)/boot.asm
+bootloader2stage := $(b_fold)/boot2.asm
+bootloader32bits := $(b_fold)/boot32.asm 
 
 total_bootloader:= bootloader.asm
 
