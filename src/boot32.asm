@@ -1,8 +1,11 @@
 
 ;;32 BITS CODE PROTECTED MODE
 
-
 [bits 32]
+
+
+
+
 
 ; Check A20 line FROM PM
 ; Returns to caller if A20 gate is cleared.
@@ -19,10 +22,10 @@ check_a20_linePM:
     mov [edi],edi     ;(if A20 line is cleared the two pointers would point to the address 0x012345 that would contain 0x112345 (edi)) 
     cmpsd             ;compare addresses to see if the're equivalent.
     popad
-    jne A20_on        ;if not equivalent , A20 line is set.
+    jne .A20_on        ;if not equivalent , A20 line is set.
     ret               ;if equivalent , the A20 line is cleared.
     
-A20_on:
+.A20_on:
 
     mov edi, Video_Buffer+2
 
@@ -33,9 +36,38 @@ A20_on:
     mov [edi], byte 0x2F
     inc edi
     ret
+;;
 
 
 
+;COLOR TEST
+
+color_test:
+
+    pushad
+    mov edi, Video_Buffer+80
+    mov ebx, 0
+    mov cx, 0
+
+.loop:
+    mov al, 219
+
+    mov [edi], al
+    inc edi
+    mov [edi], cx
+    inc edi
+
+    inc ebx
+    cmp ebx, 15
+    je .end
+
+    inc cx
+
+    jmp .loop
+
+.end:
+    popad
+    ret
   
 
 BOOTLOADER_32BITS:
@@ -62,6 +94,8 @@ BOOTLOADER_32BITS:
     ;;call check_a20_linePM to test if it is opened
 
     call check_a20_linePM
+    
+    call color_test
 
 
 

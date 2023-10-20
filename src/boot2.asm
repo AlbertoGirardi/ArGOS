@@ -129,6 +129,63 @@ check_a20_lineBIOS:
 
 ;;;;
 
+
+
+print_ascii: 
+
+
+             ;print a single ascii pushed on the stack
+    push bp
+    mov bp, sp      ;calling convention: saving old bp and setting new one to start of function
+
+    push si
+    push ax
+    push bx
+
+
+    
+                                                ;get the number from the stack
+    mov ax, [bp+4]                              ;sum the number to 48 to get character ascii code
+    mov bx, 48
+
+    add ax, 0
+    
+ 
+
+    mov ah, 0x0e                            ;print
+    int 0x10
+
+
+    pop bx
+    pop ax
+    pop si
+
+
+    pop bp
+
+    ret 2
+
+
+    
+
+ascii_test:
+
+    mov si,0
+
+
+.loop:
+    push si
+
+    call print_ascii
+    inc si
+
+    cmp si,256
+    je .end
+    jmp .loop
+
+
+.end:
+    ret
  
 
 
@@ -158,7 +215,7 @@ BOOTLOADER2:                       ;second stage entry point
 
     call check_a20_lineBIOS            ;test that A20 line is open
 
-    
+    call ascii_test
 
     
     ;SWITCHING FROM 32 BIT MODE
