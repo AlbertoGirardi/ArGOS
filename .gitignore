@@ -4,4 +4,4 @@
 .vscode/
 
 /test.c
-/test.o
+/.test.o
