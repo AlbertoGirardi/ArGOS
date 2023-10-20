@@ -31,9 +31,12 @@ Memory:
 only 1st sector
 
 
-
+### boot2.asm
+Switches to protected mode, loads GDT,
+put there all 16 bit code
 
 ### boot32.asm
+
 Second stage of the bootloader
 
 switches to protected mode
