@@ -209,8 +209,8 @@ BOOTLOADER_32BITS:
     
     times 3 call nl32
 
-    push dword 0xf1
-    push msg_reg
+    ;push dword 0xf1
+    ;push msg_reg
 
     push dword 0x1f
     push msg_ARGOS          ;print hello messagges
@@ -226,7 +226,7 @@ BOOTLOADER_32BITS:
 
     call print32
 
-    call color_test
+    ;call color_test
 
 
     jmp .end
