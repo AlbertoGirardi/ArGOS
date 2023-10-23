@@ -3,7 +3,7 @@ BITS 16
 
 %define ENDL  0X0d, 0x0a
 
-%define STAGE_2_SECTORS 4                  
+%define STAGE_2_SECTORS        3        
 %define STAGE_2_LOAD_ADDRS 0x7e00
 %define LOAD_INTEGRITY_CHECK 3571
 

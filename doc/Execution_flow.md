@@ -18,6 +18,8 @@ stage 3 performs tests and jumps to kernel code
 
 
 
+
+
 kenel loader: loads kernel and jumps to it
 
 

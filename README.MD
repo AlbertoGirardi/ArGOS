@@ -61,6 +61,7 @@ reboot from inside: press "r"
 * reading from the disk (crude test 14/10/2023)
 * read from disk and load to memory function and stage 2 bootloader: 15/10/2023
 * ENTER 32 BIT MODE (gdt, new segments)  19/10/2023
+* 32 bit coding in the following days, reimplementing old functions
 
 
 ### CURRENT PLAN
@@ -69,3 +70,6 @@ reboot from inside: press "r"
 * reboot /
 * reading disk and 2 stage bootloader/
 * cross compiler and c running
+* screen vga drivers
+* disk drivers
+* keyboard drivers
