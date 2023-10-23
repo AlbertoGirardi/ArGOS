@@ -163,6 +163,12 @@ callee:
 
 
 
+### CALLING CONVENTION CDECL
+
+pushing args from right to left
+
+
+
 returning:
 
          ret 4*arg_num   ;return popping also all args
