@@ -144,17 +144,38 @@ callee:
 
 ## GENERAL RULES:
 
-    All pushed to the stack is 32 bit
+ 
+
+
+### CALLING CONVENTION CDECL
+
+
+
+pushing args from right to left
+
+   All pushed to the stack is 32 bit
     So are function related stuff (return address, params)
 
+
+
+function(arg1, arg2, arg3)
+
+caller:
+
+    push arg3
+    push arg2
+    push arg1
+    call function
+
+.
 
 
     bottom
     ...                            bp+4+4*n_param
 
-    parameter 1                    bp+16
+    parameter 3                    bp+16
     parameter 2                    bp+12
-    parameter 3                    bp+8
+    parameter 1                    bp+8
     return address                 bp+4
     old bp                         bp=0
     locals                         bp-4
@@ -162,16 +183,9 @@ callee:
     top
 
 
-
-### CALLING CONVENTION CDECL
-
-pushing args from right to left
-
-
-
 returning:
 
-         ret 4*arg_num   ;return popping also all args
+         ret 2*arg_num   ;return popping also all args
 
 
 ## GDT MEMORY SEGMENTS:

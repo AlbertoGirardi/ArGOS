@@ -27,6 +27,7 @@ check_a20_linePM:
     
 .A20_on:
 
+    push dword 0x2f
     push msg_a20_test32OK               ;print that line is opne
     call print32
     ret
@@ -83,6 +84,7 @@ print32:                        ;print string at addres pushed to stack   (char,
 
     mov ebx, 0
     mov esi, [ebp+8]
+    mov ecx, [ebp+12]
 
 
 
@@ -105,7 +107,7 @@ print32:                        ;print string at addres pushed to stack   (char,
 
     mov [edi], al                   ;print char
     inc edi
-    mov [edi], byte 0xf1                ;chose color
+    mov [edi], ecx             ;chose color
     inc edi
 
     jmp .print_loop
@@ -151,13 +153,15 @@ print32:                        ;print string at addres pushed to stack   (char,
     popad            ;reload all saved regs from stack
     pop ebp          ;restore bp to last saved value
 
-    ret 4   ;return popping also all args
+    ret 8   ;return popping also all args
 ;
 
 
 
 ;nl32  go to new line
 nl32:
+
+    push dword 0x1f
     push ENDLs
     call print32
     ret
@@ -173,6 +177,7 @@ var1: db 123
 msg_hello: db "Hello World from 32 BITS PROTECTED MODE!" ,ENDL,0
 msg_test: db "TEST TEST TEST        ",ENDL, 0
 msg_a20_test32OK: db "A20 line eneabled: OK (tested from PM)", ENDL, 0
+msg_reg: db "STACK", 0
 
 ENDLs: db 10,13,0                           ;end of line string to print
 
@@ -202,16 +207,23 @@ BOOTLOADER_32BITS:
 
     call check_a20_linePM
     
-    push ENDLs
-    call print32
+    times 3 call nl32
 
+    push dword 0xf1
+    push msg_reg
+
+    push dword 0x1f
     push msg_ARGOS          ;print hello messagges
     call print32
 
+    push dword 0x1f
     push msg_hello
     call print32
 
+    push dword 0xf1
     push msg_test
+    call print32
+
     call print32
 
     call color_test
@@ -231,10 +243,6 @@ BOOTLOADER_32BITS:
     jmp $
     
 
-
-eeeeee:
-    cli
-    jmp $
 
 
 
