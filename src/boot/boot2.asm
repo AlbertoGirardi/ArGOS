@@ -2,11 +2,6 @@
 
 
 
-
-
-
-
-
 ;;;SECOND STAGE OF THE BOOTLOADER,  
 
 
@@ -134,11 +129,66 @@ check_a20_lineBIOS:
 
 ;;;;
 
+
+
+print_ascii: 
+
+
+             ;print a single ascii pushed on the stack
+    push bp
+    mov bp, sp      ;calling convention: saving old bp and setting new one to start of function
+
+    push si
+    push ax
+    push bx
+
+
+    
+                                                ;get the number from the stack
+    mov ax, [bp+4]                              ;sum the number to 48 to get character ascii code
+    mov bx, 48
+
+    add ax, 0
+    
+ 
+
+    mov ah, 0x0e                            ;print
+    int 0x10
+
+
+    pop bx
+    pop ax
+    pop si
+
+
+    pop bp
+
+    ret 2
+
+
+    
+
+ascii_test:
+
+    mov si,0
+
+
+.loop:
+    push si
+
+    call print_ascii
+    inc si
+
+    cmp si,256
+    je .end
+    jmp .loop
+
+
+.end:
+    ret
  
 
 
-
-;COLOR TEST
 
 
 
@@ -147,7 +197,7 @@ check_a20_lineBIOS:
 ;GLOBALS
 
 msg_welcome2: db ENDL, "STAGE 2 OF THE BOOTLOADER", ENDL,"Benvenuti! Alcuni test in assembly",ENDL, ENDL ,0
-msg_a20_testOK: db "A20 line eneable: OK (tested from BIOS)", ENDL, 0
+msg_a20_testOK: db "A20 line eneabled: OK (tested from BIOS)", ENDL, 0
 msg_a20_testFAIL: db "A20 line disabled", ENDL, 0
 
 
@@ -165,7 +215,7 @@ BOOTLOADER2:                       ;second stage entry point
 
     call check_a20_lineBIOS            ;test that A20 line is open
 
-    
+    call ascii_test
 
     
     ;SWITCHING FROM 32 BIT MODE
@@ -180,94 +230,3 @@ BOOTLOADER2:                       ;second stage entry point
 
     jmp CODE_SEGMENT:BOOTLOADER_32BITS
 
-
-;;32 bits code from here
-
-
-
-; Check A20 line FROM PM
-; Returns to caller if A20 gate is cleared.
-; Continues to A20_on if A20 line is set.
-; Written by Elad Ashkcenazi 
- 
-[bits 32]
-check_a20_linePM:   
-    
-    
-    pushad
-    mov edi,0x112345  ;odd megabyte address.
-    mov esi,0x012345  ;even megabyte address.
-    mov [esi],esi     ;making sure that both addresses contain diffrent values.
-    mov [edi],edi     ;(if A20 line is cleared the two pointers would point to the address 0x012345 that would contain 0x112345 (edi)) 
-    cmpsd             ;compare addresses to see if the're equivalent.
-    popad
-    jne A20_on        ;if not equivalent , A20 line is set.
-    ret               ;if equivalent , the A20 line is cleared.
-    
-A20_on:
-
-    mov edi, Video_Buffer+2
-
-    mov al, "O"
-
-    mov [edi], al
-    inc edi
-    mov [edi], byte 0x2F
-    inc edi
-    ret
-
-
-
-  
-
-BOOTLOADER_32BITS:
-    [BITS 32]
-
-    ;SETTING UP SEGMENT REGISTERS FOR 32 BIT MODE
-    mov ax, DATA_SEGMENT
-    mov ds, ax
-    mov ss, ax
-
-    sti    ;enable interrupts
-
-
-
-    mov edi, Video_Buffer
-
-    mov al, "a"
-
-    mov [edi], al
-    inc edi
-    mov [edi], byte 0xf1
-    inc edi
-
-    ;;call check_a20_linePM to test if it is opened
-
-    call check_a20_linePM
-
-
-
-    jmp .end
-
-
-
-
-;;;END OF BOOTLOADER
-.end:
-
-    cli
-    jmp $
-    
-
-
-
-
-
-
-
-
-
-
-load_check: dw LOAD_INTEGRITY_CHECK                     ;MUST STAY AT THE END OF THE PROGRAM to check if everything is loaded
-
-times (((STAGE_2_SECTORS+1)*512)-($-$$)) db 0
