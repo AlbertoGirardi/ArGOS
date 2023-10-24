@@ -10,7 +10,7 @@ BITS 16
 
 
 
-jmp MAIN  ;JUMP TO PROGRAM START
+jmp MAIN16  ;JUMP TO PROGRAM START
 
 
  
@@ -261,7 +261,7 @@ load_disk:
 
     
 
-MAIN:
+MAIN16:
 
     mov dh, 0
     mov [boot_disk], dx                ;saves boot disk number to a variable
