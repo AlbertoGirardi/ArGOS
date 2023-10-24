@@ -8,9 +8,10 @@ Ad gloriam humanitatis
 12/09/2023
 
 GOAL: building an OS totally from scratch. Have fun along the way.
-Learning assemblt language, low level management of memory and execution.
+Learning assembly language, low level management of memory and execution, C language implementation and low level usage, kernel architectures and abstraction layers.
 
-To be used on qemu, (booting as a flat binary for now) Totally insecure. Complete possibility of memory acces.
+To be used on qemu, (booting as a flat binary for now).  
+Totally insecure. Complete possibility of memory acces.  
 in developement
 
 
@@ -42,7 +43,7 @@ reboot from inside: press "r"
 
 ## DOCUMENTATION
 
-[doc file](doc/ARCHITECTURE_DESIGN.MD)
+[doc file](doc/ARCHITECTURE_DESIGN.MD)  
 [execution controll](doc/Execution_flow.md)
 
 
@@ -69,7 +70,12 @@ reboot from inside: press "r"
 * keyboard input /
 * reboot /
 * reading disk and 2 stage bootloader/
+* kernel loader
 * cross compiler and c running
+* asm c wrappers
+* interrupts handling
 * screen vga drivers
+* printf
+* hardware abstraction layer
 * disk drivers
 * keyboard drivers
