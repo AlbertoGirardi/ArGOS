@@ -38,3 +38,7 @@ kenel loader: loads kernel and jumps to it
     ....
     ....
     0x9FC00:start of bios data area (NOT OVERWRITE)
+
+
+
+to keep only asm 32 
