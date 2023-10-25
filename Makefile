@@ -1,18 +1,45 @@
+#compilation and linking toolchain
 Ccomp := i686-elf-gcc
+link := i686-elf-ld
 
 
+
+#asm file for bootloader
+
+#sources
 b_fold := boot
 
-
-OS_image := ArGOS.iso
 bootloader := $(b_fold)/boot.asm
 bootloader2stage := $(b_fold)/boot2.asm
 bootloader32bits := $(b_fold)/boot32.asm 
 
-krnc := src/kernel/ArGOS_kernel.c
+#build files
 
 total_bootloader:= bootloader.asm
-krno := kernel.o
+bootbin := boot.bin        							#binary bootloader image
+
+
+
+#kernel files
+
+kernel_f := src/kernel
+#sources
+krnc := $(kernel_f)/ArGOS_kernel.c
+krne := $(kernel_f)/kernel_entry.asm
+
+#object files
+krnco := krnc.o
+krneo := krne.o
+
+kernelbin := krn.bin								#kernel binary image
+
+
+#OS IMAGE
+
+OS_image := ArGOS.iso
+
+
+
 
 qemu := qemu-system-x86_64
 
@@ -22,12 +49,22 @@ all:  build/$(OS_image)
 
 build: 
 	mkdir build
+	echo "times 2048 db 0" > build/zero.asm
+	nasm build/zero.asm -f bin -o build/zero.bin
 
 
-build/$(OS_image): build/$(total_bootloader) build/krn.bin 			#assembles files
+
+build/$(OS_image): build/$(bootbin) build/$(kernelbin)				#os image
+
+	cat build/$(bootbin) build/$(kernelbin) build/zero.bin > build/$(OS_image) 
+	@echo "done"
+
+
+
+build/$(bootbin): build/$(total_bootloader) 			#assembles files
 	
 	@echo "assemblying..."
-	nasm build/$(total_bootloader) -f bin  -o build/$(OS_image)
+	nasm build/$(total_bootloader) -f bin  -o build/$(bootbin)
 	@echo "assembled"
 
 
@@ -40,18 +77,21 @@ build/$(total_bootloader): src/$(bootloader) src/$(bootloader2stage) src/$(bootl
 	@echo ok
 
 
-build/$(krno):  $(krnc) build/krne
+build/$(krnco):  $(krnc) 
 
-	$(Ccomp) --freestanding -m32 -g -c $(krnc) -o build/$(krno) -mno-red-zone
+	$(Ccomp) --freestanding -m32 -g -c $(krnc) -o build/$(krnco) -mno-red-zone
 
-build/krne.o: src/kernel/kernel_entry.asm
+build/$(krneo): $(krne)
 
-	nasm src/kernel/kernel_entry.asm -f elf -o build/krne.o
+	nasm $(krne) -f elf -o build/$(krneo)
 
 
-build/krn.bin: build/krne.o build/$(krno)
+build/$(kernelbin): build/$(krneo) build/$(krnco)
 
-	i686-elf-ld  build/$(krno) build/krne.o  -o krn.bin -nostdlib  
+	i686-elf-ld  build/$(krneo) build/$(krnco)  -o build/$(kernelbin)  -nostdlib  
+
+
+
 
 
 run:  build/$(OS_image)			#runs on QEMU	
