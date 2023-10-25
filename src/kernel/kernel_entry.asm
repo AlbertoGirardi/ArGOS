@@ -7,5 +7,5 @@
 cli
 call main
 
-
+jmp $
 db "AAAAAAAAA"

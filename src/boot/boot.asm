@@ -24,7 +24,7 @@ msg: db "BOOTLOADER 16 bit",0
 ;msg_end: db "Used bytes: ",ENDL,0                                      ;prints how many bytes used by first stage
 msg_to_restart: db "Press `r` to reboot  ", 0
 msg_restart: db ENDL, ENDL, "RESTARTING",0
-msg_loadok: db "Loaded OK", ENDL, 0
+msg_loadok: db "Loaded OK  ", 0
 msg_diskerror: db "Error in reading disk: ",0
 msg_deA: db "A", ENDL, 0
 msg_deB: db "B", ENDL, 0
@@ -198,8 +198,6 @@ load_disk:
     pusha           ;save all regs to stack
 
 
-    ;push word [bp+4]
-    ;call print_number
     mov ax, 0
     mov es, ax
     mov ah, 2                           ;set to read from disk
@@ -230,10 +228,16 @@ load_disk:
     mov si, msg_loadok          ;print successful load message
     call print
 
+
+    push word [bp+6]
+    call print_number
+
+    call nl
+
     popa            ;reload all saved regs from stack
     pop bp          ;restore bp to last saved value
 
-    ret 4
+    ret 6
 
 
 .read_errorA:

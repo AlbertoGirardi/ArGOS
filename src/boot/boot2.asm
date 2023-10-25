@@ -219,7 +219,7 @@ BOOTLOADER2:                       ;second stage entry point
     ;call ascii_test
 
     push 4
-    push 6
+    push 30
     push 0x8c00
 
     call load_disk

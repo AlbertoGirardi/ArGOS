@@ -49,17 +49,18 @@ all:  build/$(OS_image)
 
 build: 
 	mkdir build
-	echo "times 8192 db 0" > build/zero.asm
-	nasm build/zero.asm -f bin -o build/zero.bin
+	
 
 
 
-build/$(OS_image): build/$(bootbin) build/$(kernelbin)				#os image
+build/$(OS_image): build/$(bootbin) build/$(kernelbin)	build/zero.bin			#os image
 
 	cat build/$(bootbin) build/$(kernelbin) build/zero.bin > build/$(OS_image) 
 	@echo "done"
 
-
+build/zero.bin: build
+	echo "times 8192 dd 0" > build/zero.asm
+	nasm build/zero.asm -f bin -o build/zero.bin
 
 build/$(bootbin): build/$(total_bootloader) 			#assembles files
 	
