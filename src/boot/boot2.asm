@@ -6,6 +6,7 @@
 
 
 %define Video_Buffer 0xb8000
+%define KERNEL_ADDRESS 0x83f0
 
 
 ;;;GDT
@@ -215,8 +216,13 @@ BOOTLOADER2:                       ;second stage entry point
 
     call check_a20_lineBIOS            ;test that A20 line is open
 
-    call ascii_test
+    ;call ascii_test
 
+    push 4
+    push 6
+    push 0x8c00
+
+    call load_disk
     
     ;SWITCHING FROM 32 BIT MODE
 

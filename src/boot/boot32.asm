@@ -227,6 +227,8 @@ BOOTLOADER_32BITS:
     call print32
 
     ;call color_test
+    
+    jmp 0x8C00
 
 
     jmp .end

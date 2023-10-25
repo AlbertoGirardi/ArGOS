@@ -6,6 +6,7 @@ BITS 16
 %define STAGE_2_SECTORS        3        
 %define STAGE_2_LOAD_ADDRS 0x7e00
 %define LOAD_INTEGRITY_CHECK 3571
+%define KERNEL_SECTORS    3
 
 
 
@@ -23,7 +24,7 @@ msg: db "BOOTLOADER 16 bit",0
 ;msg_end: db "Used bytes: ",ENDL,0                                      ;prints how many bytes used by first stage
 msg_to_restart: db "Press `r` to reboot  ", 0
 msg_restart: db ENDL, ENDL, "RESTARTING",0
-msg_loadok: db "Loaded stage 2 OK", ENDL, 0
+msg_loadok: db "Loaded OK", ENDL, 0
 msg_diskerror: db "Error in reading disk: ",0
 msg_deA: db "A", ENDL, 0
 msg_deB: db "B", ENDL, 0
@@ -187,7 +188,7 @@ print_number:           ;print decimal number in the stack, autoconverts from bi
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;FUNCTION TO READ FROM THE DISK using interrupts and loads 
-;args: n_sectors : number of sectors to read,  address where to load them
+;args: start from which to start read, n_sectors : number of sectors to read,  address where to load them, 
 
 load_disk: 
 
@@ -197,12 +198,14 @@ load_disk:
     pusha           ;save all regs to stack
 
 
+    ;push word [bp+4]
+    ;call print_number
     mov ax, 0
     mov es, ax
     mov ah, 2                           ;set to read from disk
     mov al, [bp+6]                      ;how many sectors to read
     mov ch, 0
-    mov cl, 2
+    mov cl, [bp+8]                      ;from which sector to start read
     mov dh, 0
     mov dl, [boot_disk]
 
@@ -285,8 +288,9 @@ MAIN16:
 
     times 2 call nl
 
+    mov ax, 2
     
-
+    push ax                                 ;from which sector to start read
     push STAGE_2_SECTORS                       ;read  sectors
     push STAGE_2_LOAD_ADDRS                     ;load the stage two after the boot sector in ram
 

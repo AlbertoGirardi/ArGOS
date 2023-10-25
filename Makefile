@@ -49,7 +49,7 @@ all:  build/$(OS_image)
 
 build: 
 	mkdir build
-	echo "times 2048 db 0" > build/zero.asm
+	echo "times 8192 db 0" > build/zero.asm
 	nasm build/zero.asm -f bin -o build/zero.bin
 
 
@@ -88,7 +88,7 @@ build/$(krneo): $(krne)
 
 build/$(kernelbin): build/$(krneo) build/$(krnco)
 
-	i686-elf-ld  build/$(krneo) build/$(krnco)  -o build/$(kernelbin)  -nostdlib  
+	i686-elf-ld  build/$(krneo) build/$(krnco)  -o build/$(kernelbin)  -nostdlib  -Ttext 0x1000 --oformat binary
 
 
 
