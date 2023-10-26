@@ -10,7 +10,7 @@ BITS 16
 
 
 
-jmp MAIN  ;JUMP TO PROGRAM START
+jmp MAIN16  ;JUMP TO PROGRAM START
 
 
  
@@ -23,7 +23,7 @@ msg: db "BOOTLOADER 16 bit",0
 ;msg_end: db "Used bytes: ",ENDL,0                                      ;prints how many bytes used by first stage
 msg_to_restart: db "Press `r` to reboot  ", 0
 msg_restart: db ENDL, ENDL, "RESTARTING",0
-msg_loadok: db "Loaded stage 2 OK", ENDL, 0
+msg_loadok: db "Loaded OK  ", 0
 msg_diskerror: db "Error in reading disk: ",0
 msg_deA: db "A", ENDL, 0
 msg_deB: db "B", ENDL, 0
@@ -187,8 +187,8 @@ print_number:           ;print decimal number in the stack, autoconverts from bi
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;FUNCTION TO READ FROM THE DISK using interrupts and loads 
-;args: n_sectors : number of sectors to read,  address where to load them
-
+;args: start from which to start read, n_sectors : number of sectors to read,  address where to load them, 
+;can't read more than 63 sectors!
 load_disk: 
 
 
@@ -202,7 +202,7 @@ load_disk:
     mov ah, 2                           ;set to read from disk
     mov al, [bp+6]                      ;how many sectors to read
     mov ch, 0
-    mov cl, 2
+    mov cl, [bp+8]                      ;from which sector to start read
     mov dh, 0
     mov dl, [boot_disk]
 
@@ -227,10 +227,16 @@ load_disk:
     mov si, msg_loadok          ;print successful load message
     call print
 
+
+    push word [bp+6]
+    call print_number
+
+    call nl
+
     popa            ;reload all saved regs from stack
     pop bp          ;restore bp to last saved value
 
-    ret 4
+    ret 6
 
 
 .read_errorA:
@@ -261,7 +267,7 @@ load_disk:
 
     
 
-MAIN:
+MAIN16:
 
     mov dh, 0
     mov [boot_disk], dx                ;saves boot disk number to a variable
@@ -285,8 +291,9 @@ MAIN:
 
     times 2 call nl
 
+    mov ax, 2
     
-
+    push ax                                 ;from which sector to start read
     push STAGE_2_SECTORS                       ;read  sectors
     push STAGE_2_LOAD_ADDRS                     ;load the stage two after the boot sector in ram
 

@@ -175,7 +175,7 @@ nl32:
 var1: db 123
 
 msg_hello: db "Hello World from 32 BITS PROTECTED MODE!" ,ENDL,0
-msg_test: db "TEST TEST TEST        ",ENDL, 0
+msg_test: db "TEST TEST TEST",ENDL, 0
 msg_a20_test32OK: db "A20 line eneabled: OK (tested from PM)", ENDL, 0
 msg_reg: db "STACK", 0
 
@@ -227,6 +227,8 @@ BOOTLOADER_32BITS:
     call print32
 
     ;call color_test
+    
+    jmp KERNEL_ADDRESS
 
 
     jmp .end

@@ -7,6 +7,12 @@
 
 %define Video_Buffer 0xb8000
 
+;KERNEL LOADING INFORMATION
+%define KERNEL_ADDRESS 0x8C00
+%define KERNEL_SECTORS    60
+
+
+
 
 ;;;GDT
 
@@ -207,6 +213,7 @@ msg_a20_testFAIL: db "A20 line disabled", ENDL, 0
 
 
 
+
 BOOTLOADER2:                       ;second stage entry point
 
     mov si, msg_welcome2
@@ -215,10 +222,21 @@ BOOTLOADER2:                       ;second stage entry point
 
     call check_a20_lineBIOS            ;test that A20 line is open
 
-    call ascii_test
+    ;call ascii_test
 
+    push STAGE_2_SECTORS + 1                              ;LOADING THE KERNEL
+    push KERNEL_SECTORS                            ;SEGMENTS TO READ
+    push KERNEL_ADDRESS                 ;ADDRESS
+
+    call load_disk
+
+    call nl 
+    push sp
+    call print_number
+    call nl
     
     ;SWITCHING FROM 32 BIT MODE
+
 
 
     cli

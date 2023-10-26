@@ -14,6 +14,7 @@ To be used on qemu, (booting as a flat binary for now).
 Totally insecure. Complete possibility of memory acces.  
 in developement
 
+[![wakatime](https://wakatime.com/badge/user/018b48bf-8d51-471d-b870-e93a045be5f7/project/018b48cb-4e1e-4b4e-b36b-06f53912c64f.svg)](https://wakatime.com/badge/user/018b48bf-8d51-471d-b870-e93a045be5f7/project/018b48cb-4e1e-4b4e-b36b-06f53912c64f)
 
 ## HOW TO COMPILE AND RUN and USE
 
