@@ -8,6 +8,9 @@
 ;cli
 call main               ;calls main function
 
+cli
 
+.endend
 jmp $
+jmp .endend
 

@@ -229,6 +229,11 @@ BOOTLOADER2:                       ;second stage entry point
     push KERNEL_ADDRESS                 ;ADDRESS
 
     call load_disk
+
+    call nl 
+    push sp
+    call print_number
+    call nl
     
     ;SWITCHING FROM 32 BIT MODE
 

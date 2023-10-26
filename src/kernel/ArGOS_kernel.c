@@ -20,6 +20,7 @@ int function(int n){
 
 
 
+int a = 0;
 
 
 extern void main()
@@ -34,12 +35,17 @@ extern void main()
         *p = (char)0x1f;
     }
 
-    function(160);
 
 
-    while (1)
+    while (a<20)
     {
-        /* code */
+        a = a+1;
+    }
+    
+    if (a>150)
+    {
+            function(160);
+
     }
     
 
