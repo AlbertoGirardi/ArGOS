@@ -6,7 +6,6 @@ BITS 16
 %define STAGE_2_SECTORS        3        
 %define STAGE_2_LOAD_ADDRS 0x7e00
 %define LOAD_INTEGRITY_CHECK 3571
-%define KERNEL_SECTORS    3
 
 
 
@@ -189,7 +188,7 @@ print_number:           ;print decimal number in the stack, autoconverts from bi
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;FUNCTION TO READ FROM THE DISK using interrupts and loads 
 ;args: start from which to start read, n_sectors : number of sectors to read,  address where to load them, 
-
+;can't read more than 63 sectors!
 load_disk: 
 
 

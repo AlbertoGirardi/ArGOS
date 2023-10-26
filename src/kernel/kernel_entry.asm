@@ -4,8 +4,10 @@
 
 [extern main]
 
-cli
-call main
+
+;cli
+call main               ;calls main function
+
 
 jmp $
-db "AAAAAAAAA"
+

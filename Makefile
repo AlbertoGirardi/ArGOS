@@ -80,7 +80,7 @@ build/$(total_bootloader): src/$(bootloader) src/$(bootloader2stage) src/$(bootl
 
 build/$(krnco):  $(krnc) 
 
-	$(Ccomp) --freestanding -m32 -g -c $(krnc) -o build/$(krnco) -mno-red-zone
+	$(Ccomp) --freestanding -m32 -g -c $(krnc) -o build/$(krnco) -mno-red-zone  -Wall
 
 build/$(krneo): $(krne)
 
@@ -89,7 +89,7 @@ build/$(krneo): $(krne)
 
 build/$(kernelbin): build/$(krneo) build/$(krnco)
 
-	i686-elf-ld  build/$(krneo) build/$(krnco)  -o build/$(kernelbin)  -nostdlib  -Ttext 0x1000 --oformat binary
+	i686-elf-ld  build/$(krneo) build/$(krnco)  -o build/$(kernelbin)  -nostdlib   --oformat binary -Ttext 0x1000
 
 
 
