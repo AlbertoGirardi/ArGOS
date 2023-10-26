@@ -34,6 +34,16 @@ krneo := krne.o
 kernelbin := krn.bin								#kernel binary image
 
 
+#libs files
+libf := $(kernel_f)/lib
+vgal := $(libf)/vga_driver.c
+
+
+#libs obj files
+vgalo := vga.o
+
+
+
 #OS IMAGE
 
 OS_image := ArGOS.iso
@@ -80,16 +90,25 @@ build/$(total_bootloader): src/$(bootloader) src/$(bootloader2stage) src/$(bootl
 
 build/$(krnco):  $(krnc) 
 
-	$(Ccomp) --freestanding -m32 -g -c $(krnc) -o build/$(krnco) -mno-red-zone  -Wall
+	$(Ccomp) --freestanding -m32 -g -c $(krnc) -o build/$(krnco) -mno-red-zone  
 
 build/$(krneo): $(krne)
 
 	nasm $(krne) -f elf -o build/$(krneo)
 
 
-build/$(kernelbin): build/$(krneo) build/$(krnco)
+build/$(kernelbin): build/$(krneo) build/$(krnco)  build/$(vgalo)
 
-	i686-elf-ld  build/$(krneo) build/$(krnco)  -o build/$(kernelbin)  -nostdlib   --oformat binary -Ttext 0x1000
+	i686-elf-ld  build/$(krneo) build/$(krnco) build/$(vgalo) -o build/$(kernelbin)  -nostdlib   --oformat binary -Ttext 0x1000
+
+
+
+build/$(vgalo): $(vgal)
+
+	$(Ccomp) --freestanding -m32 -g -c $(vgal) -o build/$(vgalo) -mno-red-zone  
+
+
+
 
 
 

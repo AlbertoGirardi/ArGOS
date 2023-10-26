@@ -1,5 +1,9 @@
 //KERNEL OF ARGOS OPERATING SYSTEM
 
+
+#include "lib/vga_driver.h"
+
+
 char  string[25]="wfeeewweeeewewefefw";
 
 int function(int n){
@@ -48,6 +52,8 @@ extern void main()
 
     }
     
+
+    funtest();
 
     return;
 }
