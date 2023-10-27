@@ -1,16 +1,16 @@
 #include "vga_driver.h"
 
 
-void funtest(){
+void funtest(int nn){
 
     char sttt[20] = "SSSSSSSSSSS";
 
-    int n = 0xb8080+20*2;
+    int n = 0xb8080+nn*2;
     for (char *p = (char *)0xb8080; p < (char *)n; p += 1)
     {
         *p = (char)'Z';
         p++;
-        *p = (char)0x3D;
+        *p = (char)0x3B;
     }
 
 

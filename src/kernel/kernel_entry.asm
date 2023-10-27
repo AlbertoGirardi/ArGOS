@@ -4,6 +4,9 @@
 
 [extern main]
 
+[global _start]
+
+_start:
 
 ;cli
 call main               ;calls main function
