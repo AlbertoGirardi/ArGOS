@@ -21,9 +21,10 @@ extern void main()                                  //MAIN KERNEL FUNCTION
         *p = (char)0x1f;
     }
 
+    unsigned char cc = 'W';
+    uint16_t color = 0x3f;
 
-
-    
+    vga_printchar(cc,200, color);
     
 
     return;
