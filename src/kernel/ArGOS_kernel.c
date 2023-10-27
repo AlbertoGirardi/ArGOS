@@ -2,32 +2,14 @@
 
 
 #include "lib/vga_driver.h"
-
-
-char  string[25]="wfeeewweeeewewefefw";
-
-int function(int n){
-    char  string[45]="ddddddddddddddddddddddddddddddddd";
-
-
-    n = 0xb8070+n*2;
-    for (char *p = (char *)0xb8070; p < (char *)n; p += 1)
-    {
-        *p = (char)'a';
-        p++;
-        *p = (char)0x3f;
-    }
-
-    return 0;
-
-}
+#include "lib/common.h"
 
 
 
-int a = 0;
 
 
-extern void main()
+
+extern void main()                                  //MAIN KERNEL FUNCTION
 {
 
     *(char *)0xb8000 = 'C';
@@ -41,19 +23,8 @@ extern void main()
 
 
 
-    while (a<20)
-    {
-        a = a+1;
-    }
     
-    if (a>150)
-    {
-            function(160);
-
-    }
     
-
-    funtest(50);
 
     return;
 }
