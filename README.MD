@@ -32,8 +32,8 @@ compile:
 
 makefile targets:
 
-    make totclear  ;deletes build directory
-    make clear     ;deletes other tmp build files
+    make tclean    ;deletes build directory
+    make clean     ;deletes other tmp build files
 
 boot:
 

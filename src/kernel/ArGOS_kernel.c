@@ -53,7 +53,7 @@ extern void main()
     }
     
 
-    funtest();
+    funtest(50);
 
     return;
 }

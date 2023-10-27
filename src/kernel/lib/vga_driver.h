@@ -21,7 +21,7 @@ enum vga_color {
 };
 
 
-extern void funtest();
+extern void funtest(int nn);
 
 
 
