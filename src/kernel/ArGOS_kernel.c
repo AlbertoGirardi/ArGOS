@@ -7,7 +7,7 @@
 char  string[25]="wfeeewweeeewewefefw";
 
 int function(int n){
-    char  string[45]="dddddddddddddddddddddddddddddddddd";
+    char  string[45]="ddddddddddddddddddddddddddddddddd";
 
 
     n = 0xb8070+n*2;
