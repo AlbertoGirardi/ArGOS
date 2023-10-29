@@ -19,16 +19,26 @@ extern void main(void)                                  //MAIN KERNEL FUNCTION
 
     
     screen_initialize();
+    set_screen_color( VGA_COLOR_BROWN , VGA_COLOR_CYAN);
+    
 
-    vga_printchar(cc ,340,  VGA_COLOR_GREEN , VGA_COLOR_WHITE );
 
     for (int i = 0; i < 300; i++)
     {
-            print_char_c('A', VGA_COLOR_DARK_GREY, VGA_COLOR_RED);
+            print_char('A');
 
     }
     
+    set_screen_color( VGA_COLOR_RED , VGA_COLOR_CYAN);
+    
 
+
+    for (int i = 0; i < 300; i++)
+    {
+            print_char('A');
+
+    }
+    
 
 
 

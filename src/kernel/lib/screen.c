@@ -15,6 +15,8 @@ static enum vga_color screen_color_bkg;
 static uint16_t const screen_rows = 25;
 static uint16_t const screen_columns = 80;
 
+
+
 void screen_initialize(void)
 {
     /*
@@ -25,6 +27,14 @@ void screen_initialize(void)
     screen_cursor_row = 0;
     blank_screen(VGA_COLOR_BLACK);
 }
+
+
+void set_screen_color( enum vga_color color_char, enum vga_color color_bkg ){
+
+    screen_color_bkg = color_bkg;
+    screen_color_char = color_char;
+}
+
 
 void blank_screen(enum vga_color color_bkg)
 {
