@@ -17,16 +17,21 @@ extern void main(void)                                  //MAIN KERNEL FUNCTION
     unsigned char cc1 = '0';
 
 
-    vga_printchar(cc ,240,  VGA_COLOR_GREEN , VGA_COLOR_WHITE );
 
     
     screen_initialize();
 
-    vga_printchar(cc ,240,  VGA_COLOR_GREEN , VGA_COLOR_WHITE );
+    vga_printchar(cc ,340,  VGA_COLOR_GREEN , VGA_COLOR_WHITE );
 
-    test();
+    for (int i = 0; i < 300; i++)
+    {
+            print_char('A', VGA_COLOR_DARK_GREY, VGA_COLOR_RED);
 
+    }
     
+
+
+
 
 
     return;

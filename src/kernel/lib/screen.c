@@ -6,32 +6,27 @@
 #include <stddef.h>
 #include <stdint.h>
 
-
-
-static size_t screen_cursor_row ;
-static size_t screen_cursor_column ;
-
+static size_t screen_cursor_row;
+static size_t screen_cursor_column;
 
 static uint16_t const screen_rows = 25;
 static uint16_t const screen_columns = 80;
 
-
-void screen_initialize(void){
-/*
-Initializes the screen zeroing the cursor, blancks it with black
-*/
+void screen_initialize(void)
+{
+    /*
+    Initializes the screen zeroing the cursor, blancks it with black
+    */
 
     screen_cursor_column = 0;
     screen_cursor_row = 0;
-    blank_screen( VGA_COLOR_BLACK );
+    blank_screen(VGA_COLOR_BLACK);
 }
-
-
 
 void blank_screen(enum vga_color color_bkg)
 {
 
-/*covers the screen with the indicated color*/
+    /*covers the screen with the indicated color*/
 
     unsigned char c = '0';
     // vga_printchar(c, cursor  , VGA_COLOR_GREEN, VGA_COLOR_RED );
@@ -47,18 +42,38 @@ void blank_screen(enum vga_color color_bkg)
     return;
 }
 
+size_t get_cursor_pos(size_t row, size_t col)
+{
 
-size_t get_cursor_pos ( size_t row, size_t col ){
-
-    return (row)*80+col;
-
+    return (row) * 80 + col;
 }
 
-void test(void){
+void test(void)
+{
 
-    screen_cursor_row =8;
+    screen_cursor_row = 8;
     screen_cursor_column = 2;
 
-    vga_printchar('W' , get_cursor_pos( screen_cursor_row, screen_cursor_column ) ,  VGA_COLOR_GREEN , VGA_COLOR_WHITE );
+    vga_printchar('W', get_cursor_pos(screen_cursor_row, screen_cursor_column), VGA_COLOR_GREEN, VGA_COLOR_WHITE);
+}
 
+
+
+void print_char(unsigned char c, enum vga_color color_char, enum vga_color color_bkg)
+{
+
+    vga_printchar(c, get_cursor_pos(screen_cursor_row, screen_cursor_column), color_char, color_bkg);
+
+    if ((screen_cursor_column + 1) < screen_columns)
+    {
+        screen_cursor_column++;
+    }
+
+    else
+    {
+        screen_cursor_row++;
+        screen_cursor_column = 0;
+
+        // vga_printchar('Q', (500+screen_cursor_row), VGA_COLOR_BLUE, VGA_COLOR_RED );      //debug code
+    }
 }
