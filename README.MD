@@ -33,11 +33,14 @@ compile:
 makefile targets:
 
     make tclean    ;deletes build directory
-    make clean     ;deletes other tmp build files
+    make clean     ;deletes other tmp build files, only final image remains
+    make recomp    ;tclean and then compiles
 
 boot:
 
     make run
+
+
 
 reboot from inside: press "r"
 

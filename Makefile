@@ -1,10 +1,11 @@
 #compilation and linking toolchain
 Ccomp := i686-elf-gcc
-cflags := --freestanding -m32 -g -mno-red-zone 
+cflags := -c --freestanding -m32 -g -mno-red-zone 
 
 
-linker := i686-elf-ld
-linkflags := -nostdlib   --oformat binary -Ttext 0x1000
+
+linker := i686-elf-gcc
+linkflags := -nostdlib   -Wl,--oformat=binary -Ttext 0x1000 -lgcc
 
 
 
@@ -110,7 +111,7 @@ build/$(total_bootloader): src/$(bootloader) src/$(bootloader2stage) src/$(bootl
 
 build/$(krnco):  $(krnc) 								#kernel compilinh
 
-	$(Ccomp)  -c $(krnc) -o build/$(krnco)  $(cflags)
+	$(Ccomp)   $(krnc) -o build/$(krnco)  $(cflags)
 		@echo "-e" "$(GREEN)\nCOMPILED KERNEL$(NC)"
 
 
@@ -121,7 +122,7 @@ build/$(krneo): $(krne)
 
 build/$(kernelbin): build/$(krneo) build/$(krnco)  $(libso)
 
-	$(linker)  build/$(krneo) build/$(krnco) $(libso) -o build/$(kernelbin)  
+	$(linker)  build/$(krneo) build/$(krnco) $(libso) -o build/$(kernelbin)  $(linkflags)
 	@echo "-e" "$(GREEN)\nLINKED$(NC)"
 
 
