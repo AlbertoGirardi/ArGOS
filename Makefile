@@ -62,7 +62,8 @@ libso := $(patsubst $(libf)/%.c,build/%.o,$(libsc))
 OS_image := ArGOS.iso
 
 
-GREEN2= \033[0;32m
+GREEN2= \033[1;32m
+green3 = \033[0;36m
 GREEN= \033[1;36m
 NC= \033[0m # No Color
 
@@ -86,7 +87,7 @@ build:
 build/$(OS_image): build/$(bootbin) build/$(kernelbin)	build/zero.bin			#os image
 
 	cat build/$(bootbin) build/$(kernelbin) build/zero.bin > build/$(OS_image) 
-	@echo "-e" "$(GREEN2)\n\nDONE\n\n$(NC)"
+	@echo " $(GREEN2)\n\nDONE\n\n$(NC)"
 
 build/zero.bin: build
 	echo "times 8192 dd 0" > build/zero.asm
@@ -96,7 +97,7 @@ build/$(bootbin): build/$(total_bootloader) 			#assembles files
 	
 
 	nasm build/$(total_bootloader) -f bin  -o build/$(bootbin)
-	@echo "-e" "$(GREEN)\nASSEMBLED BOOTLOADER$(NC)"
+	@echo  "$(GREEN)\nASSEMBLED BOOTLOADER$(NC)"
 
 
 
@@ -112,7 +113,7 @@ build/$(total_bootloader): src/$(bootloader) src/$(bootloader2stage) src/$(bootl
 build/$(krnco):  $(krnc) 								#kernel compilinh
 
 	$(Ccomp)   $(krnc) -o build/$(krnco)  $(cflags)
-		@echo "-e" "$(GREEN)\nCOMPILED KERNEL$(NC)"
+		@echo  "$(GREEN)\nCOMPILED KERNEL$(NC)"
 
 
 build/$(krneo): $(krne)
@@ -122,8 +123,10 @@ build/$(krneo): $(krne)
 
 build/$(kernelbin): build/$(krneo) build/$(krnco)  $(libso)
 
+	@echo  "$(GREEN)\nCOMPILED LIBS$(NC)"
+
 	$(linker)  build/$(krneo) build/$(krnco) $(libso) -o build/$(kernelbin)  $(linkflags)
-	@echo "-e" "$(GREEN)\nLINKED$(NC)"
+	@echo  "$(GREEN)\nLINKED$(NC)"
 
 
 
@@ -131,7 +134,7 @@ build/$(kernelbin): build/$(krneo) build/$(krnco)  $(libso)
 build/%.o: $(libf)/%.c
 
 	$(Ccomp)  -c $< -o $@  $(cflags)
-	@echo "-e" "$(GREEN)\nCOMPILED LIBS$(NC)"
+	@echo  "$(green3)\ncompile lib $<$(NC)"
 
 
 

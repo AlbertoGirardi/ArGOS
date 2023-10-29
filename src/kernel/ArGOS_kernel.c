@@ -19,6 +19,8 @@ extern void main(uint32_t n)                                  //MAIN KERNEL FUNC
     vga_printchar(cc ,240,  VGA_COLOR_GREEN , VGA_COLOR_WHITE );
 
 
+
+
     
 
     return;
