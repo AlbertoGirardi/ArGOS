@@ -15,11 +15,23 @@ static size_t screen_cursor_column ;
 static uint16_t const screen_rows = 25;
 static uint16_t const screen_columns = 80;
 
-void blank_screen(enum vga_color color_bkg)
-{
+
+void screen_initialize(void){
+/*
+Initializes the screen zeroing the cursor, blancks it with black
+*/
 
     screen_cursor_column = 0;
     screen_cursor_row = 0;
+    blank_screen( VGA_COLOR_BLACK );
+}
+
+
+
+void blank_screen(enum vga_color color_bkg)
+{
+
+/*covers the screen with the indicated color*/
 
     unsigned char c = '0';
     // vga_printchar(c, cursor  , VGA_COLOR_GREEN, VGA_COLOR_RED );

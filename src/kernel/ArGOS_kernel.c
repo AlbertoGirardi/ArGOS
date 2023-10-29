@@ -20,11 +20,13 @@ extern void main(void)                                  //MAIN KERNEL FUNCTION
     vga_printchar(cc ,240,  VGA_COLOR_GREEN , VGA_COLOR_WHITE );
 
     
-    blank_screen( VGA_COLOR_BLACK );
+    screen_initialize();
 
     vga_printchar(cc ,240,  VGA_COLOR_GREEN , VGA_COLOR_WHITE );
 
     test();
+
+    
 
 
     return;

@@ -11,4 +11,5 @@
 
 extern void blank_screen( enum vga_color color_bkg  );
 extern void test();
+extern void screen_initialize(void);
 #endif
