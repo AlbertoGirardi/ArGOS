@@ -13,7 +13,7 @@ _start:
 
 mov esp, 0x7c00
 
-push esp
+
 call main               ;calls main function
 
 cli

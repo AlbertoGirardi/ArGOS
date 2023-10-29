@@ -3,13 +3,14 @@
 
 #include "lib/vga_driver.h"
 #include "lib/common.h"
+#include "lib/screen.h"
 
 
 
 
 
 
-extern void main(uint32_t n)                                  //MAIN KERNEL FUNCTION
+extern void main(void)                                  //MAIN KERNEL FUNCTION
 {
 
     unsigned char cc = 'R';
@@ -18,10 +19,13 @@ extern void main(uint32_t n)                                  //MAIN KERNEL FUNC
 
     vga_printchar(cc ,240,  VGA_COLOR_GREEN , VGA_COLOR_WHITE );
 
-
-
-
     
+    blank_screen( VGA_COLOR_BLACK );
+
+    vga_printchar(cc ,240,  VGA_COLOR_GREEN , VGA_COLOR_WHITE );
+
+    test();
+
 
     return;
 }

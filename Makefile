@@ -141,7 +141,7 @@ build/%.o: $(libf)/%.c
 
 
 run:  build/$(OS_image)			#runs on QEMU	
-	$(qemu) build/$(OS_image)
+	$(qemu) build/$(OS_image)  -icount  6,align=on
 
 
 recomp: tclean all

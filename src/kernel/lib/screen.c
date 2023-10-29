@@ -1,0 +1,52 @@
+#include "screen.h"
+
+#include "common.h"
+
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
+
+
+
+static size_t screen_cursor_row ;
+static size_t screen_cursor_column ;
+
+
+static uint16_t const screen_rows = 25;
+static uint16_t const screen_columns = 80;
+
+void blank_screen(enum vga_color color_bkg)
+{
+
+    screen_cursor_column = 0;
+    screen_cursor_row = 0;
+
+    unsigned char c = '0';
+    // vga_printchar(c, cursor  , VGA_COLOR_GREEN, VGA_COLOR_RED );
+
+    uint16_t cursor = 0;
+
+    for (cursor = 0; cursor < (uint16_t)(screen_columns * screen_rows); cursor++)
+    {
+
+        vga_printchar(c, cursor, color_bkg, color_bkg);
+    }
+
+    return;
+}
+
+
+size_t get_cursor_pos ( size_t row, size_t col ){
+
+    return (row)*80+col;
+
+}
+
+void test(void){
+
+    screen_cursor_row =8;
+    screen_cursor_column = 2;
+
+    vga_printchar('W' , get_cursor_pos( screen_cursor_row, screen_cursor_column ) ,  VGA_COLOR_GREEN , VGA_COLOR_WHITE );
+
+}
