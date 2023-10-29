@@ -1,7 +1,6 @@
 
 #pragma once
 
-#include "common.h"
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -30,7 +29,7 @@ extern enum vga_color {
 
 
 
-extern void vga_printchar_r( unsigned char c, uint16_t cursor_pos, uint16_t color_char  , u16int color);
+extern void vga_printchar_r( unsigned char c, uint16_t cursor_pos, uint16_t color_char  , uint16_t color);
 extern void vga_printchar(unsigned char c, uint16_t cursor_pos, enum vga_color color_char,  enum vga_color color_bkg  );
 
 

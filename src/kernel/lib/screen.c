@@ -1,6 +1,5 @@
 #include "screen.h"
 
-#include "common.h"
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -8,6 +7,10 @@
 
 static size_t screen_cursor_row;
 static size_t screen_cursor_column;
+
+static enum vga_color screen_color_char;
+static enum vga_color screen_color_bkg;
+
 
 static uint16_t const screen_rows = 25;
 static uint16_t const screen_columns = 80;
@@ -59,8 +62,10 @@ void test(void)
 
 
 
-void print_char(unsigned char c, enum vga_color color_char, enum vga_color color_bkg)
+void print_char_c(unsigned char c, enum vga_color color_char, enum vga_color color_bkg)
 {
+
+    /*prints chat, allowing to specify color, in the screen*/
 
     vga_printchar(c, get_cursor_pos(screen_cursor_row, screen_cursor_column), color_char, color_bkg);
 
@@ -76,4 +81,14 @@ void print_char(unsigned char c, enum vga_color color_char, enum vga_color color
 
         // vga_printchar('Q', (500+screen_cursor_row), VGA_COLOR_BLUE, VGA_COLOR_RED );      //debug code
     }
+}
+
+
+void print_char(unsigned char c ){
+
+    /*
+    prints a character to the screen following the last one
+    */
+
+    print_char_c(c, screen_color_char, screen_color_bkg);
 }

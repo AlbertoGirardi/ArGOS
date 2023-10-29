@@ -1,5 +1,4 @@
 #include "vga_driver.h"
-#include "common.h"
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -42,7 +41,7 @@ void vga_printchar(unsigned char c, uint16_t cursor_pos, enum vga_color color_ch
 	wrapper of vga_printchar_r to use enum colors
 	*/
 
-	vga_printchar_r( c, cursor_pos, (uint16_t) color_char, (u16int) color_bkg );
+	vga_printchar_r( c, cursor_pos, (uint16_t) color_char, (uint16_t) color_bkg );
 	return;
 
 }
