@@ -9,6 +9,11 @@
 _start:
 
 ;cli
+;pop eax
+
+mov esp, 0x7c00
+
+push esp
 call main               ;calls main function
 
 cli

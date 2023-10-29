@@ -197,6 +197,8 @@ BOOTLOADER_32BITS:
     mov ds, ax
     mov ss, ax
 
+    
+
     sti    ;enable interrupts
 
     mov [CURSOR_POS], dword Video_Buffer

@@ -1,8 +1,10 @@
 #compilation and linking toolchain
 Ccomp := i686-elf-gcc
-
 cflags := --freestanding -m32 -g -mno-red-zone 
-link := i686-elf-ld
+
+
+linker := i686-elf-ld
+linkflags := -nostdlib   --oformat binary -Ttext 0x1000
 
 
 
@@ -119,7 +121,7 @@ build/$(krneo): $(krne)
 
 build/$(kernelbin): build/$(krneo) build/$(krnco)  $(libso)
 
-	i686-elf-ld  build/$(krneo) build/$(krnco) $(libso) -o build/$(kernelbin)  -nostdlib   --oformat binary -Ttext 0x1000
+	$(linker)  build/$(krneo) build/$(krnco) $(libso) -o build/$(kernelbin)  
 	@echo "-e" "$(GREEN)\nLINKED$(NC)"
 
 
@@ -138,6 +140,7 @@ run:  build/$(OS_image)			#runs on QEMU
 	$(qemu) build/$(OS_image)
 
 
+recomp: tclean all
 
 clean:							#removes tmp files
 	rm build/*.asm
