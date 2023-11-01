@@ -9,7 +9,7 @@ boots the system from the bios, then loads the rest and gives control to bootlao
 Loads as many sectors as required at 0x7e00 (after the first sector)
 
 
-Memory:
+#### Memory map
 
     (IVT and BIOS)
     .... 
@@ -17,6 +17,8 @@ Memory:
     0x7C00: bootloader
     ....
     0x7E00: second stage
+    ....
+    0x8c00: kernel loaded here
     ....
     0x9FC00:start of bios data area (NOT OVERWRITE)
 
@@ -31,20 +33,7 @@ Memory:
 only 1st sector
 
 
-### boot2.asm
-Switches to protected mode, loads GDT,  
-put there all 16 bit code
 
-### boot32.asm
-
-Second stage of the bootloader  
-switches to protected mode
-
-*   loads gdt
-loads the kernel and calls it
-
-### kernel
-os kernel
 
 
 # REAL MODE 16 BITS

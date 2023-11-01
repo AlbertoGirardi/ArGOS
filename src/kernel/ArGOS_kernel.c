@@ -2,30 +2,58 @@
 
 
 #include "lib/vga_driver.h"
-#include "lib/common.h"
+#include "lib/screen.h"
+#include "stdint.h"
 
+//uint32_t m = 512;
+char u[]="dududududududududududududd";
 
+static uint32_t f;
+static uint32_t *g ;
+static uint32_t j;
 
+//char o[50];
 
+void init(){
 
+    f =1;
+    g = &f;
+    
+}
 
-extern void main()                                  //MAIN KERNEL FUNCTION
+extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUNCTION
 {
 
-    *(char *)0xb8000 = 'C';
+    blank_screen(VGA_COLOR_LIGHT_CYAN);
+    set_screen_color( VGA_COLOR_WHITE , VGA_COLOR_BLUE);
 
-    for (char *p = (char *)0xb8002; p < (char *)0xb805F; p += 1)
-    {
-        *p = (char)'C';
-        p++;
-        *p = (char)0x1f;
-    }
-
-    unsigned char cc = 'W';
-    uint16_t color = 0x3f;
-
-    vga_printchar(cc,200, color);
     
+    //screen_write( 0x9c00 ,2500);
+    
+
+
+
+    init();
+    const char t[]= "Hello from C!";
+    const char *v = (const char *) &t;
+
+    const char x1[] = "yyyyyyy";
+    const char *x = (const char *) &x1 ;
+
+    //screen_write(x, 14);
+    //screen_write(v, 13);
+    screen_write(0x8c00, 300);
+    
+    char * dp = 0xac00;
+if (*dp == 'd')
+{
+    print_char('K');
+}
+
+    
+    
+
+
 
     return;
 }

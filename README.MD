@@ -14,11 +14,15 @@ To be used on qemu, (booting as a flat binary for now).
 Totally insecure. Complete possibility of memory acces.  
 in developement
 
+Initial inspiration spark: [jdh's "Tetris OS"](https://www.youtube.com/watch?v=FaILnmUYS_U). First steps following [nanobyte OS](https://www.youtube.com/watch?v=9t-SPC7Tczc&list=PLFjM7v6KGMpiH2G-kT781ByCNC_0pKpPN&index=1) and [Making an OS (x86)](https://www.youtube.com/watch?v=MwPjvJ9ulSc&list=PLm3B56ql_akNcvH8vvJRYOc7TbYhRs19M)  
+Extrely useful information from [osdev.org](https://wiki.osdev.org/Main_Page)
+
 [![wakatime](https://wakatime.com/badge/user/018b48bf-8d51-471d-b870-e93a045be5f7/project/018b48cb-4e1e-4b4e-b36b-06f53912c64f.svg)](https://wakatime.com/badge/user/018b48bf-8d51-471d-b870-e93a045be5f7/project/018b48cb-4e1e-4b4e-b36b-06f53912c64f)
 
 ## HOW TO COMPILE AND RUN and USE
 
 #### REQUIREMENTS:
+* i686-elf cross compiler, GNU gcc and ld, with libgcc
 * nasm
 * qemu
 * make
@@ -33,11 +37,14 @@ compile:
 makefile targets:
 
     make tclean    ;deletes build directory
-    make clean     ;deletes other tmp build files
+    make clean     ;deletes other tmp build files, only final image remains
+    make recomp    ;tclean and then compiles
 
 boot:
 
     make run
+
+
 
 reboot from inside: press "r"
 
@@ -64,6 +71,10 @@ reboot from inside: press "r"
 * read from disk and load to memory function and stage 2 bootloader: 15/10/2023
 * ENTER 32 BIT MODE (gdt, new segments)  19/10/2023
 * 32 bit coding in the following days, reimplementing old functions
+* c kernel working 25/10/2023
+* kernel lib linking    
+* vga drivers   27/10/2023
+* problems with global variables
 
 
 ### CURRENT PLAN
@@ -71,11 +82,12 @@ reboot from inside: press "r"
 * keyboard input /
 * reboot /
 * reading disk and 2 stage bootloader/
-* kernel loader
-* cross compiler and c running
+* kernel loader/
+* cross compiler and c running/
 * asm c wrappers
 * interrupts handling
-* screen vga drivers
+* screen vga drivers/
+* screen management/
 * printf
 * hardware abstraction layer
 * disk drivers

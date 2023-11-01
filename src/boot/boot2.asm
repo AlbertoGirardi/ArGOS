@@ -8,7 +8,7 @@
 %define Video_Buffer 0xb8000
 
 ;KERNEL LOADING INFORMATION
-%define KERNEL_ADDRESS 0x8C00
+%define KERNEL_ADDRESS 0x8c00
 %define KERNEL_SECTORS    60
 
 
@@ -129,7 +129,7 @@ check_a20_lineBIOS:
 	pop si
 	popf
 	ret
- 
+    
 	.BufferBelowMB:	db 0
 	.BufferOverMB:	db 0
 
@@ -234,6 +234,9 @@ BOOTLOADER2:                       ;second stage entry point
     push sp
     call print_number
     call nl
+
+    push DATA_SEGMENT
+    call print_number
     
     ;SWITCHING FROM 32 BIT MODE
 
@@ -246,5 +249,5 @@ BOOTLOADER2:                       ;second stage entry point
     or eax, 1
     mov cr0, eax                        ;change CPU mode to protected mode
 
-    jmp CODE_SEGMENT:BOOTLOADER_32BITS
+    jmp CODE_SEGMENT:BOOTLOADER_32BITS  ;jump to protected mode codes
 
