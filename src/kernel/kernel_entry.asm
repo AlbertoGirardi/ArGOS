@@ -1,15 +1,15 @@
-;db "aaaaaaa"
+db "aaaaaaa"
 ;;;;ENTRY POINT TO THE KERNEL
 [bits 32]
 
 [extern ArGOS_MAIN]
 
-[global entry]
+[global _start]
 
 extern __bss_start
-extern __end
-
-section .entry
+extern __bss_end
+section .text
+_start:
 
 ;cli
 ;pop eax
@@ -17,8 +17,8 @@ section .entry
 mov esp, 0x7c00
 mov ebp, 0x7c00
 
-mov edi, __bss_start
-mov ecx, __end
+mov edi, __bss_start            ;clears the bss
+mov ecx, __bss_end
 sub ecx, edi
 mov al, 0
 cld
@@ -33,7 +33,3 @@ call ArGOS_MAIN               ;calls main function
 .endend:
 jmp $
 jmp .endend
-
-
-tuu:
-    db "bvbvbvbvbvvbbvbvvbvb"

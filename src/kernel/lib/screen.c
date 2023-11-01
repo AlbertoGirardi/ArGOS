@@ -60,14 +60,6 @@ size_t get_cursor_pos(size_t row, size_t col)
     return (row) * 80 + col;
 }
 
-void test(void)
-{
-
-    screen_cursor_row = 8;
-    screen_cursor_column = 2;
-
-    vga_printchar('W', get_cursor_pos(screen_cursor_row, screen_cursor_column), VGA_COLOR_GREEN, VGA_COLOR_WHITE);
-}
 
 
 
@@ -115,7 +107,7 @@ void ptr_test(int* b){
 
 }
 
-int screen_write(  char* stringw, size_t str_size){
+int screen_write(const  char* stringw, size_t str_size){
 
 
     for (size_t i = 0; i < str_size; i++)
@@ -134,4 +126,16 @@ int putchar(int ic , size_t n){
 
     char c = (char) ic;
 	screen_write(&c, n);
+}
+
+
+
+void test( int x, int *px){
+
+
+    if (x == *px)
+    {
+        print_char('K');
+    }
+    
 }

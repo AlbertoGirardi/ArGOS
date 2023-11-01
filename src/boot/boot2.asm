@@ -8,7 +8,7 @@
 %define Video_Buffer 0xb8000
 
 ;KERNEL LOADING INFORMATION
-%define KERNEL_ADDRESS 0x8C00
+%define KERNEL_ADDRESS 0x8c00
 %define KERNEL_SECTORS    60
 
 
@@ -249,5 +249,5 @@ BOOTLOADER2:                       ;second stage entry point
     or eax, 1
     mov cr0, eax                        ;change CPU mode to protected mode
 
-    jmp CODE_SEGMENT:BOOTLOADER_32BITS
+    jmp CODE_SEGMENT:BOOTLOADER_32BITS  ;jump to protected mode codes
 

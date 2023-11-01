@@ -1,18 +1,45 @@
 OUTPUT_FORMAT("binary")
 ENTRY(.entry)
-phys = 0x00008c00;
+phys = 0x00000000;
 
+/*adapted from osdec meaty skeleton*/
 
-SECTIONS{
+ENTRY(_start)
 
-    . = phys;
+/* Tell where the various sections of the object files will be put in the final
+   kernel image. */
+SECTIONS
+{
+	. = phys;
 
-    .entry                                  : {__entry_start = .;       *(.entry)}
-    .text                                  : {__text_start = .;       *(.text)}
-    .data                                  : {__data_start = .;       *(.data)}
-    .rodata                                  : {__rodata_start = .;       *(.rodata)}
-    .bss                                  : {__bss_start = .;       *(.bss)}
+	.text BLOCK(4K) : ALIGN(4K)
+	{
+		
+		*(.text)
+	}
 
+	/* Read-only data. */
+	.rodata BLOCK(4K) : ALIGN(4K)
+	{
+		*(.rodata)
+	}
 
-__end = .;
+	/* Read-write data (initialized) */
+	.data BLOCK(4K) : ALIGN(4K)
+	{
+		*(.data)
+	}
+
+	/* Read-write data (uninitialized) and stack */
+	.bss BLOCK(4K) : ALIGN(4K)
+	{	
+		__bss_start = .;
+		*(COMMON)
+		*(.bss)
+
+		__bss_end = .;
+	}
+
+	/* The compiler may produce other sections, put them in the proper place in
+	   in this file, if you'd like to include them in the final kernel. */
 }

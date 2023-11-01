@@ -2,25 +2,37 @@
 
 
 ## 16 BITS Real Mode
-BIOS loads stage1
 
-stage1 loads stage2, and stage 3
-stage 2 performs tests and SWITCHES TO PROTECTED MODE
 
-stage2:     
-* loads the kernel (currently 60 sectors, until 0x7800)                          
-* sets up GDT
-* jumps to STAGE 3
+### STAGE 1: boot.asm
+* BIOS loads stage1
+* stage1 loads stage2
+* jumps to stage 2
+
+## STAGE 2: boot2.asm
+
+* performs tests on a20 line
+* loads to ram stage 3 and kernel (currently 60 sectors, until 0x7800)  
+* loads gdt
+* SWITCHES TO PROTECTED MODE
+* jumpes to 32 bit code 3 stage
+
 
 
 ## 32 BITS Protected Mode
 
-stage 3 performs tests on A20 line and jumps to kernel code
+#### STAGE 3: boot32.asm
+* stage 3 performs tests on A20 line
+* sets up segments registers to the data segment selector of the GDT
+* and jumps to kernel entry code
 
 
 kernel entry: file linked with the kernel, jumps to the kernel main function
+#### kernel entry: kernel_entry.asm
+*   clears bss
+* sets up stack to 0x7c00
 
-## KERNEL: Argos_kernel.c
+#### KERNEL: Argos_kernel.c
 
 loads the libs (drives)
 
@@ -35,7 +47,7 @@ loads the libs (drives)
     ....
     0x7E00: second stage and tird stage
     ....
-    0x8400: kernel loader
+    0x8c00: kernel loader
     ....
     ....
     ....

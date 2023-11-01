@@ -259,4 +259,4 @@ BOOTLOADER_32BITS:
 
 load_check: dw LOAD_INTEGRITY_CHECK                     ;MUST STAY AT THE END OF THE PROGRAM to check if everything is loaded
 
-times (((STAGE_2_SECTORS+1)*512)-($-$$)) db 0
+times (((STAGE_2_SECTORS)*512)-($-$$)) db 0

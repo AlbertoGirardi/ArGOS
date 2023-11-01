@@ -5,46 +5,52 @@
 #include "lib/screen.h"
 #include "stdint.h"
 
-static uint16_t c = 3;
+//uint32_t m = 512;
+char u[]="dududududududududududududd";
 
-uint32_t aaa = 3456;
-uint32_t f =1;
-uint32_t *g;
+static uint32_t f;
+static uint32_t *g ;
 
-uint32_t yu;
 
 //char o[50];
 
-extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUNCTION
-{
-
-    char ccc[]= "uuuuuuuuuuuuuuuuuuuu";
+void init(){
 
     f =1;
     g = &f;
     
-    
-    char *cp = &ccc;
-    
-    screen_initialize();
-    blank_screen(VGA_COLOR_RED);
-    set_screen_color( VGA_COLOR_BROWN , VGA_COLOR_CYAN);
+}
 
-  
-    char t[]= "Hello from C!";
-    char *v = &t;
+extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUNCTION
+{
 
-
-    screen_write(v, 14);
-    screen_write(v, 14);
-    screen_write(v, 14);
-    screen_write(v, 14);
-    screen_write(cp, 20);
-
+    blank_screen(VGA_COLOR_LIGHT_CYAN);
+    set_screen_color( VGA_COLOR_WHITE , VGA_COLOR_BLUE);
 
     
+    //screen_write( 0x9c00 ,2500);
     
-   
+
+
+
+    init();
+    const char t[]= "Hello from C!";
+    const char *v = (const char *) &t;
+
+    const char x1[] = "yyyyyyy";
+    const char *x = (const char *) &x1 ;
+
+    //screen_write(x, 14);
+    //screen_write(v, 13);
+    screen_write(0x8c00, 300);
+    
+    char * dp = 0xac00;
+if (*dp == 'd')
+{
+    print_char('K');
+}
+
+    
     
 
 
