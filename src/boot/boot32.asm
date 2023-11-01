@@ -196,6 +196,11 @@ BOOTLOADER_32BITS:
     mov ax, DATA_SEGMENT
     mov ds, ax
     mov ss, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+
+
 
     
 

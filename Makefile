@@ -5,7 +5,7 @@ cflags := -c --freestanding -m32 -g -mno-red-zone
 
 
 linker := i686-elf-gcc
-linkflags := -nostdlib   -Wl,--oformat=binary -Ttext 0x1000 -lgcc
+linkflags := -nostdlib   -Tsrc/kernel/linker.ld -lgcc
 
 
 
@@ -97,7 +97,7 @@ build/$(bootbin): build/$(total_bootloader) 			#assembles files
 	
 
 	nasm build/$(total_bootloader) -f bin  -o build/$(bootbin)
-	@echo  "$(GREEN)\nASSEMBLED BOOTLOADER$(NC)"
+	@echo  "$(GREEN)ASSEMBLED BOOTLOADER\n$(NC)"
 
 
 
@@ -113,20 +113,20 @@ build/$(total_bootloader): src/$(bootloader) src/$(bootloader2stage) src/$(bootl
 build/$(krnco):  $(krnc) 								#kernel compilinh
 
 	$(Ccomp)   $(krnc) -o build/$(krnco)  $(cflags)
-		@echo  "$(GREEN)\nCOMPILED KERNEL$(NC)"
+		@echo  "$(GREEN)COMPILED KERNEL\n$(NC)"
 
 
 build/$(krneo): $(krne)
 
-	nasm $(krne) -f elf -o build/$(krneo)
+	nasm $(krne) -f elf32 -o build/$(krneo)
 
 
 build/$(kernelbin): build/$(krneo) build/$(krnco)  $(libso)
 
-	@echo  "$(GREEN)\nCOMPILED LIBS$(NC)"
+	@echo  "$(GREEN)COMPILED LIBS\n$(NC)"
 
 	$(linker)  build/$(krneo) build/$(krnco) $(libso) -o build/$(kernelbin)  $(linkflags)
-	@echo  "$(GREEN)\nLINKED$(NC)"
+	@echo  "$(GREEN)LINKED\n$(NC)"
 
 
 
@@ -134,14 +134,16 @@ build/$(kernelbin): build/$(krneo) build/$(krnco)  $(libso)
 build/%.o: $(libf)/%.c
 
 	$(Ccomp)  -c $< -o $@  $(cflags)
-	@echo  "$(green3)\ncompile lib $<$(NC)"
+	@echo  "$(green3)compile lib $<$(NC)\n"
 
 
 
 
 
 run:  build/$(OS_image)			#runs on QEMU	
-	$(qemu) build/$(OS_image)  -icount  6,align=on
+	$(qemu) build/$(OS_image)    
+	
+####  -icount  6,align=on
 
 
 recomp: tclean all

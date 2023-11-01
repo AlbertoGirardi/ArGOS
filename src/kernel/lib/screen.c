@@ -16,7 +16,6 @@ static uint16_t const screen_rows = 25;
 static uint16_t const screen_columns = 80;
 
 
-
 void screen_initialize(void)
 {
     /*
@@ -101,4 +100,38 @@ void print_char(unsigned char c ){
     */
 
     print_char_c(c, screen_color_char, screen_color_bkg);
+}
+
+
+void ptr_test(int* b){
+
+    if (*b == 3)
+    {
+        print_char('O');
+    }
+    
+
+
+
+}
+
+int screen_write(  char* stringw, size_t str_size){
+
+
+    for (size_t i = 0; i < str_size; i++)
+    {
+        print_char(stringw[i]);
+    }
+
+   /* char* u[2]= "aa";
+    print_char(*u[0]);
+    return str_size;
+  return 0;*/
+    
+}
+
+int putchar(int ic , size_t n){
+
+    char c = (char) ic;
+	screen_write(&c, n);
 }

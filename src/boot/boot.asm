@@ -269,15 +269,17 @@ load_disk:
 
 MAIN16:
 
-    mov dh, 0
-    mov [boot_disk], dx                ;saves boot disk number to a variable
-
+   
     mov ax, 0                           ;set up data segment
     mov ds, ax
     mov es, ax
 
     mov ss, ax
     mov sp, 0x7c00                      ;set up stack
+
+    mov dh, 0
+    mov [boot_disk], dx                ;saves boot disk number to a variable
+
 
     times 3 call nl
 

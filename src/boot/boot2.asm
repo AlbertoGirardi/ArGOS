@@ -129,7 +129,7 @@ check_a20_lineBIOS:
 	pop si
 	popf
 	ret
- 
+    
 	.BufferBelowMB:	db 0
 	.BufferOverMB:	db 0
 
@@ -234,6 +234,9 @@ BOOTLOADER2:                       ;second stage entry point
     push sp
     call print_number
     call nl
+
+    push DATA_SEGMENT
+    call print_number
     
     ;SWITCHING FROM 32 BIT MODE
 
