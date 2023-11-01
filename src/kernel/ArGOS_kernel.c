@@ -10,7 +10,7 @@ char u[]="dududududududududududududd";
 
 static uint32_t f;
 static uint32_t *g ;
-
+static uint32_t j;
 
 //char o[50];
 
