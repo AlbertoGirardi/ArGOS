@@ -24,7 +24,7 @@ void screen_initialize(void)
 
     screen_cursor_column = 0;
     screen_cursor_row = 0;
-    blank_screen(VGA_COLOR_BLACK);
+    screen_blank(VGA_COLOR_BLACK);
 }
 
 
@@ -35,7 +35,7 @@ void set_screen_color( enum vga_color color_char, enum vga_color color_bkg ){
 }
 
 
-void blank_screen(enum vga_color color_bkg)
+void screen_blank(enum vga_color color_bkg)
 {
 
     /*covers the screen with the indicated color*/
@@ -95,17 +95,9 @@ void print_char(unsigned char c ){
 }
 
 
-void ptr_test(int* b){
-
-    if (*b == 3)
-    {
-        print_char('O');
-    }
-    
 
 
 
-}
 
 int screen_write(const  char* stringw, size_t str_size){
 
@@ -122,20 +114,3 @@ int screen_write(const  char* stringw, size_t str_size){
     
 }
 
-int putchar(int ic , size_t n){
-
-    char c = (char) ic;
-	screen_write(&c, n);
-}
-
-
-
-void test( int x, int *px){
-
-
-    if (x == *px)
-    {
-        print_char('K');
-    }
-    
-}
