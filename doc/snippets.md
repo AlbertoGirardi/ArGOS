@@ -24,3 +24,10 @@
     
 
 //testing long division
+
+
+
+    if (css == 0x7c00)
+    {
+        screen_write("stack is ok");
+    }
