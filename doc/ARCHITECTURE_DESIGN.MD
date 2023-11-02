@@ -18,7 +18,7 @@ Loads as many sectors as required at 0x7e00 (after the first sector)
     ....
     0x7E00: second stage
     ....
-    0x8c00: kernel loaded here
+    0x9000: kernel loaded here
     ....
     0x9FC00:start of bios data area (NOT OVERWRITE)
 
@@ -197,6 +197,11 @@ HIGH<-------<---------<----------LOW
 |:--------:|:--------:|:--------:|
 | 8 bits   | 4 bits   | 4 bits  |
 | ASCII code  | background col  | char color   |
+
+## \ escape sequences
+for low level \n only does "line feed", \r is required for having a new line
+
+at higher level (printf), \n is translated into \n\r
 
 
 
@@ -414,3 +419,129 @@ lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(
 to compile c
 
 i686-elf-gcc --freestanding -m32 -g -c test.c -o test.o
+  
+    
+      
+
+
+
+<table border="2" cellpadding="4" cellspacing="0" style="margin-top:1em; margin-bottom:1em;; border:1px #aaa solid; border-collapse:collapse; &#123;&#123;&#123;1}}}">
+
+<tr>
+<th> start
+</th>
+<th> end
+</th>
+<th> size
+</th>
+<th> description
+</th>
+<th colspan="2"> type
+</th></tr>
+<tr>
+<th colspan="6"> Real mode address space (the first MiB)
+</th></tr>
+<tr>
+<td> 0x00000000
+</td>
+<td> 0x000003FF
+</td>
+<td> 1 KiB
+</td>
+<td> Real Mode IVT (Interrupt Vector Table)
+</td>
+<td rowspan="2"> unusable in real mode
+</td>
+<td rowspan="6"> 640 KiB RAM ("Low memory")
+</td></tr>
+<tr>
+<td> 0x00000400
+</td>
+<td> 0x000004FF
+</td>
+<td> 256 bytes
+</td>
+<td> BDA (BIOS data area)
+</td></tr>
+<tr>
+<td> 0x00000500
+</td>
+<td> 0x00007BFF
+</td>
+<td> 29.75 KiB
+</td>
+<td> Conventional memory
+</td>
+<td rowspan="3"> usable memory
+</td></tr>
+<tr>
+<td> 0x00007C00
+</td>
+<td> 0x00007DFF
+</td>
+<td> 512 bytes
+</td>
+<td> Your OS BootSector
+</td></tr>
+<tr>
+<td> 0x00007E00
+</td>
+<td> 0x0007FFFF
+</td>
+<td> 480.5 KiB
+</td>
+<td> Conventional memory
+</td></tr>
+<tr>
+<td> 0x00080000
+</td>
+<td> 0x0009FFFF
+</td>
+<td> 128 KiB
+</td>
+<td> EBDA (Extended BIOS Data Area)
+</td>
+<td> partially used by the EBDA
+</td></tr>
+<tr>
+<td> 0x000A0000
+</td>
+<td> 0x000BFFFF
+</td>
+<td> 128 KiB
+</td>
+<td> Video display memory
+</td>
+<td> hardware mapped
+</td>
+<td rowspan="4"> 384 KiB System / Reserved ("Upper Memory")
+</td></tr>
+<tr>
+<td> 0x000C0000
+</td>
+<td> 0x000C7FFF
+</td>
+<td> 32 KiB (typically)
+</td>
+<td> Video BIOS
+</td>
+<td rowspan="3"> ROM and hardware mapped / Shadow RAM
+</td></tr>
+<tr>
+<td> 0x000C8000
+</td>
+<td> 0x000EFFFF
+</td>
+<td> 160 KiB (typically)
+</td>
+<td> BIOS Expansions
+</td></tr>
+<tr>
+<td> 0x000F0000
+</td>
+<td> 0x000FFFFF
+</td>
+<td> 64 KiB
+</td>
+<td> Motherboard BIOS
+</td></tr></table>

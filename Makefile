@@ -8,6 +8,8 @@ linker := i686-elf-gcc
 linkflags := -nostdlib   -Tsrc/kernel/linker.ld -lgcc
 
 
+#build folder
+bf = build
 
 #asm file for bootloader
 
@@ -44,7 +46,6 @@ kernelbin := krn.bin
 #libs files
 
 libf := $(kernel_f)/lib
-vgal := $(libf)/vga_driver.c
 
 libsc := $(wildcard $(libf)/*.c)
 
@@ -52,10 +53,9 @@ libsc := $(wildcard $(libf)/*.c)
 
 
 #libs obj files
-vgalo := vga.o
 
 
-libso := $(patsubst $(libf)/%.c,build/%.o,$(libsc))
+libso := $(patsubst $(libf)/%.c,$(bf)/%.o,$(libsc))
 
 #OS IMAGE
 
@@ -71,77 +71,77 @@ qemu := qemu-system-x86_64
 
 
 
-all:  build/$(OS_image) 
+all:  $(bf)/$(OS_image) 
 
 
 
 test:
 	@echo $(libsc) $(libso)
 
-build: 
-	mkdir build
+$(bf): 
+	mkdir $(bf)
 	
 
 
 
-build/$(OS_image): build/$(bootbin) build/$(kernelbin)	build/zero.bin			#os image
+$(bf)/$(OS_image): $(bf)/$(bootbin) $(bf)/$(kernelbin)	$(bf)/zero.bin			#os image
 
-	cat build/$(bootbin) build/$(kernelbin) build/zero.bin > build/$(OS_image) 
+	cat $(bf)/$(bootbin) $(bf)/$(kernelbin) $(bf)/zero.bin > $(bf)/$(OS_image) 
 	@echo " $(GREEN2)\n\nDONE\n\n$(NC)"
 
-build/zero.bin: build
-	echo "times 8192 dd 0" > build/zero.asm
-	nasm build/zero.asm -f bin -o build/zero.bin
+$(bf)/zero.bin: $(bf)
+	echo "times 8192 dd 0" > $(bf)/zero.asm
+	nasm $(bf)/zero.asm -f bin -o $(bf)/zero.bin
 
-build/$(bootbin): build/$(total_bootloader) 			#assembles files
+$(bf)/$(bootbin): $(bf)/$(total_bootloader) 			#assembles files
 	
 
-	nasm build/$(total_bootloader) -f bin  -o build/$(bootbin)
+	nasm $(bf)/$(total_bootloader) -f bin  -o $(bf)/$(bootbin)
 	@echo  "$(GREEN)ASSEMBLED BOOTLOADER\n$(NC)"
 
 
 
 
 
-build/$(total_bootloader): src/$(bootloader) src/$(bootloader2stage) src/$(bootloader32bits) build #stiches together files
+$(bf)/$(total_bootloader): src/$(bootloader) src/$(bootloader2stage) src/$(bootloader32bits) $(bf) #stiches together files
 																											
 	@echo stiching together asm files								
-	cat src/$(bootloader) src/$(bootloader2stage) src/$(bootloader32bits) > build/$(total_bootloader)
+	cat src/$(bootloader) src/$(bootloader2stage) src/$(bootloader32bits) > $(bf)/$(total_bootloader)
 	@echo ok
 
 
-build/$(krnco):  $(krnc) 								#kernel compilinh
+$(bf)/$(krnco):  $(krnc) 								#kernel compilinh
 
-	$(Ccomp)   $(krnc) -o build/$(krnco)  $(cflags)
+	$(Ccomp)   $(krnc) -o $(bf)/$(krnco)  $(cflags)
 		@echo  "$(GREEN)COMPILED KERNEL\n$(NC)"
 
 
-build/$(krneo): $(krne)
+$(bf)/$(krneo): $(krne)
 
-	nasm $(krne) -f elf32 -o build/$(krneo)
+	nasm $(krne) -f elf32 -o $(bf)/$(krneo)
 
 
-build/$(kernelbin): build/$(krneo) build/$(krnco)  $(libso)
+$(bf)/$(kernelbin): $(bf)/$(krneo) $(bf)/$(krnco)  $(libso)
 
 	@echo  "$(GREEN)COMPILED LIBS\n$(NC)"
 
-	$(linker)  build/$(krneo) build/$(krnco) $(libso) -o build/$(kernelbin)  $(linkflags)
+	$(linker)  $(bf)/$(krneo) $(bf)/$(krnco) $(libso) -o $(bf)/$(kernelbin)  $(linkflags)
 	@echo  "$(GREEN)LINKED\n$(NC)"
 
 
 
 
-build/%.o: $(libf)/%.c
+$(bf)/%.o: $(libf)/%.c
 
-	$(Ccomp)  -c $< -o $@  $(cflags)
+	$(Ccomp)  $< -o $@  $(cflags)
 	@echo  "$(green3)compile lib $<$(NC)\n"
 
 
 
 
 
-run:  build/$(OS_image)			#runs on QEMU	
-	$(qemu) build/$(OS_image)    
+run:  $(bf)/$(OS_image)			#runs on QEMU	
+	$(qemu) $(bf)/$(OS_image)    
 	
 ####  -icount  6,align=on
 
@@ -149,10 +149,10 @@ run:  build/$(OS_image)			#runs on QEMU
 recomp: tclean all
 
 clean:							#removes tmp files
-	rm build/*.asm
-	rm build/*.o
-	rm build/*.bin
+	rm $(bf)/*.asm
+	rm $(bf)/*.o
+	rm $(bf)/*.bin
 
-tclean: 						#removes everything in the build folder
-	rm -r build
+tclean: 						#removes everything in the $(bf) folder
+	rm -r $(bf)
 

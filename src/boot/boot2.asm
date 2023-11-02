@@ -8,8 +8,10 @@
 %define Video_Buffer 0xb8000
 
 ;KERNEL LOADING INFORMATION
-%define KERNEL_ADDRESS 0x8c00
+%define KERNEL_ADDRESS 0x9000
 %define KERNEL_SECTORS    60
+
+%define A20_TEST_MA 5
 
 
 
@@ -112,12 +114,14 @@ check_a20_lineBIOS:
 
 .check_a20__exitFAIL:
     mov si, msg_a20_testFAIL
+    mov [A20ok], word 0         ;pushes control value
     call print
     jmp .exit2
 
 
 .check_a20__exitOK:
     mov si, msg_a20_testOK
+    mov [A20ok], word A20_TEST_MA
     call print
     jmp .exit2
 
@@ -205,6 +209,7 @@ ascii_test:
 msg_welcome2: db ENDL, "STAGE 2 OF THE BOOTLOADER", ENDL,"Benvenuti! Alcuni test in assembly",ENDL, ENDL ,0
 msg_a20_testOK: db "A20 line eneabled: OK (tested from BIOS)", ENDL, 0
 msg_a20_testFAIL: db "A20 line disabled", ENDL, 0
+A20ok: dd 0
 
 
 
@@ -221,6 +226,11 @@ BOOTLOADER2:                       ;second stage entry point
 
 
     call check_a20_lineBIOS            ;test that A20 line is open
+
+    mov ax, [A20ok]
+    mov bx, A20_TEST_MA                           ;controls result of a20line test
+    cmp ax, bx
+    jne CLOSURE                         ;if closed ends program
 
     ;call ascii_test
 
@@ -250,4 +260,8 @@ BOOTLOADER2:                       ;second stage entry point
     mov cr0, eax                        ;change CPU mode to protected mode
 
     jmp CODE_SEGMENT:BOOTLOADER_32BITS  ;jump to protected mode codes
+
+
+
+
 

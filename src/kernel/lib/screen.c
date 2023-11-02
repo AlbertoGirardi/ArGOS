@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include "libc_argos.h"
 
 static size_t screen_cursor_row;
 static size_t screen_cursor_column;
@@ -24,18 +25,29 @@ void screen_initialize(void)
 
     screen_cursor_column = 0;
     screen_cursor_row = 0;
-    blank_screen(VGA_COLOR_BLACK);
+    screen_blank(VGA_COLOR_BLACK);
 }
 
 
 void set_screen_color( enum vga_color color_char, enum vga_color color_bkg ){
+
+    /*sets the color of the characters and of the background*/
 
     screen_color_bkg = color_bkg;
     screen_color_char = color_char;
 }
 
 
-void blank_screen(enum vga_color color_bkg)
+
+void set_screen_text_color( enum vga_color color_char ){
+
+    /*sets only the color of the text*/
+    
+    screen_color_char = color_char;
+}
+
+
+void screen_blank(enum vga_color color_bkg)
 {
 
     /*covers the screen with the indicated color*/
@@ -54,10 +66,50 @@ void blank_screen(enum vga_color color_bkg)
     return;
 }
 
+
+
 size_t get_cursor_pos(size_t row, size_t col)
 {
 
+    /*gets the cursor position from the row and col number*/
+
     return (row) * 80 + col;
+}
+
+
+
+size_t get_current_cursor_pos()
+{
+
+    /*gets the current cursor position from the row and col number*/
+
+    return  get_cursor_pos( screen_cursor_row, screen_cursor_column );
+}
+
+
+void set_cursor_pos_colrow(size_t row, size_t col){
+
+    /*sets the screen col and row number to the specified values*/
+    screen_cursor_column = col;
+    screen_cursor_row = row;
+
+    return;
+
+
+}
+
+
+void set_cursor_pos_abs(size_t cursor)
+
+{
+    /*sets the col and row from the absolute cursor position*/
+
+    screen_cursor_row = cursor / screen_columns;
+    screen_cursor_column = cursor % screen_columns;
+
+    return ;
+
+
 }
 
 
@@ -82,6 +134,8 @@ void print_char_c(unsigned char c, enum vga_color color_char, enum vga_color col
 
         // vga_printchar('Q', (500+screen_cursor_row), VGA_COLOR_BLUE, VGA_COLOR_RED );      //debug code
     }
+
+    return;
 }
 
 
@@ -92,50 +146,62 @@ void print_char(unsigned char c ){
     */
 
     print_char_c(c, screen_color_char, screen_color_bkg);
+    return;
 }
 
 
-void ptr_test(int* b){
-
-    if (*b == 3)
-    {
-        print_char('O');
-    }
-    
 
 
 
-}
 
-int screen_write(const  char* stringw, size_t str_size){
+int screen_write_r(const  char* stringw, size_t str_size){
+
+    /*prints a string given as a pointer to the screen,  requires it being given the lenght
+    HANDLES \r \n \t \b 
+    */
 
 
     for (size_t i = 0; i < str_size; i++)
     {
-        print_char(stringw[i]);
+
+
+        switch (stringw[i])
+        {
+        case '\n':      //line feed
+            screen_cursor_row ++;
+            break;
+
+        case '\r':      //carriage return
+            screen_cursor_column = 0;
+            break;
+
+        case '\t':
+            screen_cursor_column = ((screen_cursor_column/4)+1)*4;
+            break;
+
+        case '\b':
+            set_cursor_pos_abs( get_current_cursor_pos()-1 );
+            print_char(' ');
+            set_cursor_pos_abs( get_current_cursor_pos()-1 );
+
+            break;
+
+        default:
+            print_char(stringw[i]);
+
+            break;
+        }
+    
     }
 
-   /* char* u[2]= "aa";
-    print_char(*u[0]);
-    return str_size;
-  return 0;*/
-    
+    return 0;
+
+
 }
 
-int putchar(int ic , size_t n){
+extern int screen_write(const  char* stringw){
 
-    char c = (char) ic;
-	screen_write(&c, n);
+    screen_write_r(stringw, strlen(stringw));
 }
 
 
-
-void test( int x, int *px){
-
-
-    if (x == *px)
-    {
-        print_char('K');
-    }
-    
-}

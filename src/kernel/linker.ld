@@ -1,6 +1,6 @@
 OUTPUT_FORMAT("binary")
 ENTRY(.entry)
-phys = 0x00000000;
+
 
 /*adapted from osdec meaty skeleton*/
 
@@ -10,7 +10,7 @@ ENTRY(_start)
    kernel image. */
 SECTIONS
 {
-	. = phys;
+	. = 0x9000;
 
 	.text BLOCK(4K) : ALIGN(4K)
 	{
@@ -39,6 +39,7 @@ SECTIONS
 
 		__bss_end = .;
 	}
+
 
 	/* The compiler may produce other sections, put them in the proper place in
 	   in this file, if you'd like to include them in the final kernel. */
