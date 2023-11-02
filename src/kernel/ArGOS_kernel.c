@@ -29,17 +29,6 @@ extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KER
     
     screen_write("\r\nGloria al C!!!Glory to C!!!\r\n\n");
 
-    int a = 100000000000000; 
-    int q ;
-
-    q = a/1;
-
-    if ( q ==a )
-    {
-        screen_write("\n\rok1");
-    }
-    
-
 
     
 

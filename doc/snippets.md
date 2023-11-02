@@ -8,3 +8,19 @@
 
 
 //tests tabs
+
+
+
+
+    long long a = 100000000000000; 
+    long long q ;
+
+    q = a/1;
+
+    if ( q ==a )
+    {
+        screen_write("\n\rok1");
+    }
+    
+
+//testing long division
