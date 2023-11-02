@@ -1,6 +1,6 @@
 OUTPUT_FORMAT("binary")
 ENTRY(.entry)
-phys = 0x00000000;
+
 
 /*adapted from osdec meaty skeleton*/
 
@@ -10,7 +10,7 @@ ENTRY(_start)
    kernel image. */
 SECTIONS
 {
-	. = phys;
+	. = 0x9000;
 
 	.text BLOCK(4K) : ALIGN(4K)
 	{

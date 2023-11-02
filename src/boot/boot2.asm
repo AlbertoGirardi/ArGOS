@@ -8,7 +8,7 @@
 %define Video_Buffer 0xb8000
 
 ;KERNEL LOADING INFORMATION
-%define KERNEL_ADDRESS 0x8c00
+%define KERNEL_ADDRESS 0x9000
 %define KERNEL_SECTORS    60
 
 
