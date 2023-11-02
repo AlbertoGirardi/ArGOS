@@ -12,7 +12,7 @@
 ## STAGE 2: boot2.asm
 
 * performs tests on a20 line
-* loads to ram stage 3 and kernel (currently 60 sectors, until 0x7800)  
+* loads to ram stage 3 and kernel (currently 60 sectors, until 0x7800 of the binary disk image)  
 * loads gdt
 * SWITCHES TO PROTECTED MODE
 * jumpes to 32 bit code 3 stage
@@ -47,7 +47,7 @@ loads the libs (drives)
     ....
     0x7E00: second stage and tird stage
     ....
-    0x8c00: kernel loader
+    0x9000: kernel loader
     ....
     ....
     ....
@@ -64,4 +64,8 @@ the disk is a binary image.
 STICHED TOGETHER TO (with cat and 0s spacing)
 2) KERNEL:EVERYTHING LIKED TOGETHER, entry, main and libs
 3) 0s at the end for padding
+
+
+
+KERNEL_ADDRS must be multiple of 0x1000!!! Otherwise the globals won't be found correctly! Solved 2/11/2023
 

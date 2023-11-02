@@ -6,3 +6,8 @@ Abstracts away touching memory
 ## [screen management](../src/kernel/lib/screen.c)
 
 Manages screen, printing strings, managing lines, blanking screen
+
+
+## [general use c functions](../src/kernel/lib/libc_argos.c)
+
+Function that usually one would find in libc (like stdio, stdlib), but have to be rewritten in a freestanding environment
