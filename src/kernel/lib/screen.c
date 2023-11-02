@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+#include "libc_argos.h"
 
 static size_t screen_cursor_row;
 static size_t screen_cursor_column;
@@ -82,6 +83,8 @@ void print_char_c(unsigned char c, enum vga_color color_char, enum vga_color col
 
         // vga_printchar('Q', (500+screen_cursor_row), VGA_COLOR_BLUE, VGA_COLOR_RED );      //debug code
     }
+
+    return;
 }
 
 
@@ -92,6 +95,7 @@ void print_char(unsigned char c ){
     */
 
     print_char_c(c, screen_color_char, screen_color_bkg);
+    return;
 }
 
 
@@ -99,18 +103,43 @@ void print_char(unsigned char c ){
 
 
 
-int screen_write(const  char* stringw, size_t str_size){
+int screen_write_r(const  char* stringw, size_t str_size){
+
+    /*prints a string given as a pointer to the screen,  requires it being given the lenght
+    HANDLES \r and \n */
 
 
     for (size_t i = 0; i < str_size; i++)
     {
-        print_char(stringw[i]);
+
+
+        switch (stringw[i])
+        {
+        case '\n':
+            screen_cursor_row ++;
+            break;
+
+        case '\r':
+            screen_cursor_column = 0;
+            break;
+
+        
+        default:
+            print_char(stringw[i]);
+
+            break;
+        }
+    
     }
 
-   /* char* u[2]= "aa";
-    print_char(*u[0]);
-    return str_size;
-  return 0;*/
-    
+    return 0;
+
+
 }
+
+extern int screen_write(const  char* stringw){
+
+    screen_write_r(stringw, strlen(stringw));
+}
+
 
