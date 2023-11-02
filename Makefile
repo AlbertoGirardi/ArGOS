@@ -133,7 +133,7 @@ $(bf)/$(kernelbin): $(bf)/$(krneo) $(bf)/$(krnco)  $(libso)
 
 $(bf)/%.o: $(libf)/%.c
 
-	$(Ccomp)  -c $< -o $@  $(cflags)
+	$(Ccomp)  $< -o $@  $(cflags)
 	@echo  "$(green3)compile lib $<$(NC)\n"
 
 
