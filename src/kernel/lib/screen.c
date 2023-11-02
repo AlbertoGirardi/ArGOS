@@ -31,7 +31,18 @@ void screen_initialize(void)
 
 void set_screen_color( enum vga_color color_char, enum vga_color color_bkg ){
 
+    /*sets the color of the characters and of the background*/
+
     screen_color_bkg = color_bkg;
+    screen_color_char = color_char;
+}
+
+
+
+void set_screen_text_color( enum vga_color color_char ){
+
+    /*sets only the color of the text*/
+    
     screen_color_char = color_char;
 }
 
@@ -55,10 +66,50 @@ void screen_blank(enum vga_color color_bkg)
     return;
 }
 
+
+
 size_t get_cursor_pos(size_t row, size_t col)
 {
 
+    /*gets the cursor position from the row and col number*/
+
     return (row) * 80 + col;
+}
+
+
+
+size_t get_current_cursor_pos()
+{
+
+    /*gets the current cursor position from the row and col number*/
+
+    return  get_cursor_pos( screen_cursor_row, screen_cursor_column );
+}
+
+
+void set_cursor_pos_colrow(size_t row, size_t col){
+
+    /*sets the screen col and row number to the specified values*/
+    screen_cursor_column = col;
+    screen_cursor_row = row;
+
+    return;
+
+
+}
+
+
+void set_cursor_pos_abs(size_t cursor)
+
+{
+    /*sets the col and row from the absolute cursor position*/
+
+    screen_cursor_row = cursor / screen_columns;
+    screen_cursor_column = cursor % screen_columns;
+
+    return ;
+
+
 }
 
 
@@ -106,7 +157,8 @@ void print_char(unsigned char c ){
 int screen_write_r(const  char* stringw, size_t str_size){
 
     /*prints a string given as a pointer to the screen,  requires it being given the lenght
-    HANDLES \r and \n */
+    HANDLES \r \n \t \b 
+    */
 
 
     for (size_t i = 0; i < str_size; i++)
@@ -115,15 +167,25 @@ int screen_write_r(const  char* stringw, size_t str_size){
 
         switch (stringw[i])
         {
-        case '\n':
+        case '\n':      //line feed
             screen_cursor_row ++;
             break;
 
-        case '\r':
+        case '\r':      //carriage return
             screen_cursor_column = 0;
             break;
 
-        
+        case '\t':
+            screen_cursor_column = ((screen_cursor_column/4)+1)*4;
+            break;
+
+        case '\b':
+            set_cursor_pos_abs( get_current_cursor_pos()-1 );
+            print_char(' ');
+            set_cursor_pos_abs( get_current_cursor_pos()-1 );
+
+            break;
+
         default:
             print_char(stringw[i]);
 

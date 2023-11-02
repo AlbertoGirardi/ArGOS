@@ -198,6 +198,11 @@ HIGH<-------<---------<----------LOW
 | 8 bits   | 4 bits   | 4 bits  |
 | ASCII code  | background col  | char color   |
 
+## \ escape sequences
+for low level \n only does "line feed", \r is required for having a new line
+
+at higher level (printf), \n is translated into \n\r
+
 
 
 
