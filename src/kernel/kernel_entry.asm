@@ -25,9 +25,10 @@ cld
 rep stosb
 
 cli                             ;disables interrupts because IDT isn't set yet
-push ss
+push esp
 call ArGOS_MAIN               ;calls main function
 
+mov ecx, 3
 
 
 .endend:

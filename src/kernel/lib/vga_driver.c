@@ -35,10 +35,10 @@ void vga_printchar_r(unsigned char c, uint16_t cursor_pos, uint16_t color_char  
 
 
 
-void vga_printchar(unsigned char c, uint16_t cursor_pos, enum vga_color color_char,  enum vga_color color_bkg  ){
+void vga_printcharTEXT(unsigned char c, uint16_t cursor_pos, enum vga_color color_char,  enum vga_color color_bkg  ){
 
 	/*
-	wrapper of vga_printchar_r to use enum colors
+	wrapper of vga_printchar_r to use enum colors, specific to vga text mode
 	*/
 
 	vga_printchar_r( c, cursor_pos, (uint16_t) color_char, (uint16_t) color_bkg );
@@ -47,4 +47,10 @@ void vga_printchar(unsigned char c, uint16_t cursor_pos, enum vga_color color_ch
 }
 
 
- 
+void vga_printchar(unsigned char c, uint16_t cursor_pos, enum vga_color color_char,  enum vga_color color_bkg  ){
+
+/* wrapper that abstracts the vga mode*/
+	vga_printcharTEXT(c, cursor_pos, color_char, color_bkg);
+	return;
+
+}

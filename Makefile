@@ -141,7 +141,7 @@ $(bf)/%.o: $(libf)/%.c
 
 
 run:  $(bf)/$(OS_image)			#runs on QEMU	
-	$(qemu) $(bf)/$(OS_image)    
+	$(qemu) $(bf)/$(OS_image)   
 	
 ####  -icount  6,align=on
 
