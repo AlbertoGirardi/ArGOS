@@ -1,4 +1,4 @@
-db "aaaaaaa"
+db "KERNELARGOS"
 ;;;;ENTRY POINT TO THE KERNEL
 [bits 32]
 
@@ -14,7 +14,7 @@ _start:
 ;cli
 ;pop eax
 
-mov esp, 0x7c00
+mov esp, 0x7c00                 ;set up stack 
 mov ebp, 0x7c00
 
 mov edi, __bss_start            ;clears the bss
@@ -24,7 +24,7 @@ mov al, 0
 cld
 rep stosb
 
-cli
+cli                             ;disables interrupts because IDT isn't set yet
 push ss
 call ArGOS_MAIN               ;calls main function
 

@@ -5,6 +5,7 @@
 
 
 
+%define A20_TEST_MA32 3
 
 
 ; Check A20 line FROM PM
@@ -23,11 +24,14 @@ check_a20_linePM:
     cmpsd             ;compare addresses to see if the're equivalent.
     popad
     jne .A20_on        ;if not equivalent , A20 line is set.
+    mov [a20ok32], dword 0
+
     ret               ;if equivalent , the A20 line is cleared.
     
 .A20_on:
 
     push dword 0x2f
+    mov [a20ok32], dword A20_TEST_MA32              ;pushes controll number
     push msg_a20_test32OK               ;print that line is opne
     call print32
     ret
@@ -174,6 +178,8 @@ nl32:
 
 var1: db 123
 
+a20ok32: dd 0
+
 msg_hello: db "Hello World from 32 BITS PROTECTED MODE!" ,ENDL,0
 msg_test: db "TEST TEST TEST",ENDL, 0
 msg_a20_test32OK: db "A20 line eneabled: OK (tested from PM)", ENDL, 0
@@ -213,7 +219,13 @@ BOOTLOADER_32BITS:
     ;;call check_a20_linePM to test if it is opened
 
     call check_a20_linePM
-    
+
+    mov eax, [a20ok32]
+    mov ebx, A20_TEST_MA32              ;double checks a20 line function output
+
+    cmp eax, ebx
+    jne .end
+
     times 3 call nl32
 
     ;push dword 0xf1
@@ -235,7 +247,7 @@ BOOTLOADER_32BITS:
 
     ;call color_test
     
-    jmp KERNEL_ADDRESS
+    jmp KERNEL_ADDRESS          ;JUMP TO THE KERNEL
 
 
     jmp .end

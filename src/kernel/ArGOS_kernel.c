@@ -9,7 +9,7 @@
 
 
 const char* msg_kernel_welcome = "\n\t\t\t\t\t\t\t\t\tArGOS\r\n\nOS KERNEL\r\n\n" ;
-const char *t= "Hello from C!";
+const char * msg_helloc = "Hello from C!";
 
 
 
@@ -25,20 +25,22 @@ extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KER
     screen_write(msg_kernel_welcome);                                   //printing hello messages
     screen_write("Alberto\n\r");
 
-    screen_write(t);
+    screen_write(msg_helloc);
     
     screen_write("\r\nGloria al C!!!Glory to C!!!\r\n\n");
-    screen_blank(VGA_COLOR_BLUE);
 
-    set_cursor_pos_abs(80);
+    int a = 100000000000000; 
+    int q ;
 
+    q = a/1;
 
-
-    screen_write("awno");
-
-    screen_write("\b\b");
-
+    if ( q ==a )
+    {
+        screen_write("\n\rok1");
+    }
     
+
+
     
 
 
