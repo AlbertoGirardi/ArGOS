@@ -81,6 +81,9 @@ reboot from inside: press "r"
 
 ### CURRENT PLAN
 
+1. printf
+2. interrupts
+
 * keyboard input /
 * reboot /
 * reading disk and 2 stage bootloader/

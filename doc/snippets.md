@@ -31,3 +31,16 @@
     {
         screen_write("stack is ok");
     }
+
+
+
+//testing memcmp
+
+
+char t1[]= "wwwwww";
+char t2[]= "wwww33";
+
+
+    char *testmem = &t1[0];
+    char *testmem2 = &t2[0];
+screen_printIntDec( memcmp(testmem, testmem2, 6));
