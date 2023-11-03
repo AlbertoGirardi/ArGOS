@@ -38,7 +38,9 @@ extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KER
     screen_write(testmem2);
 */
 
-    screen_printIntDec(3571);
+    screen_printIntDec(875421);
+    screen_write("\n\r");
+    screen_printIntHex(0xaabb);
 
     
 

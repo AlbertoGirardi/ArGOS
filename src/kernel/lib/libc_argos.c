@@ -94,59 +94,74 @@ char* int_strBASE(long long int n, int base ,char * strpf){
     char strpv[number_str_buffer_lenght];
     char *strp = &strpv[number_str_buffer_lenght];
     char *strp1 =  &strpv[0];
-    *strp-- = '\0';
+    strp[-1] = '\0';
 
 
     if (base == 10)
     {
         digits = &dec_digits[0];
-		screen_write("10dec\n\r");
+		screen_write("(dec)");
     }
     else if (base == 16)
     {
         digits = &hex_digits[0];
-		screen_write("hexdec");
+		screen_write("(hex)");
 
     }
 
+    int g = -1;
 
     do
     {
-        *strp-- = digits[n % base] ;
+        strp[g] = digits[n % base] ;
+
         n /= base;
         c++;
 
-		print_char(digits[n % base]);
+		//print_char(strp[g]);
+        g--;
+
 
     } while (n>base);
 
-    *strp-- =  digits[n % base];
+    strp[g] =  digits[n % base];
+	//print_char(strp[g]);
 
+    //screen_write("\n\r");
 
     int i = 0;
-    for (i; i <= (c); i++)
+    for (i; i <(c); i++)
     {
         strpf[i] = strp1[number_str_buffer_lenght-c+i];
 		//screen_write("x");
 
-		print_char(strpf[i]);
+		//print_char(strpf[i]);
+        /*
+        if (strpf[i] == 0)
+        {
+            screen_write("is zero");
+        }
+        */
     }
-    
-    strpf[i+1] = '\0';
 
-	///screen_write(strpf);
+    
+    //screen_write("\n\r");
+    strpf[i] = '\0';
+
+	screen_write(strpf);
     return strpf;
 
 }
 
 void screen_printInt(long long int n, int b){
 
-    char str[number_str_buffer_lenght] = "hhhhhhhhhhhhhhhhhhhhhhhhhh";
+    char str[number_str_buffer_lenght];
+    
     char *pstr = &str[0];
 
     int_strBASE(n,b ,pstr);
 
-	screen_write(pstr);
+	//screen_write(pstr);
 	//screen_write("awj");
 
 
