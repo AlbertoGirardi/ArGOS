@@ -142,9 +142,13 @@ $(bf)/%.o: $(libf)/%.c
 
 run:  $(bf)/$(OS_image)			#runs on QEMU	
 	$(qemu) $(bf)/$(OS_image)   
+
+
+db:  $(bf)/$(OS_image)			#runs on QEMU	with debugging 
+#! doesnt work
+	$(qemu) -s -S $(bf)/$(OS_image)  
 	
 ####  -icount  6,align=on
-
 
 recomp: tclean all
 
