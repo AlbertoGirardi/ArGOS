@@ -1,5 +1,6 @@
 
 #include "libc_argos.h"
+#include "screen.h"
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -68,4 +69,102 @@ void* memset(void* bufptr, int value, size_t size) {
 	for (size_t i = 0; i < size; i++)
 		buf[i] = (unsigned char) value;
 	return bufptr;
+}
+
+
+
+
+
+
+const char hex_digits[16]= {'0', '1', '2', '3','4', '5', '6', '7','8', '9', 'A', 'B','C', 'D', 'E', 'F'};
+const char dec_digits[10]= {'0', '1', '2', '3','4', '5', '6', '7','8', '9'};
+
+#define number_str_buffer_lenght  30
+
+
+
+
+char* int_strBASE(long long int n, int base ,char * strpf){
+
+//!DOESNT STILL WORK
+    int c = 1;
+
+    const char* digits;
+
+    char strpv[number_str_buffer_lenght];
+    char *strp = &strpv[number_str_buffer_lenght];
+    char *strp1 =  &strpv[0];
+    *strp-- = '\0';
+
+
+    if (base == 10)
+    {
+        digits = &dec_digits[0];
+		screen_write("10dec\n\r");
+    }
+    else if (base == 16)
+    {
+        digits = &hex_digits[0];
+		screen_write("hexdec");
+
+    }
+
+
+    do
+    {
+        *strp-- = digits[n % base] ;
+        n /= base;
+        c++;
+
+		print_char(digits[n % base]);
+
+    } while (n>base);
+
+    *strp-- =  digits[n % base];
+
+
+    int i = 0;
+    for (i; i <= (c); i++)
+    {
+        strpf[i] = strp1[number_str_buffer_lenght-c+i];
+		//screen_write("x");
+
+		print_char(strpf[i]);
+    }
+    
+    strpf[i+1] = '\0';
+
+	///screen_write(strpf);
+    return strpf;
+
+}
+
+void screen_printInt(long long int n, int b){
+
+    char str[number_str_buffer_lenght] = "hhhhhhhhhhhhhhhhhhhhhhhhhh";
+    char *pstr = &str[0];
+
+    int_strBASE(n,b ,pstr);
+
+	screen_write(pstr);
+	//screen_write("awj");
+
+
+	
+}
+
+
+void screen_printIntDec(long long int n){
+
+    screen_printInt(n, 10);
+    return;
+}
+
+
+
+
+void screen_printIntHex(long long int n){
+
+    screen_printInt(n, 16);
+    return;
 }

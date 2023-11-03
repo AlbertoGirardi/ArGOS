@@ -121,7 +121,7 @@ $(bf)/$(krneo): $(krne)
 	nasm $(krne) -f elf32 -o $(bf)/$(krneo)
 
 
-$(bf)/$(kernelbin): $(bf)/$(krneo) $(bf)/$(krnco)  $(libso)
+$(bf)/$(kernelbin): $(bf)/$(krneo) $(bf)/$(krnco)  $(libso) src/kernel/linker.ld
 
 	@echo  "$(GREEN)COMPILED LIBS\n$(NC)"
 
