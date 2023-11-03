@@ -13,6 +13,8 @@ const char * msg_helloc = "Hello from C!";
 
 const char *testmem = "   \0\0\0";
 
+const char* nl = "\n\r";
+
 
 extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUNCTION
 {
@@ -37,10 +39,17 @@ extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KER
     memmove(testmem2, testmem, 3);
     screen_write(testmem2);
 */
+    screen_printIntDec(1);
+    screen_write(nl);
+    screen_printIntDec(css);
+    screen_write(nl);
+  
+    screen_printIntHex((long long)&nl);
 
-    screen_printIntDec(875421);
-    screen_write("\n\r");
-    screen_printIntHex(0xaabb);
+    screen_write(nl);
+    screen_printIntDec(123456789);
+    screen_write(nl);
+
 
     
 

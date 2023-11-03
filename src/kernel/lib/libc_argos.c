@@ -86,8 +86,10 @@ const char dec_digits[10]= {'0', '1', '2', '3','4', '5', '6', '7','8', '9'};
 
 char* int_strBASE(long long int n, int base ,char * strpf){
 
-//!DOESNT STILL WORK
+    //TODO implement negatives
+
     int c = 1;
+    int n0 = n;
 
     const char* digits;
 
@@ -100,12 +102,12 @@ char* int_strBASE(long long int n, int base ,char * strpf){
     if (base == 10)
     {
         digits = &dec_digits[0];
-		screen_write("(dec)");
+		//screen_write("(dec)");
     }
     else if (base == 16)
     {
         digits = &hex_digits[0];
-		screen_write("(hex)");
+		screen_write("0x");
 
     }
 
@@ -124,34 +126,42 @@ char* int_strBASE(long long int n, int base ,char * strpf){
 
     } while (n>base);
 
-    strp[g] =  digits[n % base];
-	//print_char(strp[g]);
+    int i = 0;
 
+    if (n % base != 0)
+    {
+        strp[g] =  digits[n % base];
+	    //print_char(strp[g]);
+
+        for (i; i <(c); i++)
+        {
+            strpf[i] = strp1[number_str_buffer_lenght-c+i];
+        }
+
+        strpf[i] = '\0';
+
+    }
+    else{
+        //screen_write("one digit\n");
+        //print_char(*strpf);
+
+        strpf[0] = digits[n0 % base];
+        strpf[1] = '\0';
+    }
+    
     //screen_write("\n\r");
 
-    int i = 0;
-    for (i; i <(c); i++)
-    {
-        strpf[i] = strp1[number_str_buffer_lenght-c+i];
-		//screen_write("x");
 
-		//print_char(strpf[i]);
-        /*
-        if (strpf[i] == 0)
-        {
-            screen_write("is zero");
-        }
-        */
-    }
 
     
     //screen_write("\n\r");
-    strpf[i] = '\0';
 
-	screen_write(strpf);
+	//screen_write(strpf);
     return strpf;
 
 }
+
+
 
 void screen_printInt(long long int n, int b){
 
@@ -161,8 +171,7 @@ void screen_printInt(long long int n, int b){
 
     int_strBASE(n,b ,pstr);
 
-	//screen_write(pstr);
-	//screen_write("awj");
+	screen_write(pstr);
 
 
 	

@@ -75,6 +75,8 @@ reboot from inside: press "r"
 * kernel lib linking    
 * vga drivers   27/10/2023
 * problems with global variables
+* problem solved 2/11/2023
+* implemented integer and hex printing function 3/11/2023
 
 
 ### CURRENT PLAN
