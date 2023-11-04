@@ -14,6 +14,7 @@
 #include "lib/screen.h"
 #include "stdint.h"
 #include "lib/libc_argos.h"
+#include "lib/stdio.h"
 
 
 

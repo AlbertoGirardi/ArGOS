@@ -17,6 +17,4 @@ extern void int_to_stringDEC( long long int n, char* str);
 extern void int_to_stringHEX( long long int n, char* str);
 
 
-extern void screen_printIntDec(long long int n);
-extern void screen_printIntHex(long long int n);
-
+#define number_str_buffer_lenght  30        //lenght of the buffer for strings from integer

@@ -79,7 +79,6 @@ void* memset(void* bufptr, int value, size_t size) {
 const char hex_digits[16]= {'0', '1', '2', '3','4', '5', '6', '7','8', '9', 'A', 'B','C', 'D', 'E', 'F'};
 const char dec_digits[10]= {'0', '1', '2', '3','4', '5', '6', '7','8', '9'};
 
-#define number_str_buffer_lenght  30        //lenght of the buffer for strings from integer
 
 
 
@@ -225,34 +224,3 @@ void int_to_stringHEX( long long int n, char* str){
 
 }
 
-
-
-void screen_printIntDec(long long int n){
-
-    char str[number_str_buffer_lenght];
-    
-    char *pstr = &str[0];
-
-    int_to_stringDEC(n,pstr);
-
-	screen_write(pstr);
-
-
-	
-}
-
-
-
-
-
-void screen_printIntHex(long long int n){
-
-    char str[number_str_buffer_lenght];
-    
-    char *pstr = &str[0];
-
-    int_to_stringHEX(n,pstr);
-
-	screen_write(pstr);
-
-}
