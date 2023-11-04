@@ -44,3 +44,28 @@ char t2[]= "wwww33";
     char *testmem = &t1[0];
     char *testmem2 = &t2[0];
 screen_printIntDec( memcmp(testmem, testmem2, 6));
+
+
+
+//testing print number functions
+
+ screen_printIntDec(3);
+    screen_write(nl);
+    screen_printIntDec(-5);
+    screen_write(nl);
+
+    screen_printIntDec(-583887755);
+    screen_write(nl);
+    screen_printIntDec(35199997777);
+    screen_write(nl);
+
+    screen_printIntHex(-0x123aabbccdd);
+
+    screen_write(nl);
+
+    char n1[30];
+    char* num = &n1[0];
+    
+    int_to_stringDEC(333, num);
+
+    screen_write(num);

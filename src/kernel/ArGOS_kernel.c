@@ -1,5 +1,14 @@
 //KERNEL OF ARGOS OPERATING SYSTEM
-
+/***
+ *                     _____  ____   _____ 
+ *         /\         / ____|/ __ \ / ____|
+ *        /  \   _ __| |  __| |  | | (___  
+ *       / /\ \ | '__| | |_ | |  | |\___ \ 
+ *      / ____ \| |  | |__| | |__| |____) |
+ *     /_/    \_\_|   \_____|\____/|_____/ 
+ *                                         
+ *                                         
+ */
 
 #include "lib/vga_driver.h"
 #include "lib/screen.h"
@@ -30,30 +39,19 @@ extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KER
     screen_write(msg_helloc);
     
     screen_write("\r\nGloria al C!!!Glory to C!!!\n\r");
-    screen_printIntDec(3);
+   
     screen_write(nl);
-    screen_printIntDec(-5);
-    screen_write(nl);
-
-    screen_printIntDec(-583887755);
-    screen_write(nl);
-    screen_printIntDec(35199997777);
+    screen_printIntDec(get_char_color());
     screen_write(nl);
 
-    screen_printIntHex(-0x123aabbccdd);
-
-    screen_write(nl);
-
-    char n1[30];
-    char* num = &n1;
+    screen_printIntDec(get_bkg_color());
     
-    int_to_stringDEC(333, num);
+    screen_write(nl);
 
-    screen_write(num);
+    screen_werror("errore esercitazione:) !!!");
 
-
-
-
+    screen_write(nl);
+    screen_write("tutto ok!");
 
 
     return;

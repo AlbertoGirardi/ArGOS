@@ -29,6 +29,18 @@ void screen_initialize(void)
 }
 
 
+enum vga_color get_char_color(){
+
+    return screen_color_char;
+}
+
+
+
+enum vga_color get_bkg_color(){
+
+    return screen_color_bkg;
+}
+
 void set_screen_color( enum vga_color color_char, enum vga_color color_bkg ){
 
     /*sets the color of the characters and of the background*/
@@ -36,6 +48,7 @@ void set_screen_color( enum vga_color color_char, enum vga_color color_bkg ){
     screen_color_bkg = color_bkg;
     screen_color_char = color_char;
 }
+
 
 
 
@@ -199,9 +212,23 @@ int screen_write_r(const  char* stringw, size_t str_size){
 
 }
 
-extern int screen_write(const  char* stringw){
+int screen_write(const  char* stringw){
+
+    /*prints a given string to the screen, after the text before that*/
 
     screen_write_r(stringw, strlen(stringw));
+    return strlen(stringw);
 }
 
 
+
+void screen_werror(const char* stringe){
+
+    int char_col = get_char_color();
+
+    set_screen_text_color(VGA_COLOR_RED);
+
+    screen_write(stringe);
+
+    set_screen_text_color(char_col);
+}

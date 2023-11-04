@@ -39,6 +39,7 @@ makefile targets:
     make tclean    ;deletes build directory
     make clean     ;deletes other tmp build files, only final image remains
     make recomp    ;tclean and then compiles
+    make odump     ;objdump of all .o files
 
 boot:
 
