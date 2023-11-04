@@ -39,6 +39,7 @@ makefile targets:
     make tclean    ;deletes build directory
     make clean     ;deletes other tmp build files, only final image remains
     make recomp    ;tclean and then compiles
+    make odump     ;objdump of all .o files
 
 boot:
 
@@ -75,9 +76,14 @@ reboot from inside: press "r"
 * kernel lib linking    
 * vga drivers   27/10/2023
 * problems with global variables
+* problem solved 2/11/2023
+* implemented integer and hex printing function 3/11/2023
 
 
 ### CURRENT PLAN
+
+1. printf
+2. interrupts
 
 * keyboard input /
 * reboot /

@@ -6,6 +6,7 @@ ENTRY(.entry)
 
 ENTRY(_start)
 
+
 /* Tell where the various sections of the object files will be put in the final
    kernel image. */
 SECTIONS

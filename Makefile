@@ -1,6 +1,6 @@
 #compilation and linking toolchain
 Ccomp := i686-elf-gcc
-cflags := -c --freestanding -m32 -g -mno-red-zone 
+cflags := -c --freestanding -m32  -mno-red-zone  #-g
 
 
 
@@ -121,7 +121,7 @@ $(bf)/$(krneo): $(krne)
 	nasm $(krne) -f elf32 -o $(bf)/$(krneo)
 
 
-$(bf)/$(kernelbin): $(bf)/$(krneo) $(bf)/$(krnco)  $(libso)
+$(bf)/$(kernelbin): $(bf)/$(krneo) $(bf)/$(krnco)  $(libso) src/kernel/linker.ld
 
 	@echo  "$(GREEN)COMPILED LIBS\n$(NC)"
 
@@ -140,8 +140,11 @@ $(bf)/%.o: $(libf)/%.c
 
 
 
+
 run:  $(bf)/$(OS_image)			#runs on QEMU	
 	$(qemu) $(bf)/$(OS_image)   
+
+
 
 
 db:  $(bf)/$(OS_image)			#runs on QEMU	with debugging 
@@ -150,7 +153,14 @@ db:  $(bf)/$(OS_image)			#runs on QEMU	with debugging
 	
 ####  -icount  6,align=on
 
+odump:  $(bf)/$(OS_image)
+
+	objdump -t -h $(libso) $(bf)/$(krneo) $(bf)/$(krnco)
+
+
+
 recomp: tclean all
+
 
 clean:							#removes tmp files
 	rm $(bf)/*.asm

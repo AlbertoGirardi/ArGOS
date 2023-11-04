@@ -7,6 +7,11 @@ Abstracts away touching memory
 
 Manages screen, printing strings, managing lines, blanking screen
 
+## terminal
+manages the terminal part of the screen, scrolling and saving old lines, 
+
+printf has effect only on the terminal, but fprintf can be used everywhere
+
 
 ## [general use c functions](../src/kernel/lib/libc_argos.c)
 
