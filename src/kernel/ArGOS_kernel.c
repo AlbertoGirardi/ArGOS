@@ -30,8 +30,29 @@ extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KER
     screen_write(msg_helloc);
     
     screen_write("\r\nGloria al C!!!Glory to C!!!\n\r");
+    screen_printIntDec(3);
+    screen_write(nl);
+    screen_printIntDec(-5);
+    screen_write(nl);
 
-    screen_printIntDec(neg);
+    screen_printIntDec(-583887755);
+    screen_write(nl);
+    screen_printIntDec(35199997777);
+    screen_write(nl);
+
+    screen_printIntHex(-0x123aabbccdd);
+
+    screen_write(nl);
+
+    char n1[30];
+    char* num = &n1;
+    
+    int_to_stringDEC(333, num);
+
+    screen_write(num);
+
+
+
 
 
 

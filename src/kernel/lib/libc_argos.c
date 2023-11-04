@@ -55,7 +55,7 @@ int memcmp(const void* aptr, const void* bptr, size_t size) {
 
 
 
-void* memcpy(void* restrict dstptr, const void* restrict srcptr, size_t size) {
+void* memcpy(void*  dstptr, const void* restrict srcptr, size_t size) {
 	unsigned char* dst = (unsigned char*) dstptr;
 	const unsigned char* src = (const unsigned char*) srcptr;
 	for (size_t i = 0; i < size; i++)
@@ -84,11 +84,18 @@ const char dec_digits[10]= {'0', '1', '2', '3','4', '5', '6', '7','8', '9'};
 
 
 
-char* int_strBASE(long long int n, int base ,char * strpf){
+char* int_strBASE(long long int n, int base, char * strpf){
 
-    //TODO implement negatives
+    bool isneg = false;
 
-    int c = 1;
+    if (n<0)
+    {
+        n = -n;
+        isneg = true;
+    }
+    
+
+    int len = 1;
     int n0 = n;
 
     const char* digits;
@@ -107,7 +114,7 @@ char* int_strBASE(long long int n, int base ,char * strpf){
     else if (base == 16)
     {
         digits = &hex_digits[0];
-		screen_write("0x");
+		//screen_write("0x");
 
     }
 
@@ -118,7 +125,7 @@ char* int_strBASE(long long int n, int base ,char * strpf){
         strp[g] = digits[n % base] ;
 
         n /= base;
-        c++;
+        len++;
 
 		//print_char(strp[g]);
         g--;
@@ -126,50 +133,97 @@ char* int_strBASE(long long int n, int base ,char * strpf){
 
     } while (n>base);
 
+
+
     int i = 0;
+
+    if (isneg)
+    {
+        strpf[i] = '-';
+        i++;
+        len++;
+        
+    }
+    
 
     if (n % base != 0)
     {
         strp[g] =  digits[n % base];
 	    //print_char(strp[g]);
 
-        for (i; i <(c); i++)
+        for (i; i <(len); i++)
         {
-            strpf[i] = strp1[number_str_buffer_lenght-c+i];
+            strpf[i] = strp1[number_str_buffer_lenght-len+i];
         }
 
         strpf[i] = '\0';
 
     }
     else{
+        // if there is only one digit
+
         //screen_write("one digit\n");
         //print_char(*strpf);
 
-        strpf[0] = digits[n0 % base];
-        strpf[1] = '\0';
+        strpf[i] = digits[n0 % base];
+        i++;
+        strpf[i] = '\0';
     }
     
     //screen_write("\n\r");
-
-
-
-    
-    //screen_write("\n\r");
-
 	//screen_write(strpf);
+
+    if (base == 16)     //puts 0x before hex strings
+    {
+        memmove(strpf+1, strpf, number_str_buffer_lenght-2);
+        strpf[0]= '0';
+        strpf[1]= 'x';
+        
+
+    }
+    
+
     return strpf;
 
 }
 
 
 
-void screen_printInt(long long int n, int b){
+
+void int_to_stringDEC( long long int n, char* str){
+
+    /*
+    makes the given string pointer point to a string with the given number in base 10
+    */
+
+    int_strBASE(n,10 ,str);
+
+
+}
+
+
+
+
+void int_to_stringHEX( long long int n, char* str){
+
+    /*
+    makes the given string pointer point to a string with the given number in base 16
+    */
+
+    int_strBASE(n,16 ,str);
+
+
+}
+
+
+
+void screen_printIntDec(long long int n){
 
     char str[number_str_buffer_lenght];
     
     char *pstr = &str[0];
 
-    int_strBASE(n,b ,pstr);
+    int_to_stringDEC(n,pstr);
 
 	screen_write(pstr);
 
@@ -178,17 +232,17 @@ void screen_printInt(long long int n, int b){
 }
 
 
-void screen_printIntDec(long long int n){
-
-    screen_printInt(n, 10);
-    return;
-}
-
 
 
 
 void screen_printIntHex(long long int n){
 
-    screen_printInt(n, 16);
-    return;
+    char str[number_str_buffer_lenght];
+    
+    char *pstr = &str[0];
+
+    int_to_stringHEX(n,pstr);
+
+	screen_write(pstr);
+
 }
