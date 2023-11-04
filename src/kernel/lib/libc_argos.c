@@ -75,16 +75,19 @@ void* memset(void* bufptr, int value, size_t size) {
 
 
 
-
+//character lists for hex and decimal
 const char hex_digits[16]= {'0', '1', '2', '3','4', '5', '6', '7','8', '9', 'A', 'B','C', 'D', 'E', 'F'};
 const char dec_digits[10]= {'0', '1', '2', '3','4', '5', '6', '7','8', '9'};
 
-#define number_str_buffer_lenght  30
+#define number_str_buffer_lenght  30        //lenght of the buffer for strings from integer
 
 
 
 
-char* int_strBASE(long long int n, int base, char * strpf){
+char* int_to_strBASE(long long int n, int base, char * strpf){
+
+/*from a integer n puts into the given pointer a string that is the rappresentation of the integer in the given base, if it is supported
+currently supports decimal, hex*/
 
     bool isneg = false;
 
@@ -117,6 +120,13 @@ char* int_strBASE(long long int n, int base, char * strpf){
 		//screen_write("0x");
 
     }
+
+    else
+    {
+        screen_werror("\n\rbase not supported!only 10 and hex\n\r");
+        return strpf;
+    }
+    
 
     int g = -1;
 
@@ -196,7 +206,7 @@ void int_to_stringDEC( long long int n, char* str){
     makes the given string pointer point to a string with the given number in base 10
     */
 
-    int_strBASE(n,10 ,str);
+    int_to_strBASE(n,10 ,str);
 
 
 }
@@ -210,7 +220,7 @@ void int_to_stringHEX( long long int n, char* str){
     makes the given string pointer point to a string with the given number in base 16
     */
 
-    int_strBASE(n,16 ,str);
+    int_to_strBASE(n,16 ,str);
 
 
 }

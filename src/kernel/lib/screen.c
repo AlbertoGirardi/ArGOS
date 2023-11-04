@@ -224,6 +224,8 @@ int screen_write(const  char* stringw){
 
 void screen_werror(const char* stringe){
 
+    /*prints given error message to the screen changing the color to red*/
+
     int char_col = get_char_color();
 
     set_screen_text_color(VGA_COLOR_RED);

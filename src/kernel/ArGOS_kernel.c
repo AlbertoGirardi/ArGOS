@@ -48,10 +48,20 @@ extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KER
     
     screen_write(nl);
 
+
+
     screen_werror("errore esercitazione:) !!!");
 
     screen_write(nl);
     screen_write("tutto ok!");
+
+
+    char n1[30];
+    char* num = &n1[0];
+    
+    int_to_strBASE(333,4, num);
+
+    screen_write(num);
 
 
     return;
