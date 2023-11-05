@@ -10,6 +10,7 @@
  *                                         
  */
 
+
 #include "lib/vga_driver.h"
 #include "lib/screen.h"
 #include "stdint.h"
@@ -30,6 +31,10 @@ const char* nl = "\n\r";
 extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUNCTION
 {
 
+    char al[] = "abcdefghijklmnopqrstuvwxyz";
+
+    char* alp = &al;
+
     screen_blank(VGA_COLOR_BLUE);
     set_screen_color( VGA_COLOR_WHITE, VGA_COLOR_BLUE);
 
@@ -41,29 +46,31 @@ extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KER
     
     screen_write("\r\nGloria al C!!!Glory to C!!!\n\r");
    
-    screen_write(nl);
-    screen_printIntDec(get_char_color());
-    screen_write(nl);
 
-    screen_printIntDec(get_bkg_color());
+   for (int i = 0; i < 25; i++)
+   {
+    print_char(*(alp+i));
+   }
+   
     
     screen_write(nl);
-
-
-
-    screen_werror("errore esercitazione:) !!!");
+    
+   
+    screen_printIntDec(1000);
+    
+    screen_write(nl);
+    screen_printIntDec(54321);
 
     screen_write(nl);
-    screen_write("tutto ok!");
+    screen_printIntDec(2011);
 
+    screen_write(nl);
+    screen_printIntDec(0);
+    screen_write(nl);
+    screen_printIntDec(1);
 
-    char n1[30];
-    char* num = &n1[0];
-    
-    int_to_strBASE(333,4, num);
-
-    screen_write(num);
-
+    screen_write(nl);
+    screen_printIntDec(10101010);
 
     return;
 }

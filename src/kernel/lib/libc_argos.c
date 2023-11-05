@@ -140,8 +140,9 @@ currently supports decimal, hex*/
         g--;
 
 
-    } while (n>base);
+    } while (n>=base);
 
+        //screen_write("\n\r");
 
 
     int i = 0;
@@ -155,15 +156,20 @@ currently supports decimal, hex*/
     }
     
 
-    if (n % base != 0)
+    if (n0>9)
     {
+        //print_char(n+48);
         strp[g] =  digits[n % base];
 	    //print_char(strp[g]);
-
+        //screen_write("\n\r");
         for (i; i <(len); i++)
         {
             strpf[i] = strp1[number_str_buffer_lenght-len+i];
+            //print_char(strpf[i]);
+
         }
+
+       // screen_write("\n\r");
 
         strpf[i] = '\0';
 
@@ -219,8 +225,17 @@ void int_to_stringHEX( long long int n, char* str){
     makes the given string pointer point to a string with the given number in base 16
     */
 
+   if (n<0)     
+   {
+    screen_werror("\n\rcant't print negative hex\n\r");
+   }
+   
+   else
+   {
     int_to_strBASE(n,16 ,str);
-
+    
+   }
+   
 
 }
 

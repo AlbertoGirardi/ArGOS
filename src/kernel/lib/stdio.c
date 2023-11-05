@@ -3,6 +3,8 @@
 
 void screen_printIntDec(long long int n){
 
+    /*prints a number in decimal rappresentation*/
+
     char str[number_str_buffer_lenght];
     
     char *pstr = &str[0];
@@ -20,6 +22,8 @@ void screen_printIntDec(long long int n){
 
 
 void screen_printIntHex(long long int n){
+
+    /*prints a given number in hex rapresentation, only if it is positive*/
 
     char str[number_str_buffer_lenght];
     
