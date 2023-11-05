@@ -48,7 +48,7 @@ kernelbin := krn.bin
 libf := $(kernel_f)/lib
 
 libsc := $(wildcard $(libf)/*.c)
-
+libsasm := $(wildcard $(libf)/*.asm)
 
 
 
@@ -56,6 +56,8 @@ libsc := $(wildcard $(libf)/*.c)
 
 
 libso := $(patsubst $(libf)/%.c,$(bf)/%.o,$(libsc))
+libsasmo := $(patsubst $(libf)/%.asm,$(bf)/%.o,$(libsasm))
+
 
 #OS IMAGE
 
@@ -76,7 +78,7 @@ all:  $(bf)/$(OS_image)
 
 
 test:
-	@echo $(libsc) $(libso)
+	@echo $(libsasm) $(libsasmo)
 
 $(bf): 
 	mkdir $(bf)
@@ -121,11 +123,11 @@ $(bf)/$(krneo): $(krne)
 	nasm $(krne) -f elf32 -o $(bf)/$(krneo)
 
 
-$(bf)/$(kernelbin): $(bf)/$(krneo) $(bf)/$(krnco)  $(libso) src/kernel/linker.ld
+$(bf)/$(kernelbin): $(bf)/$(krneo) $(bf)/$(krnco)  $(libso) $(libsasmo) src/kernel/linker.ld
 
 	@echo  "$(GREEN)COMPILED LIBS\n$(NC)"
 
-	$(linker)  $(bf)/$(krneo) $(bf)/$(krnco) $(libso) -o $(bf)/$(kernelbin)  $(linkflags)
+	$(linker)  $(bf)/$(krneo) $(bf)/$(krnco) $(libso) $(libsasmo) -o $(bf)/$(kernelbin)  $(linkflags)
 	@echo  "$(GREEN)LINKED\n$(NC)"
 
 
@@ -139,7 +141,8 @@ $(bf)/%.o: $(libf)/%.c
 
 
 
-
+$(bf)/%.o: $(libf)/%.asm
+	nasm -f elf32 $< -o $@
 
 run:  $(bf)/$(OS_image)			#runs on QEMU	
 	$(qemu) $(bf)/$(OS_image)   

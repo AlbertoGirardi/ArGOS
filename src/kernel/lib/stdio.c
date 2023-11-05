@@ -35,3 +35,15 @@ void screen_printIntHex(long long int n){
 	screen_write(pstr);
 
 }
+
+
+
+
+
+int print(char* str){
+
+    /*currently wrapper for screen write*/
+
+
+    screen_write(str);
+}

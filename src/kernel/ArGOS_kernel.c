@@ -19,10 +19,11 @@
 
 
 
+
+
 const char* msg_kernel_welcome = "\n\t\t\t\t\t\t\t\t\tArGOS\r\n\nOS KERNEL\n\rmain, in C\r\n\n" ;
 const char * msg_helloc = "Hello from C!";
 
-int neg = -100;
 
 
 const char* nl = "\n\r";
@@ -31,9 +32,6 @@ const char* nl = "\n\r";
 extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUNCTION
 {
 
-    char al[] = "abcdefghijklmnopqrstuvwxyz";
-
-    char* alp = &al[0];
 
     screen_blank(VGA_COLOR_BLUE);
     set_screen_color( VGA_COLOR_WHITE, VGA_COLOR_BLUE);
@@ -46,13 +44,16 @@ extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KER
     
     screen_write("\r\nGloria al C!!!Glory to C!!!\n\r");
    
+    size_t cur = get_current_cursor_pos();
 
-    
-    screen_write(nl);
-    
-  
-    screen_write(nl);
+    set_cursor_pos_colrow(screen_rows-1, 0);
+    screen_write("underbar_____________");
+
+    set_cursor_pos_abs(cur);
+    print("\n\rPROVA");
 
 
     return;
+
+
 }

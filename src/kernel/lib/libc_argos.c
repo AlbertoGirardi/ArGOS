@@ -200,6 +200,7 @@ currently supports decimal, hex*/
 
     }
     
+  //  print_esp();
 
     return strpf;
 
@@ -269,5 +270,6 @@ void print_esp(){
     int espv = get_esp();
 
     screen_printIntHex(espv);
+    screen_write("\n\r");
     return;
 }

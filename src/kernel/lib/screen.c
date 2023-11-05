@@ -13,8 +13,6 @@ static enum vga_color screen_color_char;
 static enum vga_color screen_color_bkg;
 
 
-static uint16_t const screen_rows = 25;
-static uint16_t const screen_columns = 80;
 
 
 void screen_initialize(void)

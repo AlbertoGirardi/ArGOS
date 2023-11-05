@@ -83,7 +83,8 @@ reboot from inside: press "r"
 ### CURRENT PLAN
 
 1. printf
-2. interrupts
+2. terminal and scrolling, changing vga mode
+3. interrupts
 
 * keyboard input /
 * reboot /

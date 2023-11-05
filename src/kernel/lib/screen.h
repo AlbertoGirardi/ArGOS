@@ -5,7 +5,8 @@
 
 #include "vga_driver.h"
 
-
+static uint16_t const screen_rows = 25;
+static uint16_t const screen_columns = 80;
 
 
 

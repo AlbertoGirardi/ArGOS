@@ -5,7 +5,6 @@ db "KERNELARGOS"
 [extern ArGOS_MAIN]
 
 [global _start]
-[global get_esp]
 
 extern __bss_start
 extern __bss_end
@@ -37,9 +36,3 @@ jmp $
 jmp .endend
 
 
-
-
-get_esp:
-
-    mov eax, esp
-    ret

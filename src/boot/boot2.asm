@@ -250,7 +250,10 @@ BOOTLOADER2:                       ;second stage entry point
     
     ;SWITCHING FROM 32 BIT MODE
 
+    push GDT_descriptor
+    call print_number
 
+    
 
     cli
     lgdt [GDT_descriptor]               ;load GDT

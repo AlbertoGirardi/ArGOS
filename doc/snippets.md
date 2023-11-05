@@ -87,3 +87,19 @@ screen_printIntDec( memcmp(testmem, testmem2, 6));
 
     screen_write(nl);
     screen_printIntDec(10101010);
+
+
+
+    screen_write(nl);
+    
+  
+    screen_write(nl);
+
+    print_esp();
+
+    screen_write(nl);
+
+    test3();
+    screen_write(nl);
+
+    print_esp();
