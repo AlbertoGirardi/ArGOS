@@ -2,7 +2,8 @@
 Ccomp := i686-elf-gcc
 cflags := -c --freestanding -m32  -mno-red-zone  #-g
 
-
+assembler := nasm
+asmflags := -f elf32
 
 linker := i686-elf-gcc
 linkflags := -nostdlib   -Tsrc/kernel/linker.ld -lgcc
@@ -93,12 +94,12 @@ $(bf)/$(OS_image): $(bf)/$(bootbin) $(bf)/$(kernelbin)	$(bf)/zero.bin			#os imag
 
 $(bf)/zero.bin: $(bf)
 	echo "times 8192 dd 0" > $(bf)/zero.asm
-	nasm $(bf)/zero.asm -f bin -o $(bf)/zero.bin
+	$(assembler) $(bf)/zero.asm -f bin -o $(bf)/zero.bin
 
 $(bf)/$(bootbin): $(bf)/$(total_bootloader) 			#assembles files
 	
 
-	nasm $(bf)/$(total_bootloader) -f bin  -o $(bf)/$(bootbin)
+	$(assembler) $(bf)/$(total_bootloader) -f bin  -o $(bf)/$(bootbin)
 	@echo  "$(GREEN)ASSEMBLED BOOTLOADER\n$(NC)"
 
 
@@ -120,7 +121,7 @@ $(bf)/$(krnco):  $(krnc) 								#kernel compilinh
 
 $(bf)/$(krneo): $(krne)
 
-	nasm $(krne) -f elf32 -o $(bf)/$(krneo)
+	$(assembler) $(krne) $(asmflags) -o $(bf)/$(krneo)
 
 
 $(bf)/$(kernelbin): $(bf)/$(krneo) $(bf)/$(krnco)  $(libso) $(libsasmo) src/kernel/linker.ld
@@ -142,7 +143,7 @@ $(bf)/%.o: $(libf)/%.c
 
 
 $(bf)/%.o: $(libf)/%.asm
-	nasm -f elf32 $< -o $@
+	$(assembler) $(asmflags) $< -o $@
 
 run:  $(bf)/$(OS_image)			#runs on QEMU	
 	$(qemu) $(bf)/$(OS_image)   
