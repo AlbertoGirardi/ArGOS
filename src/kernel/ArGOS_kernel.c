@@ -33,7 +33,7 @@ extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KER
 
     char al[] = "abcdefghijklmnopqrstuvwxyz";
 
-    char* alp = &al;
+    char* alp = &al[0];
 
     screen_blank(VGA_COLOR_BLUE);
     set_screen_color( VGA_COLOR_WHITE, VGA_COLOR_BLUE);
@@ -47,30 +47,12 @@ extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KER
     screen_write("\r\nGloria al C!!!Glory to C!!!\n\r");
    
 
-   for (int i = 0; i < 25; i++)
-   {
-    print_char(*(alp+i));
-   }
-   
     
     screen_write(nl);
     
-   
-    screen_printIntDec(1000);
-    
+  
     screen_write(nl);
-    screen_printIntDec(54321);
 
-    screen_write(nl);
-    screen_printIntDec(2011);
-
-    screen_write(nl);
-    screen_printIntDec(0);
-    screen_write(nl);
-    screen_printIntDec(1);
-
-    screen_write(nl);
-    screen_printIntDec(10101010);
 
     return;
 }

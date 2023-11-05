@@ -16,5 +16,8 @@ extern char* int_to_strBASE(long long int n, int base, char * strpf);
 extern void int_to_stringDEC( long long int n, char* str);
 extern void int_to_stringHEX( long long int n, char* str);
 
+extern void   teststack(void);
+void print_esp();
+
 
 #define number_str_buffer_lenght  30        //lenght of the buffer for strings from integer

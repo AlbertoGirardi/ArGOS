@@ -1,5 +1,6 @@
 #include "stdio.h"
 #include "libc_argos.h"
+#include "screen.h"
 
 void screen_printIntDec(long long int n){
 

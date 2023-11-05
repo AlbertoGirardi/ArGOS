@@ -1,6 +1,7 @@
 
 #include "libc_argos.h"
 #include "screen.h"
+#include "stdio.h"
 
 #include <stdbool.h>
 #include <stddef.h>
@@ -71,6 +72,8 @@ void* memset(void* bufptr, int value, size_t size) {
 	return bufptr;
 }
 
+
+int get_esp(void);
 
 
 
@@ -156,7 +159,7 @@ currently supports decimal, hex*/
     }
     
 
-    if (n0>9)
+    if (n0>(base-1))
     {
         //print_char(n+48);
         strp[g] =  digits[n % base];
@@ -190,7 +193,7 @@ currently supports decimal, hex*/
 
     if (base == 16)     //puts 0x before hex strings
     {
-        memmove(strpf+1, strpf, number_str_buffer_lenght-2);
+        memmove(strpf+2, strpf, number_str_buffer_lenght-2);
         strpf[0]= '0';
         strpf[1]= 'x';
         
@@ -239,3 +242,32 @@ void int_to_stringHEX( long long int n, char* str){
 
 }
 
+
+
+void   teststack(void){
+
+
+    char al[] = "xabcdefghijklmnopqrstuvwxyz";
+    char *alp = &al[0];
+
+    for (int i = 0; i < strlen(al); i++)
+    {
+        print_char(*(al+i));
+    }
+
+    
+    screen_write("\n\r");
+
+}
+
+
+
+
+void print_esp(){
+
+
+    int espv = get_esp();
+
+    screen_printIntHex(espv);
+    return;
+}
