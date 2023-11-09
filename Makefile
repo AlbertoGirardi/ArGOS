@@ -159,7 +159,7 @@ db:  $(bf)/$(OS_image)			#runs on QEMU	with debugging
 
 odump:  $(bf)/$(OS_image)
 
-	objdump -t -h $(libso) $(bf)/$(krneo) $(bf)/$(krnco)
+	objdump -t -h $(libso) $(bf)/$(krneo) $(bf)/$(krnco) $(libsasmo)
 
 
 

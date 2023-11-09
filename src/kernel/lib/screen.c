@@ -171,6 +171,7 @@ int screen_write_r(const  char* stringw, size_t str_size){
     HANDLES \r \n \t \b 
     */
 
+    uint16_t cursor_pos = 0;
 
     for (size_t i = 0; i < str_size; i++)
     {
@@ -198,12 +199,17 @@ int screen_write_r(const  char* stringw, size_t str_size){
             break;
 
         default:
-            print_char(stringw[i]);
+            print_char(stringw[i]);                                 //prints character
+
+            cursor_pos = (uint16_t) get_current_cursor_pos();       //stores cursor position of last non blanck character
 
             break;
         }
     
     }
+
+
+    vga_move_cursor(cursor_pos-1);                  //moves cursor
 
     return 0;
 

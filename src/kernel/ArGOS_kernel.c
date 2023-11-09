@@ -16,6 +16,7 @@
 #include "stdint.h"
 #include "lib/libc_argos.h"
 #include "lib/stdio.h"
+#include "lib/terminal.h"
 
 
 
@@ -29,9 +30,10 @@ const char * msg_helloc = "Hello from C!";
 const char* nl = "\n\r";
 
 
-extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUNCTION
-{
 
+
+void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUNCTION
+{
 
     screen_blank(VGA_COLOR_BLUE);
     set_screen_color( VGA_COLOR_WHITE, VGA_COLOR_BLUE);
@@ -50,7 +52,11 @@ extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KER
     screen_write("underbar_____________");
 
     set_cursor_pos_abs(cur);
-    print("\n\rPROVA");
+    print("\n\rPROVA\n\r");
+
+    //print("AAAAAAA");
+
+    
 
 
     return;

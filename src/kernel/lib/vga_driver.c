@@ -54,3 +54,13 @@ void vga_printchar(unsigned char c, uint16_t cursor_pos, enum vga_color color_ch
 	return;
 
 }
+
+
+void vga_move_cursor(uint16_t pos){
+
+
+	outb(0x3D4, 0x0F);
+	outb(0x3D5, (uint8_t) (pos & 0xFF));
+	outb(0x3D4, 0x0E);
+	outb(0x3D5, (uint8_t) ((pos >> 8) & 0xFF));
+}
