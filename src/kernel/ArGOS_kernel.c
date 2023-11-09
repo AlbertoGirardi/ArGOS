@@ -46,10 +46,6 @@ void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUN
     
     screen_write("\r\nGloria al C!!!Glory to C!!!\n\r");
    
-    print("\n\rPROVA\n\r");
-
-    //print("AAAAAAA");
-
     
 
 

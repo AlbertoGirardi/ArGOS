@@ -8,5 +8,7 @@ int print(char* str){
     /*currently wrapper for screen write*/
 
 
-    screen_write(str);
+    int written = screen_write(str);
+
+    return written;
 }
