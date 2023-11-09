@@ -1,4 +1,5 @@
 #include "vga_driver.h"
+#include "libc_argos.h"
 
 #include <stdbool.h>
 #include <stddef.h>

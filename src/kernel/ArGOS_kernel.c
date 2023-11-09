@@ -22,7 +22,7 @@
 
 
 
-const char* msg_kernel_welcome = "\n\t\t\t\t\t\t\t\t\tArGOS\r\n\nOS KERNEL\n\rmain, in C\r\n\n" ;
+const char* msg_kernel_welcome = "\t\t\t\t\t\t\t\t\tArGOS\r\n\nOS KERNEL\n\rmain, in C\r\n\n" ;
 const char * msg_helloc = "Hello from C!";
 
 
@@ -46,12 +46,6 @@ void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUN
     
     screen_write("\r\nGloria al C!!!Glory to C!!!\n\r");
    
-    size_t cur = get_current_cursor_pos();
-
-    set_cursor_pos_colrow(screen_rows-1, 0);
-    screen_write("underbar_____________");
-
-    set_cursor_pos_abs(cur);
     print("\n\rPROVA\n\r");
 
     //print("AAAAAAA");

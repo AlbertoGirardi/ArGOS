@@ -6,7 +6,7 @@ assembler := nasm
 asmflags := -f elf32
 
 linker := i686-elf-gcc
-linkflags := -nostdlib   -Tsrc/kernel/linker.ld -lgcc
+linkflags := -nostdlib   -Tsrc/kernel/linker.ld -lgcc 
 
 
 #build folder
