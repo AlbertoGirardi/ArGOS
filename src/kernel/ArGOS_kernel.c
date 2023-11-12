@@ -10,10 +10,12 @@
  *                                         
  */
 
+#include "stdint.h"
+#include <stdbool.h>
+#include <stddef.h>
 
 #include "lib/vga_driver.h"
 #include "lib/screen.h"
-#include "stdint.h"
 #include "lib/libc_argos.h"
 #include "lib/stdio.h"
 #include "lib/terminal.h"

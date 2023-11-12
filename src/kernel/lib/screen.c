@@ -1,10 +1,12 @@
-#include "screen.h"
-
-
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include "libc_argos.h"
+
+#include "screen.h"
+
+
+
 
 static size_t screen_cursor_row;
 static size_t screen_cursor_column;
