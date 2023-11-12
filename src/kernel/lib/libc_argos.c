@@ -1,10 +1,10 @@
-
-#include "libc_argos.h"
-#include "screen.h"
-
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
+
+#include "libc_argos.h"
+#include "screen.h"
+#include "stdio.h"
 
 
 size_t strlen(const char* str){
@@ -71,6 +71,8 @@ void* memset(void* bufptr, int value, size_t size) {
 	return bufptr;
 }
 
+
+int get_esp(void);
 
 
 
@@ -140,8 +142,9 @@ currently supports decimal, hex*/
         g--;
 
 
-    } while (n>base);
+    } while (n>=base);
 
+        //screen_write("\n\r");
 
 
     int i = 0;
@@ -155,15 +158,20 @@ currently supports decimal, hex*/
     }
     
 
-    if (n % base != 0)
+    if (n0>(base-1))
     {
+        //print_char(n+48);
         strp[g] =  digits[n % base];
 	    //print_char(strp[g]);
-
+        //screen_write("\n\r");
         for (i; i <(len); i++)
         {
             strpf[i] = strp1[number_str_buffer_lenght-len+i];
+            //print_char(strpf[i]);
+
         }
+
+       // screen_write("\n\r");
 
         strpf[i] = '\0';
 
@@ -184,13 +192,14 @@ currently supports decimal, hex*/
 
     if (base == 16)     //puts 0x before hex strings
     {
-        memmove(strpf+1, strpf, number_str_buffer_lenght-2);
+        memmove(strpf+2, strpf, number_str_buffer_lenght-2);
         strpf[0]= '0';
         strpf[1]= 'x';
         
 
     }
     
+  //  print_esp();
 
     return strpf;
 
@@ -219,8 +228,67 @@ void int_to_stringHEX( long long int n, char* str){
     makes the given string pointer point to a string with the given number in base 16
     */
 
+   if (n<0)     
+   {
+    screen_werror("\n\rcant't print negative hex\n\r");
+   }
+   
+   else
+   {
     int_to_strBASE(n,16 ,str);
-
+    
+   }
+   
 
 }
 
+
+
+void   teststack(void){
+
+
+    char al[] = "xabcdefghijklmnopqrstuvwxyz";
+    char *alp = &al[0];
+
+    for (int i = 0; i < strlen(al); i++)
+    {
+        print_char(*(al+i));
+    }
+
+    
+    screen_write("\n\r");
+
+}
+
+
+
+
+void print_esp(){
+
+
+    int espv = get_esp();
+
+    screen_printIntHex(espv);
+    screen_write("\n\r");
+    return;
+}
+
+
+void outb(uint16_t port, uint8_t value)
+{
+    asm volatile ("outb %1, %0" : : "dN" (port), "a" (value));
+}
+
+uint8_t inb(uint16_t port)
+{
+   uint8_t ret;
+   asm volatile("inb %1, %0" : "=a" (ret) : "dN" (port));
+   return ret;
+}
+
+uint16_t inw(uint16_t port)
+{
+   uint16_t ret;
+   asm volatile ("inw %1, %0" : "=a" (ret) : "dN" (port));
+   return ret;
+}

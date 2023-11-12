@@ -69,3 +69,37 @@ screen_printIntDec( memcmp(testmem, testmem2, 6));
     int_to_stringDEC(333, num);
 
     screen_write(num);
+
+
+     
+    screen_printIntDec(1000);
+    
+    screen_write(nl);
+    screen_printIntDec(54321);
+
+    screen_write(nl);
+    screen_printIntDec(2011);
+
+    screen_write(nl);
+    screen_printIntDec(0);
+    screen_write(nl);
+    screen_printIntDec(1);
+
+    screen_write(nl);
+    screen_printIntDec(10101010);
+
+
+
+    screen_write(nl);
+    
+  
+    screen_write(nl);
+
+    print_esp();
+
+    screen_write(nl);
+
+    test3();
+    screen_write(nl);
+
+    print_esp();

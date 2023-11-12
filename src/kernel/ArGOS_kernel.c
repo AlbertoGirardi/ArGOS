@@ -10,24 +10,31 @@
  *                                         
  */
 
+#include "stdint.h"
+#include <stdbool.h>
+#include <stddef.h>
+
 #include "lib/vga_driver.h"
 #include "lib/screen.h"
-#include "stdint.h"
 #include "lib/libc_argos.h"
 #include "lib/stdio.h"
+#include "lib/terminal.h"
 
 
 
-const char* msg_kernel_welcome = "\n\t\t\t\t\t\t\t\t\tArGOS\r\n\nOS KERNEL\n\rmain, in C\r\n\n" ;
+
+
+const char* msg_kernel_welcome = "\t\t\t\t\t\t\t\t\tArGOS\r\n\nOS KERNEL\n\rmain, in C\r\n\n" ;
 const char * msg_helloc = "Hello from C!";
 
-int neg = -100;
 
 
 const char* nl = "\n\r";
 
 
-extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUNCTION
+
+
+void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUNCTION
 {
 
     screen_blank(VGA_COLOR_BLUE);
@@ -40,30 +47,13 @@ extern void ArGOS_MAIN(uint32_t css)                                  //MAIN KER
     screen_write(msg_helloc);
     
     screen_write("\r\nGloria al C!!!Glory to C!!!\n\r");
+    
+    printf("\n\r\n\rPRINTF!!!%d", 351);
    
-    screen_write(nl);
-    screen_printIntDec(get_char_color());
-    screen_write(nl);
-
-    screen_printIntDec(get_bkg_color());
     
-    screen_write(nl);
-
-
-
-    screen_werror("errore esercitazione:) !!!");
-
-    screen_write(nl);
-    screen_write("tutto ok!");
-
-
-    char n1[30];
-    char* num = &n1[0];
-    
-    int_to_strBASE(333,4, num);
-
-    screen_write(num);
 
 
     return;
+
+
 }

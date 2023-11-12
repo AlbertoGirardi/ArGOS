@@ -1,10 +1,12 @@
-#include "screen.h"
-
-
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include "libc_argos.h"
+
+#include "screen.h"
+
+
+
 
 static size_t screen_cursor_row;
 static size_t screen_cursor_column;
@@ -13,8 +15,6 @@ static enum vga_color screen_color_char;
 static enum vga_color screen_color_bkg;
 
 
-static uint16_t const screen_rows = 25;
-static uint16_t const screen_columns = 80;
 
 
 void screen_initialize(void)
@@ -173,6 +173,7 @@ int screen_write_r(const  char* stringw, size_t str_size){
     HANDLES \r \n \t \b 
     */
 
+    uint16_t cursor_pos = 0;
 
     for (size_t i = 0; i < str_size; i++)
     {
@@ -200,12 +201,17 @@ int screen_write_r(const  char* stringw, size_t str_size){
             break;
 
         default:
-            print_char(stringw[i]);
+            print_char(stringw[i]);                                 //prints character
+
+            cursor_pos = (uint16_t) get_current_cursor_pos();       //stores cursor position of last non blanck character
 
             break;
         }
     
     }
+
+
+    vga_move_cursor(cursor_pos-1);                  //moves cursor
 
     return 0;
 
@@ -214,7 +220,8 @@ int screen_write_r(const  char* stringw, size_t str_size){
 
 int screen_write(const  char* stringw){
 
-    /*prints a given string to the screen, after the text before that*/
+    /*prints a given string to the screen, after the text before that
+    returns written character number*/
 
     screen_write_r(stringw, strlen(stringw));
     return strlen(stringw);
