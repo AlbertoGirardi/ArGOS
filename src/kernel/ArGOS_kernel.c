@@ -47,6 +47,8 @@ void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUN
     screen_write(msg_helloc);
     
     screen_write("\r\nGloria al C!!!Glory to C!!!\n\r");
+    
+    printf("\n\r\n\rPRINTF!!!%d", 351);
    
     
 
