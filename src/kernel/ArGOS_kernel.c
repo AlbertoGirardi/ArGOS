@@ -52,13 +52,11 @@ void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUN
     printf("\n\r\n\rPRINTF!!!%d\nprova\n\n", 351);
 
    
-    const char *str = "a%%//%c//%s//%d//%x//%lld//%llx\n";
-    //const char *str = "%x";
+    const char *str = "a%%/%c/%s/%d/%x/%lld/%llx\n";
 
     int nn = -1230000;
     int hxn = 0xabbc;
     long long lungo = 34252587;
-    // printf("\n%+ld\n",lungo);
     
     printf(str, 'S', r, nn, hxn,lungo, lungo);
     
