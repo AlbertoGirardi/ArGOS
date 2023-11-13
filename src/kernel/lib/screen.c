@@ -65,7 +65,7 @@ void screen_blank(enum vga_color color_bkg)
 
     /*covers the screen with the indicated color*/
 
-    unsigned char c = '0';
+    unsigned char c = ' ';
     // vga_printchar(c, cursor  , VGA_COLOR_GREEN, VGA_COLOR_RED );
 
     uint16_t cursor = 0;
@@ -74,6 +74,27 @@ void screen_blank(enum vga_color color_bkg)
     {
 
         vga_printchar(c, cursor, color_bkg, color_bkg);
+    }
+
+    return;
+}
+
+
+
+void screen_blankT(enum vga_color color_bkg, enum vga_color color_char)
+{
+
+    /*covers the screen with the indicated color, BUT changes to another color the text color*/
+
+    unsigned char c = ' ';
+    // vga_printchar(c, cursor  , VGA_COLOR_GREEN, VGA_COLOR_RED );
+
+    uint16_t cursor = 0;
+
+    for (cursor = 0; cursor < (uint16_t)(screen_columns * screen_rows); cursor++)
+    {
+
+        vga_printchar(c, cursor, color_char, color_bkg);
     }
 
     return;
@@ -230,7 +251,7 @@ int screen_write_r(const  char* stringw, size_t str_size){
         }
     }
 
-    vga_move_cursor(cursor_pos-1);                  //moves cursor
+    vga_move_cursor(cursor_pos);                  //moves cursor
 
     return 0;
 

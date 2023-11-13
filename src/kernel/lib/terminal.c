@@ -8,6 +8,7 @@
 
 
 
+char rrrr[] = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 
 
 int print(const char* str){

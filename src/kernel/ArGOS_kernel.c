@@ -38,7 +38,7 @@ const char r[] = "pr";
 void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUNCTION
 {
 
-    screen_blank(VGA_COLOR_BLUE);
+    screen_blankT(VGA_COLOR_BLUE, VGA_COLOR_WHITE);
     set_screen_color( VGA_COLOR_WHITE, VGA_COLOR_BLUE);
 
 
@@ -61,7 +61,7 @@ void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUN
     int w = printf(str, 'S', r, nn, hxn,lungo, lungo);
 
     printf("\nwritten: %d chars", w);
-    printf("\n\n\n\n\n\n\n\n\naaaaa\nvvvv");
+   // printf("\n\n\n\n\n\n\n\naaaaa\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tsssssstuvx");
     
 
 

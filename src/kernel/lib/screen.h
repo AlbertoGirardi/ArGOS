@@ -11,6 +11,8 @@ static uint16_t const screen_columns = 80;
 
 
 extern void screen_blank( enum vga_color color_bkg  );
+extern void screen_blankT(enum vga_color color_bkg, enum vga_color color_char);
+
 extern void screen_initialize(void);
 extern void print_char_c(unsigned char c, enum vga_color color_char, enum vga_color color_bkg);
 extern void print_char(unsigned char c );
