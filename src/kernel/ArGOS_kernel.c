@@ -32,6 +32,7 @@ const char * msg_helloc = "Hello from C!";
 const char* nl = "\n\r";
 
 
+const char r[] = "prova123abcde";
 
 
 void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUNCTION
@@ -48,9 +49,18 @@ void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUN
     
     screen_write("\r\nGloria al C!!!Glory to C!!!\n\r");
     
-    printf("\n\r\n\rPRINTF!!!%d\nprova", 351);
+    printf("\n\r\n\rPRINTF!!!%d\nprova\n\n", 351);
 
    
+    const char *str = "a%%//%c//%s//%d//%x//%lld//%llx\n";
+    //const char *str = "%x";
+
+    int nn = -1230000;
+    int hxn = 0xabbc;
+    long long lungo = 34252587;
+    // printf("\n%+ld\n",lungo);
+    
+    printf(str, 'S', r, nn, hxn,lungo, lungo);
     
 
 
