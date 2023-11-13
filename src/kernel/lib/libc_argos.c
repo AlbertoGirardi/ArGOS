@@ -92,7 +92,7 @@ currently supports decimal, hex*/
 
     bool isneg = false;
 
-    if (n<0)
+    if (n<0)                            //if number is negative flip it 
     {
         n = -n;
         isneg = true;
@@ -100,17 +100,17 @@ currently supports decimal, hex*/
     
 
     int len = 1;
-    long long n0 = n;
+    long long n0 = n;                       //stores initial numbers
 
     const char* digits;
 
-    char strpv[number_str_buffer_lenght];
-    char *strp = &strpv[number_str_buffer_lenght];
-    char *strp1 =  &strpv[0];
+    char strpv[number_str_buffer_lenght];       //buffer for string 
+    char *strp = &strpv[number_str_buffer_lenght];          //pointer to the end of the string
+    char *strp1 =  &strpv[0];                               //pointer to the start of the buffer
     strp[-1] = '\0';
 
 
-    if (base == 10)
+    if (base == 10)                         //select correct set of digits (useless but i wrote it )
     {
         digits = &dec_digits[0];
 		//screen_write("(dec)");
@@ -133,13 +133,16 @@ currently supports decimal, hex*/
 
     do
     {
+
+        //* * DIVISION ALGORITHM TO GET AND STORE the digits of the numbers
+
         strp[g] = digits[n % base] ;
 
         n /= base;
-        len++;
+        len++;      //lengt of the string
 
 		//print_char(strp[g]);
-        g--;
+        g--;                //magic pointer
 
 
     } while (n>=base);
@@ -149,7 +152,7 @@ currently supports decimal, hex*/
 
     int i = 0;
 
-    if (isneg)
+    if (isneg)                  //if is negative append - to the start
     {
         strpf[i] = '-';
         i++;
@@ -158,10 +161,10 @@ currently supports decimal, hex*/
     }
     
 
-    if (n0>(base-1))
+    if (n0>(base-1))                            //* * REVERSES THE ORDER OF THE STRING
     {
         //print_char(n+48);
-        strp[g] =  digits[n % base];
+        strp[g] =  digits[n % base];                // adds last digit
 	    //print_char(strp[g]);
         //screen_write("\n\r");
         for (i; i <(len); i++)
@@ -199,7 +202,6 @@ currently supports decimal, hex*/
 
     }
     
-  //  print_esp();
 
     return strpf;
 
@@ -266,12 +268,24 @@ void   teststack(void){
 void print_esp(){
 
 
+    //prints the value of the ESP
+
     int espv = get_esp();
 
     screen_printIntHex(espv);
     screen_write("\n\r");
     return;
 }
+
+
+
+/*
+
+* * ASM FUNCTIONS TO INTERFACE WITH PORTS
+
+from kernel dev guide of jamesmolloy
+
+*/
 
 
 void outb(uint16_t port, uint8_t value)

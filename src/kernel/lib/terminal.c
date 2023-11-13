@@ -8,6 +8,8 @@
 
 
 
+
+
 int print(const char* str){
 
     /*currently wrapper for screen write*/

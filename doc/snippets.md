@@ -103,3 +103,15 @@ screen_printIntDec( memcmp(testmem, testmem2, 6));
     screen_write(nl);
 
     print_esp();
+
+
+
+
+
+    const char *str = "a%%/%c/%s/%d/%x/%lld/%llx\n";
+
+    int nn = -1230000;
+    int hxn = 0xabbc;
+    long long lungo = 34252587;
+    
+    printf(str, 'S', r, nn, hxn,lungo, lungo);
