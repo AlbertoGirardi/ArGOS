@@ -61,6 +61,7 @@ void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUN
     int w = printf(str, 'S', r, nn, hxn,lungo, lungo);
 
     printf("\nwritten: %d chars", w);
+    printf("\n\n\n\n\n\n\n\n\naaaaa\nvvvv");
     
 
 

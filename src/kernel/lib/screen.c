@@ -103,8 +103,15 @@ size_t get_current_cursor_pos()
 void set_cursor_pos_colrow(size_t row, size_t col){
 
     /*sets the screen col and row number to the specified values*/
-    screen_cursor_column = col;
-    screen_cursor_row = row;
+
+    if (row < screen_rows && col < screen_columns)
+    {
+        screen_cursor_column = col;
+        screen_cursor_row = row;
+    }
+    
+
+    
 
     return;
 
@@ -117,9 +124,14 @@ void set_cursor_pos_abs(size_t cursor)
 {
     /*sets the col and row from the absolute cursor position*/
 
+    if (cursor < (screen_rows*screen_columns))
+    {
+        
     screen_cursor_row = cursor / screen_columns;
     screen_cursor_column = cursor % screen_columns;
 
+    }
+    
     return ;
 
 
@@ -142,8 +154,14 @@ void print_char_c(unsigned char c, enum vga_color color_char, enum vga_color col
 
     else
     {
+
+        if (screen_cursor_row+1 < screen_rows  )
+        {
+            
         screen_cursor_row++;
         screen_cursor_column = 0;
+        }
+        
 
         // vga_printchar('Q', (500+screen_cursor_row), VGA_COLOR_BLUE, VGA_COLOR_RED );      //debug code
     }
@@ -178,38 +196,39 @@ int screen_write_r(const  char* stringw, size_t str_size){
     for (size_t i = 0; i < str_size; i++)
     {
 
-
         switch (stringw[i])
         {
-        case '\n':      //line feed
-            screen_cursor_row ++;
+        case '\n': // line feed
+
+            if (screen_cursor_row + 1 < screen_rows)                        //avoiding terminal overflow
+            {
+                screen_cursor_row++;
+            }
             break;
 
-        case '\r':      //carriage return
+        case '\r': // carriage return
             screen_cursor_column = 0;
             break;
 
         case '\t':
-            screen_cursor_column = ((screen_cursor_column/4)+1)*4;
+            screen_cursor_column = ((screen_cursor_column / 4) + 1) * 4;
             break;
 
         case '\b':
-            set_cursor_pos_abs( get_current_cursor_pos()-1 );
+            set_cursor_pos_abs(get_current_cursor_pos() - 1);
             print_char(' ');
-            set_cursor_pos_abs( get_current_cursor_pos()-1 );
+            set_cursor_pos_abs(get_current_cursor_pos() - 1);
 
             break;
 
         default:
-            print_char(stringw[i]);                                 //prints character
+            print_char(stringw[i]); // prints character
 
-            cursor_pos = (uint16_t) get_current_cursor_pos();       //stores cursor position of last non blanck character
+            cursor_pos = (uint16_t)get_current_cursor_pos(); // stores cursor position of last non blanck character
 
             break;
         }
-    
     }
-
 
     vga_move_cursor(cursor_pos-1);                  //moves cursor
 
