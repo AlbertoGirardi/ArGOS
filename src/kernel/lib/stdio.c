@@ -52,12 +52,14 @@ void screen_printIntHex(long long int n){
 
 
 
+//defining states for the printf state machine
 
-
+//states for printing
 #define printf_normal 0
 #define printf_lenght 2
 #define printf_specifier 1
 
+//states for lenght selection
 #define printf_num_int 0
 #define printf_num_long 1
 #define printf_num_longlong 2
@@ -70,33 +72,47 @@ void screen_printIntHex(long long int n){
 int printf(const char *fmt, ...)
 {
 
-    va_list ap;
+/*
+IMPLEMENTATION OF PRINTF FUNCTION by Alberto Girardi
+
+supported features: 
+    - lenght selections for intger: long and long long (l and ll)
+    -x, X, d, c, s specifiers
+    x only uppercase hex
+
+
+    returns the number of characters written, 
+* * INCLUDING \n and \r and such!
+
+*/
+
+    va_list ap;                                 //gets parameters list
 
     va_start(ap, fmt);
-    int written = 0;
 
-    int state = printf_normal;
-    int num_print_state = printf_num_int;
-    bool go_on = false;
+    int written = 0;                        //char written
+    int state = printf_normal;              //printing state
+    int num_print_state = printf_num_int;   //number printning state
+    bool go_on = false;                     //go on to the next character to print (used when there is info before type specifier to keep looping and)
 
-    while (*fmt != '\0')
+    while (*fmt != '\0')                    //if the string isn't ended
     {
 
         go_on = false;
 
-        if (*fmt == '%')
+        if (*fmt == '%')                    //if % go into lenght state, looking for it
         {
             state = printf_lenght;
             fmt++;
         }
 
-        while (!go_on)
+        while (!go_on)                      //if going from lenght to type specifier don't return to the main loop
         {
             
         switch (state)
         {
 
-        case printf_lenght:
+        case printf_lenght:                //get info about lenght of the intefer
 
             switch (*fmt)
             {
@@ -119,10 +135,10 @@ int printf(const char *fmt, ...)
                 break;
             }
 
-            state= printf_specifier;
+            state= printf_specifier;                    //go into printing state
             break;
 
-        case printf_specifier:
+        case printf_specifier:                          //look for type specifier
             int skip = 0;
 
             while (*fmt)
@@ -131,7 +147,8 @@ int printf(const char *fmt, ...)
                 switch (*fmt)
                 {
                 case 'c':
-
+                    
+                    //print a character
                     char c = (char)va_arg(ap, int);
                     print_r(&c, 1);
                     written++;
@@ -140,6 +157,7 @@ int printf(const char *fmt, ...)
 
                 case 's':
 
+                    //print a string
                     const char *stringp = va_arg(ap, const char *);
                     size_t slen = strlen(stringp);
 
@@ -150,24 +168,24 @@ int printf(const char *fmt, ...)
 
                 case 'd':
 
-
+                    //prints an integer in decimal rappresentation
                     char strint[number_str_buffer_lenght];
-                    memset(strint, 0, number_str_buffer_lenght);
+                    memset(strint, 0, number_str_buffer_lenght);            //prepare buffer string of appropriate lenght and zero it out
                     char *pstr = &strint[0];
 
-                    switch (num_print_state)
+                    switch (num_print_state)                    //depending on the required lenght
                     {
 
-                    case printf_num_int:
+                    case printf_num_int:                        //print int
                         int integer = va_arg(ap, int);   
                         int_to_stringDEC(integer, pstr);
 
                         break;
-                    case printf_num_long:
+                    case printf_num_long:                       //long
                         long integerl = va_arg(ap, long);
                         int_to_stringDEC(integerl, pstr);
                         break;
-                    case printf_num_longlong:
+                    case printf_num_longlong:                   //long long
                         long long integerll = va_arg(ap, long long);   
                         int_to_stringDEC(integerll, pstr);
 
@@ -177,13 +195,17 @@ int printf(const char *fmt, ...)
                     }
 
 
-                    print_r(pstr, strlen(pstr));
-                    written += slen;
+                    slen = strlen(pstr);
+                    print_r(pstr, slen);
+                                                            //print the rappresentation of the number
+                    written += slen;                        
                     skip++;
 
                     break;
 
-                case 'x':
+                case 'X':                   //PRINTS hex number
+                    //continues to the x case
+                case 'x':                     //like d but for hex
 
                     char strintx[number_str_buffer_lenght];
                     char *pstrx = &strintx[0];
@@ -209,17 +231,18 @@ int printf(const char *fmt, ...)
                         break;
                     }
 
-
-                    print_r(pstrx, strlen(pstrx));
+                    slen = strlen(pstrx);
+                    print_r(pstrx, slen);
                     written += slen;
                     skip++;
 
                     break;
 
-                case '%':
+                case '%':                   //if %% in the string print %
 
                     print_r("%", 1);
                     skip++;
+                    written++;
                     break;
 
                 default:
@@ -229,7 +252,7 @@ int printf(const char *fmt, ...)
                 fmt++;
                 if (skip)
                 {
-                    break;
+                    break;          //get of the specifier lookuing state and return to normale
                 }
             }
             state = printf_normal;
@@ -237,7 +260,7 @@ int printf(const char *fmt, ...)
             break;
 
 
-        case printf_normal:
+        case printf_normal:             //print a character from the fmt string
 
             if (*fmt == '\n')
             {
@@ -268,7 +291,7 @@ int printf(const char *fmt, ...)
     }
 
     va_end(ap);
-    return written;
+    return written;                 //return amout of written chars
 }
 
 
