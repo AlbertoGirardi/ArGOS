@@ -53,6 +53,7 @@ void screen_printIntHex(long long int n){
 #define printf_num_longlong 2
 
 
+
 int printf(const char *fmt, ...)
 {
 
@@ -170,12 +171,31 @@ int printf(const char *fmt, ...)
                     break;
 
                 case 'x':
-                    int integerx = va_arg(ap, int);
 
                     char strintx[number_str_buffer_lenght];
                     char *pstrx = &strintx[0];
 
-                    int_to_stringHEX(integerx, pstrx);
+                    switch (num_print_state)
+                    {
+
+                    case printf_num_int:
+                        int integerx = va_arg(ap, int);   
+                        int_to_stringHEX(integerx, pstrx);
+
+                        break;
+                    case printf_num_long:
+                        long integerlx = va_arg(ap, long);
+                        int_to_stringHEX(integerlx, pstrx);
+                        break;
+                    case printf_num_longlong:
+                        long long integerllx = va_arg(ap, long long);   
+                        int_to_stringHEX(integerllx, pstrx);
+
+                        break;
+                    default:
+                        break;
+                    }
+
 
                     screen_write_r(pstrx, strlen(pstrx));
                     written += slen;

@@ -100,7 +100,7 @@ currently supports decimal, hex*/
     
 
     int len = 1;
-    int n0 = n;
+    long long n0 = n;
 
     const char* digits;
 
