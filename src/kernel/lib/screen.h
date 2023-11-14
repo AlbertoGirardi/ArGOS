@@ -5,8 +5,12 @@
 
 #include "vga_driver.h"
 
-static uint16_t const screen_rows = 25;
-static uint16_t const screen_columns = 80;
+#define VGA_TXT_ROWS 25
+#define VGA_TXT_COLUMNS 80
+
+
+static uint16_t const screen_rows = VGA_TXT_ROWS;
+static uint16_t const screen_columns = VGA_TXT_COLUMNS;
 
 
 

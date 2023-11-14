@@ -32,7 +32,9 @@ const char * msg_helloc = "Hello from C!";
 const char* nl = "\n\r";
 
 
-const char r[] = "pr";
+const char r[] = "TERMINAL STRING";
+
+struct Terminal terminal;
 
 
 void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUNCTION
@@ -51,18 +53,20 @@ void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUN
     
     printf("\n\r\n\rPRINTF!!!%d\nprova\n\n", 351);
 
+    memmove(&terminal.lines_buffer[0], &r[0], strlen(&r[0]) );
    
-    const char *str = "a%%/%c/%s/%d/%x/%lld/%llXPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP\n";
+    printf("%x\n\n", (&terminal.lines_buffer[0] - 0x9000) );
 
-    int nn = -1230000;
-    int hxn = 0xabbc;
-    long long lungo = 34252587;
+    memmove(&terminal.lines_buffer[0], (char*) 0xb8000 + 160*3 ,  (25*160));      //saves screen lines
     
-    int w = printf(str, 'S', r, nn, hxn,lungo, lungo);
 
-    printf("\nwritten: %d chars", w);
-   // printf("\n\n\n\n\n\n\n\naaaaa\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tsssssstuvx");
-    
+    memset( (char*) 0xb8000, 0, 80*25*160);//blanks the screen brute force
+
+    memmove( (char*) 0xb8000 ,&terminal.lines_buffer[0] , (25*160));      //restores old screeen
+
+    //printf("%s", &terminal.lines_buffer[0]);
+    printf("tutto ok :)");
+
 
 
     return;
