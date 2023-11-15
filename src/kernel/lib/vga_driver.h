@@ -28,7 +28,7 @@ extern enum vga_color {
 }vga_color;
 
 
-
+extern void vga_printchar_r_mem(unsigned char c, uint16_t* mem ,uint16_t cursor_pos, uint16_t color_char  ,uint16_t color_bkg );
 extern void vga_printchar_r( unsigned char c, uint16_t cursor_pos, uint16_t color_char  , uint16_t color);
 extern void vga_printchar(unsigned char c, uint16_t cursor_pos, enum vga_color color_char,  enum vga_color color_bkg  );
 

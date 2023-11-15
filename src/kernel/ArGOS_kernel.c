@@ -53,19 +53,16 @@ void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUN
     
     printf("\n\r\n\rPRINTF!!!%d\nprova\n\n", 351);
 
-    memmove(&terminal.lines_buffer[0], &r[0], strlen(&r[0]) );
-   
-    printf("%x\n\n", (&terminal.lines_buffer[0] - 0x9000) );
 
-    memmove(&terminal.lines_buffer[0], (char*) 0xb8000 + 160*3 ,  (25*160));      //saves screen lines
-    
+    set_terminal(&terminal, 2, screen_rows);
 
-    memset( (char*) 0xb8000, 0, 80*25*160);//blanks the screen brute force
+    //terminal_printchar('e');
 
-    memmove( (char*) 0xb8000 ,&terminal.lines_buffer[0] , (25*160));      //restores old screeen
+    memset( &(terminal.lines_buffer_char[0]), 'A', 160 );
 
+    terminal_draw_buffer();
     //printf("%s", &terminal.lines_buffer[0]);
-    printf("tutto ok :)");
+    //printf("tutto ok :)");
 
 
 
