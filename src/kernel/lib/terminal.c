@@ -41,6 +41,8 @@ void set_terminal(struct Terminal *_terminalp, int ts_start_row, int ts_end_row)
 void tscreen_printchar(unsigned char c)
 {
 
+    /*wrapper for  print char from screen library*/
+
     print_char_c(c,terminalp->terminal_color_char ,terminalp->terminal_color_bkg);
 
     return;
