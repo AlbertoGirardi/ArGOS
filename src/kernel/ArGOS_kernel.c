@@ -58,8 +58,18 @@ void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUN
 
     //terminal_printchar('e');
 
-    memset( &(terminal.lines_buffer_char[0]), 'A', 160 );
+    //memset( &(terminal.lines_buffer_char[0]), 'A', 160 );
 
+    for (int i = 0; i < 160; i++)
+    {
+        terminal_print_char_c('A', VGA_COLOR_BLACK, VGA_COLOR_CYAN);
+
+    }
+    
+
+    terminal_draw_buffer();
+
+    terminal.cursor_line =1;
     terminal_draw_buffer();
     //printf("%s", &terminal.lines_buffer[0]);
     //printf("tutto ok :)");

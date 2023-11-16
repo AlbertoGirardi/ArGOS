@@ -27,7 +27,10 @@ struct Terminal
     int  sc_cursor_row;
     int  sc_cursor_column;
 
-    int cursor_line_vrt;
+    int cursor_line;
+    
+    int t_cursorC;
+    int t_cursorR;
 
     char lines_buffer_char[VGA_TXT_COLUMNS*terminal_line_buffer_lenght];
     enum vga_color lines_buffer_colchar[VGA_TXT_COLUMNS*terminal_line_buffer_lenght];
@@ -47,6 +50,7 @@ extern int print_r(const char* str, size_t len);
 extern void set_terminal(struct Terminal *_terminalp, int ts_start_row, int ts_end_row);
 
 extern void terminal_printchar(unsigned char c);
+extern void terminal_print_char_c(unsigned char c, enum vga_color color_char, enum vga_color color_bkg);
 extern void terminal_draw_buffer();
 
 
