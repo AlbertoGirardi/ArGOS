@@ -35,6 +35,7 @@ extern void screen_werror(const char* stringe);
 extern void set_cursor_pos_abs(size_t cursor);
 extern void set_cursor_pos_colrow(size_t row, size_t col);
 extern size_t get_current_cursor_pos();
+extern size_t get_cursor_pos(size_t row, size_t col);
 
 
 

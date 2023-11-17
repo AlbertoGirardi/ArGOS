@@ -53,23 +53,35 @@ void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUN
     
     printf("\n\r\n\rPRINTF!!!%d\nprova\n\n", 351);
 
+    printf("affjnaja");
+
 
     set_terminal(&terminal, 2, screen_rows);
 
-    //terminal_printchar('e');
 
     //memset( &(terminal.lines_buffer_char[0]), 'A', 160 );
 
-    for (int i = 0; i < 160; i++)
+    for (int i = 0; i < 160*9; i++)
     {
         terminal_print_char_c('A', VGA_COLOR_BLACK, VGA_COLOR_CYAN);
 
     }
     
 
-    terminal_draw_buffer();
+    for (int i = 0; i < 160; i++)
+    {
+        terminal_print_char_c('B', VGA_COLOR_BROWN, VGA_COLOR_RED);
 
-    terminal.cursor_line =1;
+    }
+
+
+    //terminal.cursor_line =2;
+
+    for (int i = 0; i < 78*2; i++)
+    {
+        terminal_print_char_c('c', VGA_COLOR_CYAN, VGA_COLOR_WHITE);
+
+    }
     terminal_draw_buffer();
     //printf("%s", &terminal.lines_buffer[0]);
     //printf("tutto ok :)");

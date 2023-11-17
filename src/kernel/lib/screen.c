@@ -187,6 +187,8 @@ void print_char_c(unsigned char c, enum vga_color color_char, enum vga_color col
         // vga_printchar('Q', (500+screen_cursor_row), VGA_COLOR_BLUE, VGA_COLOR_RED );      //debug code
     }
 
+   // vga_move_cursor(get_cursor_pos(screen_cursor_row, screen_cursor_column));                  //moves cursor
+
     return;
 }
 

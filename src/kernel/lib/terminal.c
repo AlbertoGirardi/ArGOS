@@ -117,10 +117,19 @@ void terminal_print_char_c(unsigned char c, enum vga_color color_char, enum vga_
 
     /*prints chat, allowing to specify color, in the screen*/
 
-//todo also change colors
+    uint16_t char_position = terminalp->t_cursorC  + (terminalp->t_cursorR + terminalp->cursor_line)* VGA_TXT_COLUMNS;
 
-    terminalp->lines_buffer_char[ terminalp->t_cursorC  + terminalp->t_cursorR* VGA_TXT_COLUMNS] = c;
+    terminalp->lines_buffer_char[char_position] = c;
+    
+    terminalp->lines_buffer_colchar[char_position] = color_char;
+    terminalp->lines_buffer_colbkg[char_position] = color_bkg;
 
+
+    // vga_move_cursor(get_cursor_pos(terminalp->t_cursorR, terminalp->t_cursorC));                  //moves cursor
+    vga_move_cursor(get_cursor_pos( terminalp->t_cursorR +  terminalp->ts_start_row,terminalp->t_cursorC));                  //moves cursor
+
+
+    
 
 
     if ((terminalp->t_cursorC + 1) < VGA_TXT_COLUMNS)
@@ -131,13 +140,25 @@ void terminal_print_char_c(unsigned char c, enum vga_color color_char, enum vga_
     else
     {
 
-        terminalp->t_cursorR++;
-        terminalp->t_cursorC = 0;
+//todo implemt scrolling as a function
+
+        if ( terminalp->t_cursorR+1 <= terminalp->rows )
+        {
+                
+            terminalp->t_cursorR++;
+            terminalp->t_cursorC = 0;
+            
+        }
+        else
+        {
+            terminalp->t_cursorC = 0;
+            terminalp->cursor_line++;
+
+        }
         
         
         
 
-        // vga_printchar('Q', (500+screen_cursor_row), VGA_COLOR_BLUE, VGA_COLOR_RED );      //debug code
     }
 
 
