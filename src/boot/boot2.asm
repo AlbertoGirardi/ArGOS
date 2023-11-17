@@ -247,8 +247,17 @@ BOOTLOADER2:                       ;second stage entry point
 
     push DATA_SEGMENT
     call print_number
+
+
+
     
     ;SWITCHING FROM 32 BIT MODE
+
+
+    mov eax, switch_32       ;jump only if sets (for debug)
+    mov ebx, 1
+    cmp eax, ebx
+    jne CLOSURE
 
     push GDT_descriptor
     call print_number

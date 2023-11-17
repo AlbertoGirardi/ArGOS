@@ -246,6 +246,11 @@ BOOTLOADER_32BITS:
     call print32
 
     ;call color_test
+
+    mov eax, boot_kernel        ;jump only if sets (for debug)
+    mov ebx, 1
+    cmp eax, ebx
+    jne .end
     
     jmp KERNEL_ADDRESS          ;JUMP TO THE KERNEL
 
