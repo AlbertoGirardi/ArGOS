@@ -74,7 +74,6 @@ void terminal_draw_buffer()
             int cursore = 80*(r- terminalp->ts_start_row + terminalp->cursor_line )+c;
             tscreen_printchar(terminalp->lines_buffer_char[cursore],terminalp->lines_buffer_colchar[cursore], terminalp->lines_buffer_colbkg[cursore]);
 
-            //terminalp->terminal_color_char, terminalp->terminal_color_bkg
         }
         
     }
@@ -125,8 +124,7 @@ void terminal_print_char_c(unsigned char c, enum vga_color color_char, enum vga_
     terminalp->lines_buffer_colbkg[char_position] = color_bkg;
 
 
-    // vga_move_cursor(get_cursor_pos(terminalp->t_cursorR, terminalp->t_cursorC));                  //moves cursor
-    vga_move_cursor(get_cursor_pos( terminalp->t_cursorR +  terminalp->ts_start_row,terminalp->t_cursorC));                  //moves cursor
+    vga_move_cursor(get_cursor_pos( terminalp->t_cursorR +  terminalp->ts_start_row,terminalp->t_cursorC+1));                  //moves cursor
 
 
     
@@ -142,9 +140,9 @@ void terminal_print_char_c(unsigned char c, enum vga_color color_char, enum vga_
 
 //todo implemt scrolling as a function
 
-        if ( terminalp->t_cursorR+1 <= terminalp->rows )
+        if ( terminalp->t_cursorR+1 < terminalp->rows )
         {
-                
+            
             terminalp->t_cursorR++;
             terminalp->t_cursorC = 0;
             
@@ -153,6 +151,8 @@ void terminal_print_char_c(unsigned char c, enum vga_color color_char, enum vga_
         {
             terminalp->t_cursorC = 0;
             terminalp->cursor_line++;
+            
+
 
         }
         
@@ -160,7 +160,6 @@ void terminal_print_char_c(unsigned char c, enum vga_color color_char, enum vga_
         
 
     }
-
 
     return;
 }
