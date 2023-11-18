@@ -41,16 +41,27 @@ struct Terminal
     enum vga_color terminal_color_bkg;
 
 
+
+    enum vga_color terminal_tmp_color_char;
+    enum vga_color terminal_tmp_color_bkg;
+
+
 };
 
 
 
 extern int print(const char* str);
 extern int print_r(const char* str, size_t len);
-extern void set_terminal(struct Terminal *_terminalp, int ts_start_row, int ts_end_row);
+
+extern void set_terminal(struct Terminal *_terminalp, int ts_start_row, int ts_end_row, enum vga_color color_char, enum vga_color color_bkg);
+extern void terminal_set_tmp_color(enum vga_color color_char, enum vga_color color_bkg);
+extern void terminal_reset_color();
+
 
 extern void terminal_printchar(unsigned char c);
 extern void terminal_print_char_c(unsigned char c, enum vga_color color_char, enum vga_color color_bkg);
+extern void terminal_scroll();
+
 extern void terminal_draw_buffer();
 
 extern int terminal_write_r(const  char* stringw, size_t str_size);

@@ -11,7 +11,7 @@
 struct Terminal *terminalp;
 
 
-void set_terminal(struct Terminal *_terminalp, int ts_start_row, int ts_end_row)
+void set_terminal(struct Terminal *_terminalp, int ts_start_row, int ts_end_row, enum vga_color color_char, enum vga_color color_bkg)
 {
 
     /*
@@ -32,9 +32,12 @@ void set_terminal(struct Terminal *_terminalp, int ts_start_row, int ts_end_row)
     terminalp->t_cursorR = 0;
 
 
-//TODO set also colors
-    terminalp->terminal_color_bkg = VGA_COLOR_GREEN;
-    terminalp->terminal_color_char = VGA_COLOR_WHITE;
+    terminalp->terminal_color_bkg = color_bkg;
+    terminalp->terminal_color_char = color_char;
+
+
+    terminalp->terminal_tmp_color_bkg = color_bkg;
+    terminalp->terminal_tmp_color_char = color_char;
 
     for (int i = 0; i < VGA_TXT_COLUMNS*terminal_line_buffer_lenght; i++)
     {
@@ -88,7 +91,6 @@ void terminal_draw_buffer()
 int print(const char* str){
 
     /*currently wrapper for screen write*/
-//todo stub
 
     int written = terminal_write_r(str, strlen(str));
     terminal_draw_buffer();
@@ -224,7 +226,7 @@ int terminal_write_r(const  char* stringw, size_t str_size)
             break;
 
         default:
-            terminal_print_char_c(stringw[i],terminalp->terminal_color_char,terminalp->terminal_color_bkg); // prints character
+            terminal_print_char_c(stringw[i],terminalp->terminal_tmp_color_char,terminalp->terminal_tmp_color_bkg); // prints character
 
             //cursor_pos = (uint16_t)get_current_cursor_pos(); // stores cursor position of last non blanck character
 
@@ -239,3 +241,27 @@ int terminal_write_r(const  char* stringw, size_t str_size)
 
 
 }
+
+
+
+
+void terminal_set_tmp_color(enum vga_color color_char, enum vga_color color_bkg)
+{
+
+/*sets temporary colors, used only during 1 print operation before resetting them*/
+    terminalp->terminal_tmp_color_bkg = color_bkg;
+    terminalp->terminal_tmp_color_char = color_char;
+
+
+}
+
+
+void terminal_reset_color(){
+
+
+
+    terminalp->terminal_tmp_color_bkg = terminalp->terminal_color_bkg;
+    terminalp->terminal_tmp_color_char = terminalp->terminal_color_char;
+
+}
+

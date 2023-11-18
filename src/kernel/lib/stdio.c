@@ -291,7 +291,8 @@ supported features:
     }
 
     va_end(ap);
-    terminal_draw_buffer();
+    terminal_reset_color();         //resets the colors to before any change made before printf
+    terminal_draw_buffer();         //draws the screen
 
     return written;                 //return amout of written chars
 }

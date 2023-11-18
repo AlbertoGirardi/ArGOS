@@ -45,14 +45,14 @@ void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUN
     screen_blankT(VGA_COLOR_BLUE, VGA_COLOR_WHITE);
     set_screen_color( VGA_COLOR_WHITE, VGA_COLOR_BLUE);
     screen_write(msg_kernel_welcome);
-    set_terminal(&terminal, 1, screen_rows);
+    set_terminal(&terminal, 1, screen_rows, VGA_COLOR_WHITE, VGA_COLOR_BLUE);
 
 
     printf(msg_kernel_welcome2);
     printf("Alberto Girardi\n\r");
 
     printf(msg_helloc);
-    
+    terminal_set_tmp_color(VGA_COLOR_BLACK, VGA_COLOR_RED);
     printf("\r\nGloria al C!!!Glory to C!!!\n\r");
     
     printf("\n\r\n\rPRINTF!!!%d\nprova\n\n", 351);
@@ -62,10 +62,10 @@ void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUN
 
     terminal_draw_buffer();
 
-    // for (int i = 0; i < 10; i++)
-    // {
-    // printf("\n%d",i);
-    // }
+    for (int i = 0; i < 10; i++)
+    {
+    printf("\n%d",i);
+    }
     
 
     return;
