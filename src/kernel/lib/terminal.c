@@ -43,7 +43,8 @@ void set_terminal(struct Terminal *_terminalp, int ts_start_row, int ts_end_row)
     }
     
 
-
+    terminal_draw_buffer();
+    return;
 
 
 }
@@ -89,7 +90,9 @@ int print(const char* str){
     /*currently wrapper for screen write*/
 //todo stub
 
-    int written = screen_write(str);
+    int written = terminal_write_r(str, strlen(str));
+    terminal_draw_buffer();
+
 
     return written;
 }
@@ -103,7 +106,7 @@ int print_r(const char* str, size_t len)
     /*currently wrapper for screen write*/
 
 
-    int written = screen_write_r(str, len);
+    int written = terminal_write_r(str, len);
     // screen_write("/");
     return written;
 }
@@ -138,25 +141,7 @@ void terminal_print_char_c(unsigned char c, enum vga_color color_char, enum vga_
     else
     {
 
-//todo implemt scrolling as a function
-
-        if ( terminalp->t_cursorR+1 < terminalp->rows )
-        {
-            
-            terminalp->t_cursorR++;
-            terminalp->t_cursorC = 0;
-            
-        }
-        else
-        {
-            terminalp->t_cursorC = 0;
-            terminalp->cursor_line++;
-            
-
-
-        }
-        
-        
+        terminal_scroll();
         
 
     }
@@ -174,3 +159,83 @@ void terminal_print_char_c(unsigned char c, enum vga_color color_char, enum vga_
 //     print_char_c(c, screen_color_char, screen_color_bkg);
 //     return;
 // }
+
+
+
+void terminal_scroll(){
+
+
+        if ( terminalp->t_cursorR+1 < terminalp->rows )
+        {
+            
+            terminalp->t_cursorR++;
+            terminalp->t_cursorC = 0;
+            
+        }
+        else
+        {
+            terminalp->t_cursorC = 0;
+            terminalp->cursor_line++;
+            
+
+
+        }
+        
+
+    return;
+}
+
+
+
+
+int terminal_write_r(const  char* stringw, size_t str_size)
+{
+
+    /*prints a string given as a pointer to the screen,  requires it being given the lenght
+    HANDLES \r \n \t \b 
+    */
+
+    uint16_t cursor_pos = 0;
+
+    for (size_t i = 0; i < str_size; i++)
+    {
+
+        switch (stringw[i])
+        {
+        case '\n': // line feed
+
+            terminal_scroll();            
+            break;
+
+        case '\r': // carriage return
+            terminalp->t_cursorC = 0;
+            break;
+
+        case '\t':
+            terminalp->t_cursorC = ((terminalp->t_cursorC / 4) + 1) * 4;
+            break;
+
+        case '\b':
+        //todo set using rerminal
+            set_cursor_pos_abs(get_current_cursor_pos() - 1);
+            print_char(' ');
+            set_cursor_pos_abs(get_current_cursor_pos() - 1);
+
+            break;
+
+        default:
+            terminal_print_char_c(stringw[i],terminalp->terminal_color_char,terminalp->terminal_color_bkg); // prints character
+
+            //cursor_pos = (uint16_t)get_current_cursor_pos(); // stores cursor position of last non blanck character
+
+            break;
+        }
+    }
+
+    //vga_move_cursor(cursor_pos);                  //moves cursor
+
+
+    return 0;
+
+
+}

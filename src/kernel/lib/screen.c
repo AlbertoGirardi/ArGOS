@@ -260,6 +260,8 @@ int screen_write_r(const  char* stringw, size_t str_size){
 
 }
 
+
+
 int screen_write(const  char* stringw){
 
     /*prints a given string to the screen, after the text before that

@@ -291,6 +291,8 @@ supported features:
     }
 
     va_end(ap);
+    terminal_draw_buffer();
+
     return written;                 //return amout of written chars
 }
 

@@ -53,4 +53,7 @@ extern void terminal_printchar(unsigned char c);
 extern void terminal_print_char_c(unsigned char c, enum vga_color color_char, enum vga_color color_bkg);
 extern void terminal_draw_buffer();
 
+extern int terminal_write_r(const  char* stringw, size_t str_size);
+
+
 
