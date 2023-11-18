@@ -25,46 +25,54 @@
 
 
 const char* msg_kernel_welcome = "\t\t\t\t\t\t\t\t\tArGOS\r\n\nOS KERNEL\n\rmain, in C\r\n\n" ;
-const char * msg_helloc = "Hello from C!";
+const char* msg_kernel_welcome2 = "\r\n\nOS KERNEL\n\rmain, in C\r\n\n" ;
+
+const char * msg_helloc = "Hello from C!\n\rprova\n\r\ta\n\r\t\ta";
 
 
 
 const char* nl = "\n\r";
 
+const char* ttt = "SSSSSSSSS\r\n\n\n\n\n\na\nb\n\nX";
+const char r[] = "TERMINAL STRING";
 
-const char r[] = "pr";
+struct Terminal terminal;
 
 
 void ArGOS_MAIN(uint32_t css)                                  //MAIN KERNEL FUNCTION
 {
 
-    screen_blank(VGA_COLOR_BLUE);
+    screen_blankT(VGA_COLOR_BLUE, VGA_COLOR_WHITE);
     set_screen_color( VGA_COLOR_WHITE, VGA_COLOR_BLUE);
+    screen_write(msg_kernel_welcome);
+    set_terminal(&terminal, 1, screen_rows, VGA_COLOR_WHITE, VGA_COLOR_BLUE);
 
 
-    screen_write(msg_kernel_welcome);                                   //printing hello messages
-    screen_write("Alberto Girardi\n\r");
+    printf(msg_kernel_welcome2);
+    printf("Alberto Girardi\n\r");
 
-    screen_write(msg_helloc);
-    
-    screen_write("\r\nGloria al C!!!Glory to C!!!\n\r");
+    printf(msg_helloc);
+    terminal_set_tmp_color(VGA_COLOR_BLACK, VGA_COLOR_RED);
+    printf("\r\nGloria al C!!!Glory to C!!!\n\r");
     
     printf("\n\r\n\rPRINTF!!!%d\nprova\n\n", 351);
 
-   
-    const char *str = "a%%/%c/%s/%d/%x/%lld/%llXPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP\n";
+    //printf("affjnaja\n\n\n\n\n\n\na\na\na");
+    terminal_write_r(ttt, strlen(ttt));
 
-    int nn = -1230000;
-    int hxn = 0xabbc;
-    long long lungo = 34252587;
+    terminal_draw_buffer();
+
+    for (int i = 0; i < 10; i++)
+    {
+    printf("\n%d",i);
+    }
     
-    int w = printf(str, 'S', r, nn, hxn,lungo, lungo);
-
-    printf("\nwritten: %d chars", w);
-    
-
 
     return;
 
 
 }
+
+
+
+

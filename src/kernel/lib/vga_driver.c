@@ -14,6 +14,24 @@ int char_memory_size = 2;
 int cursor_position = 0;
 
 
+void vga_printchar_r_mem(unsigned char c, uint16_t* mem ,uint16_t cursor_pos, uint16_t color_char  ,uint16_t color_bkg )
+{
+
+ 	
+	/*puts a vga character entry to a position in memory*/
+
+
+	uint16_t* abs_cursor_pos =(uint16_t*) mem + cursor_pos;					//calculating memory position to place charcacter
+
+
+	uint8_t color_data =  (uint8_t) color_char | (uint8_t) color_bkg << 4;			//color data 
+	uint16_t char_data = (uint16_t) c | (uint16_t) color_data << 8;					//calculating data to place into memory
+
+    * abs_cursor_pos = (uint16_t) char_data;										//placing data in  the memory
+
+
+}
+
 void vga_printchar_r(unsigned char c, uint16_t cursor_pos, uint16_t color_char  ,uint16_t color_bkg ){
 
 	/*
@@ -21,13 +39,7 @@ void vga_printchar_r(unsigned char c, uint16_t cursor_pos, uint16_t color_char  
 	*/
 
 
-    uint16_t* abs_cursor_pos =(uint16_t*) VGA_MEMORY + cursor_pos;					//calculating memory position to place charcacter
-
-
-	uint8_t color_data =  (uint8_t) color_char | (uint8_t) color_bkg << 4;			//color data 
-	uint16_t char_data = (uint16_t) c | (uint16_t) color_data << 8;					//calculating data to place into memory
-
-    * abs_cursor_pos = (uint16_t) char_data;										//placing data in  the memory
+	vga_printchar_r_mem( c, VGA_MEMORY ,  cursor_pos,  color_char  , color_bkg);
 
     
 

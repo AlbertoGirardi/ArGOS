@@ -8,6 +8,11 @@ BITS 16
 %define LOAD_INTEGRITY_CHECK 3571
 
 
+;switch to 32bit mode? 1 = yes (normal)
+%define switch_32 1
+;jump tp the kernel? 1 = yes (normal)
+%define boot_kernel 1               
+
 
 
 jmp MAIN16  ;JUMP TO PROGRAM START
@@ -21,7 +26,7 @@ boot_disk: dw 100
 msg_ARGOS: db "       ArGOS", ENDL, "di Alberto Girardi", ENDL, 0
 msg: db "BOOTLOADER 16 bit",0
 ;msg_end: db "Used bytes: ",ENDL,0                                      ;prints how many bytes used by first stage
-msg_to_restart: db "Press `r` to reboot  ", 0
+msg_to_restart: db "Press `r` to reboot ", 0
 msg_restart: db ENDL, ENDL, "RESTARTING",0
 msg_loadok: db "Loaded OK  ", 0
 msg_diskerror: db "Error in reading disk: ",0
