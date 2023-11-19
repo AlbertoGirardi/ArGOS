@@ -75,7 +75,16 @@ void terminal_draw_buffer()
         {
             set_cursor_pos_colrow(r,c);
 
-            int cursore = 80*(r- terminalp->ts_start_row + terminalp->cursor_line )+c;
+            int line = (r- terminalp->ts_start_row + terminalp->cursor_line );
+
+            if (line<0)
+            {
+                line = terminal_line_buffer_lenght + line;
+            }
+            
+            int cursore = (80*line+c);
+
+
             tscreen_printchar(terminalp->lines_buffer_char[cursore],terminalp->lines_buffer_colchar[cursore], terminalp->lines_buffer_colbkg[cursore]);
 
         }
@@ -121,7 +130,18 @@ void terminal_print_char_c(unsigned char c, enum vga_color color_char, enum vga_
 
     /*prints chat, allowing to specify color, in the screen*/
 
-    uint16_t char_position = terminalp->t_cursorC  + (terminalp->t_cursorR + terminalp->cursor_line)* VGA_TXT_COLUMNS;
+
+
+    int cl =  terminalp->cursor_line;
+
+    if (terminalp->cursor_line<0)
+    {
+        cl = terminal_line_buffer_lenght + terminalp->cursor_line+1;
+    }
+
+    int line = (terminalp->t_cursorR + cl);
+
+    uint16_t char_position = terminalp->t_cursorC  + line* VGA_TXT_COLUMNS;
 
     terminalp->lines_buffer_char[char_position] = c;
     
@@ -129,7 +149,7 @@ void terminal_print_char_c(unsigned char c, enum vga_color color_char, enum vga_
     terminalp->lines_buffer_colbkg[char_position] = color_bkg;
 
 
-    vga_move_cursor(get_cursor_pos( terminalp->t_cursorR +  terminalp->ts_start_row,terminalp->t_cursorC+1));                  //moves cursor
+    vga_move_cursor(get_cursor_pos( terminalp->t_cursorR + terminalp->ts_start_row,terminalp->t_cursorC+1));                  //moves cursor
 
 
     
@@ -176,8 +196,25 @@ void terminal_scroll(){
         }
         else
         {
-            terminalp->t_cursorC = 0;
-            terminalp->cursor_line++;
+
+            if (terminalp->cursor_line <= (terminal_line_buffer_lenght - terminalp->rows ))
+            {
+                
+                terminalp->t_cursorC = 0;
+                terminalp->cursor_line++;
+            }
+
+            else{
+                terminal_set_tmp_color(VGA_COLOR_RED, VGA_COLOR_BLACK);
+                //terminalp->cursor_line = terminalp->rows;
+                terminalp->t_cursorC = 0;
+                terminalp->cursor_line = - terminalp->rows;
+
+
+                
+
+            }
+            
             
 
 
