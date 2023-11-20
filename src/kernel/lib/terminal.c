@@ -197,7 +197,7 @@ void terminal_scroll(){
         else
         {
 
-            if (terminalp->cursor_line <= (terminal_line_buffer_lenght - terminalp->rows ))
+            if (terminalp->cursor_line < (terminal_line_buffer_lenght - terminalp->rows ))
             {
                 
                 terminalp->t_cursorC = 0;
@@ -205,11 +205,18 @@ void terminal_scroll(){
             }
 
             else{
-                terminal_set_tmp_color(VGA_COLOR_RED, VGA_COLOR_BLACK);
-                //terminalp->cursor_line = terminalp->rows;
-                terminalp->t_cursorC = 0;
-                terminalp->cursor_line = - terminalp->rows;
 
+                //! TODO IMPLEMENT CORRECT SCREEN SCROLLINg
+                //* * not a good algorithm
+                terminalp->t_cursorC = 0;
+                terminalp->cursor_line = 0;
+                terminalp->t_cursorR = 0;
+
+                for (int i = 0; i < VGA_TXT_COLUMNS*terminal_line_buffer_lenght; i++)
+                {
+                    terminalp->lines_buffer_char[i] = ' ';
+                }
+                
 
                 
 

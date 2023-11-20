@@ -12,7 +12,7 @@
 
 
 
-#define terminal_line_buffer_lenght 50             //how many lines of the terminal to save to memory
+#define terminal_line_buffer_lenght 150             //how many lines of the terminal to save to memory
 
 
 
